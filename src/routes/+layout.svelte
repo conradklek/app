@@ -2,4 +2,16 @@
 	import "../app.postcss"
 </script>
 
-<slot />
+<header />
+
+<nav />
+
+<aside />
+
+<main>
+	<slot />
+</main>
+
+<footer />
+
+<nav />
