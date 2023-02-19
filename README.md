@@ -1,3 +1,11 @@
-### APP
+# (untitled) app
 
-- Public Repository - (UNTITLED) [Svelte 2023 Hackathon](https://hack.sveltesociety.dev/#about) submission
+Public Repository - [Svelte 2023 Hackathon](https://hack.sveltesociety.dev/#about) submission progress
+
+### Setup
+
+```bash
+git clone
+pnpm install
+pnpm dev
+```
