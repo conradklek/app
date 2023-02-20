@@ -1,21 +1,25 @@
 <script>
 	import "../app.postcss"
 	import { onMount } from "svelte"
-	import { page } from "$app/stores"
 	import { Dialog, Finder } from "$lib/client/components"
 	import { WebContainer } from "@webcontainer/api"
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	import localforage from "localforage"
 	$: modal = false
+	$: files = {}
+	let iframe
 	async function save() {
-		await localforage.setItem("indexedDB", await read("/"))
+		const files = await read("/")
+		await localforage.setItem("indexedDB", files)
+		console.log("saved", files)
 	}
 	async function read(path) {
 		const obj = {}
 		const dir = await $webcontainer.fs.readdir(path, { withFileTypes: true })
 		for (const file of dir) {
 			if (file.isDirectory()) {
-				obj[file.name] = { directory: await readDirectory(`${path}/${file.name}`) }
+				if (file.name === "node_modules") continue
+				obj[file.name] = { directory: await read(`${path}/${file.name}`) }
 			} else if (file.isFile()) {
 				obj[file.name] = {
 					file: {
@@ -24,6 +28,7 @@
 				}
 			}
 		}
+		if (path === "/") files = obj
 		return obj
 	}
 	async function pipe(stream) {
@@ -40,26 +45,28 @@
 	onMount(async () => {
 		$webcontainer = await WebContainer.boot()
 		await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
+		await read("/")
+		$webcontainer.on("server-ready", (port, url) => {
+			iframe.src = url
+		})
 	})
-	function spawn(text) {
-		const cmnd = text.trim().split(" ")[0]
-		const args = text.trim().split(" ").slice(1)
-		return { cmnd, args }
-	}
 </script>
 
 <Dialog
 	bind:modal
 	on:submit={async (e) => {
-		const { cmnd, args } = spawn(e.detail)
+		const cmnd = e.detail.trim().split(" ")[0]
+		const args = e.detail.trim().split(" ").slice(1)
 		if (cmnd === "read") {
-			const files = await read("/")
 			console.log(files)
 		} else if (cmnd === "save") {
 			await save()
+		} else if (cmnd === "install") {
+			await pipe($webcontainer.spawn("pnpm", ["install"]))
 		} else {
 			await pipe($webcontainer.spawn(cmnd, args))
 		}
+		await read("/")
 	}}
 />
 
@@ -70,21 +77,20 @@
 </nav>
 
 <aside>
-	{#if $webcontainer}
-		{#await read("/") then files}
-			<Finder data={files} let:item let:src let:dir>
-				{#if dir}
-					<span class="font-medium">{src}</span>
-				{:else}
-					<a href={src}>{item}</a>
-				{/if}
-			</Finder>
-		{/await}
-	{/if}
+	<Finder data={files} let:item let:src let:dir>
+		{#if dir}
+			<span class="font-medium">{src}</span>
+		{:else}
+			<a href={src}>{item}</a>
+		{/if}
+	</Finder>
 </aside>
 
 <main>
 	<slot />
+	<section>
+		<iframe title="app" bind:this={iframe} />
+	</section>
 </main>
 
 <footer />
