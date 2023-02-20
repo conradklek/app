@@ -1,5 +1,6 @@
 <script>
 	import { page } from "$app/stores"
+	import { Editor } from "$lib/client/components"
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	$: {
 		console.clear()
@@ -11,11 +12,12 @@
 <section>
 	{#if $webcontainer && $page.data.path?.length}
 		{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
-			<textarea
-				on:keyup={async (e) => {
-					await $webcontainer.fs.writeFile($page.data.path, e.target.value)
-				}}>{file}</textarea
-			>
+			<Editor
+				{file}
+				on:update={async (e) => {
+					await $webcontainer.fs.writeFile($page.data.path, e.detail)
+				}}
+			/>
 		{/await}
 	{/if}
 </section>
