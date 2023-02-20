@@ -9,8 +9,14 @@
 </script>
 
 <section>
-	{#if $page.data.path?.length}
-		<textarea />
+	{#if $webcontainer && $page.data.path?.length}
+		{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
+			<textarea
+				on:keyup={async (e) => {
+					await $webcontainer.fs.writeFile($page.data.path, e.target.value)
+				}}>{file}</textarea
+			>
+		{/await}
 	{/if}
 </section>
 <section>

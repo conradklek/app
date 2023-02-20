@@ -1,11 +1,15 @@
 <script>
 	import "../app.postcss"
 	import { onMount } from "svelte"
-	import { Dialog } from "$lib/client/components"
+	import { page } from "$app/stores"
+	import { Dialog, Finder } from "$lib/client/components"
 	import { WebContainer } from "@webcontainer/api"
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	import localforage from "localforage"
 	$: modal = false
+	async function save() {
+		await localforage.setItem("indexedDB", await read("/"))
+	}
 	async function read(path) {
 		const obj = {}
 		const dir = await $webcontainer.fs.readdir(path, { withFileTypes: true })
@@ -52,7 +56,7 @@
 			const files = await read("/")
 			console.log(files)
 		} else if (cmnd === "save") {
-			await localforage.setItem("indexedDB", await read("/"))
+			await save()
 		} else {
 			await pipe($webcontainer.spawn(cmnd, args))
 		}
@@ -65,7 +69,19 @@
 	<button type="button" on:click={() => (modal = true)}>open</button>
 </nav>
 
-<aside />
+<aside>
+	{#if $webcontainer}
+		{#await read("/") then files}
+			<Finder data={files} let:item let:src let:dir>
+				{#if dir}
+					<span class="font-medium">{src}</span>
+				{:else}
+					<a href={src}>{item}</a>
+				{/if}
+			</Finder>
+		{/await}
+	{/if}
+</aside>
 
 <main>
 	<slot />
