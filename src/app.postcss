@@ -12,7 +12,7 @@
 			'aside main main'
 			'aside footer .';
 		& > * {
-			& > * {
+			& > *:is(header, aside, main, footer, nav) {
 				@apply bg-blue-500/50 outline outline-1 outline-blue-500;
 			}
 			& > header {
@@ -35,7 +35,28 @@
 				grid-area: footer;
 			}
 			& > nav {
-				@apply w-32 h-32;
+				@apply w-32 h-32 grid place-items-center;
+			}
+		}
+	}
+	dialog {
+		@apply w-screen h-screen place-items-center p-0 bg-transparent;
+		&[open] {
+			@apply grid;
+		}
+		&::backdrop {
+			@apply fixed inset-0 bg-blue-500/50;
+		}
+		& > form {
+			@apply w-full max-w-md flex flex-col bg-blue-500/50;
+			& > header {
+				@apply p-4 flex items-center justify-between bg-blue-600/75;
+			}
+			& > section {
+				@apply p-4 flex flex-col bg-blue-500/75;
+			}
+			& > footer {
+				@apply p-4 flex items-center justify-end bg-blue-600/75;
 			}
 		}
 	}
