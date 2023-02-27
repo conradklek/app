@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"version": "0.0.1",
-	"private": true,
+	"private": "true",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -11,7 +11,8 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.7.2",
+		"@sveltejs/adapter-vercel": "^2.1.1",
+		"@sveltejs/kit": "^1.8.5",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.21",
 		"postcss-load-config": "^4.0.1",
@@ -20,20 +21,25 @@
 		"svelte": "^3.55.1",
 		"svelte-preprocess": "^5.0.1",
 		"tailwindcss": "^3.2.7",
-		"vite": "^4.1.2"
+		"vite": "^4.1.4"
 	},
 	"type": "module",
 	"dependencies": {
+		"@codemirror/commands": "^6.2.1",
+		"@codemirror/lang-markdown": "^6.1.0",
 		"@codemirror/state": "^6.2.0",
+		"@codemirror/view": "^6.9.1",
+		"@markdoc/markdoc": "^0.2.2",
+		"@sveltejs/adapter-node": "^1.2.0",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
 		"@tailwindcss/typography": "^0.5.9",
-		"@webcontainer/api": "^1.0.1",
+		"@webcontainer/api": "^1.0.2",
 		"codemirror": "^6.0.1",
+		"eventsource-parser": "^0.1.0",
 		"localforage": "^1.10.0",
-		"mongoose": "^6.9.2",
 		"promptable": "^0.0.10"
 	}
 }
