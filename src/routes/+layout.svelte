@@ -5,13 +5,30 @@
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	import localforage from "localforage"
 	onMount(async () => {
-		$webcontainer = await WebContainer.boot()
-		await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
-		$webcontainer.on("server-ready", (port, url) => {
-			console.log("server-ready", port, url)
-			$webcontainer.host = url
-		})
+		console.log(crossOriginIsolated)
+		try {
+			$webcontainer = await WebContainer.boot()
+			$webcontainer.on("server-ready", (port, url) => {
+				$webcontainer.host = url
+				$webcontainer.port = port
+				$webcontainer.pwd = `~/${new URL($webcontainer.host).host.split(".")[0].split("--")[0]}/`
+			})
+			await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
+			$webcontainer.terminal = await $webcontainer.spawn("jsh")
+			$webcontainer.terminal.stream = (await localforage.getItem("terminal")) || ""
+			$webcontainer.terminal.output.pipeTo(
+				new WritableStream({
+					write(data) {
+						$webcontainer.terminal.stream += data
+					}
+				})
+			)
+			$webcontainer.terminal.input = $webcontainer.terminal.input.getWriter()
+			$webcontainer = $webcontainer
+		} catch (e) {}
 	})
 </script>
 
-<slot />
+{#if $webcontainer}
+	<slot />
+{/if}

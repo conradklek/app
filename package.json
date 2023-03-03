@@ -11,8 +11,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/adapter-vercel": "^2.1.1",
-		"@sveltejs/kit": "^1.8.5",
+		"@sveltejs/kit": "^1.9.3",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.21",
 		"postcss-load-config": "^4.0.1",
@@ -27,18 +26,21 @@
 	"dependencies": {
 		"@codemirror/commands": "^6.2.1",
 		"@codemirror/lang-markdown": "^6.1.0",
+		"@codemirror/language-data": "^6.1.0",
 		"@codemirror/state": "^6.2.0",
 		"@codemirror/view": "^6.9.1",
 		"@markdoc/markdoc": "^0.2.2",
-		"@sveltejs/adapter-node": "^1.2.0",
+		"@sveltejs/adapter-node": "^1.2.1",
+		"@sveltejs/adapter-vercel": "^2.2.1",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
 		"@tailwindcss/typography": "^0.5.9",
 		"@webcontainer/api": "^1.0.2",
+		"ansi-regex": "^6.0.1",
 		"codemirror": "^6.0.1",
-		"eventsource-parser": "^0.1.0",
+		"codemirror-extension-inline-suggestion": "^0.0.1",
 		"localforage": "^1.10.0",
 		"promptable": "^0.0.10"
 	}

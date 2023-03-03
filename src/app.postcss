@@ -12,6 +12,9 @@
 			"aside main main"
 			"aside footer .";
 		& > * {
+			& > *:is(header, aside, main, footer, nav) {
+				@apply transition-all duration-1000 ease-in-out;
+			}
 			& > header {
 				@apply z-20 sticky top-0 left-0 grid w-full h-20 bg-blue-600/50;
 				grid-area: header;
@@ -20,22 +23,22 @@
 					@apply grid place-items-center w-20 h-20 aspect-[1/1];
 					& > a {
 						@apply grid place-items-center w-10 h-10 rounded-sm bg-blue-600/50 focus:bg-blue-600/75 focus:outline-none;
-						& > svg {
-							@apply hidden w-5 h-5 fill-current;
-						}
 					}
 				}
 				& > nav {
 					@apply grid place-items-center w-full h-10 my-auto;
 					grid-template-columns: 1fr auto;
 					& > div.code {
-						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 bg-blue-500/50 rounded-sm;
+						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 bg-blue-500/50 rounded-sm focus-within:bg-blue-500;
 						& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-							@apply w-full;
+							@apply w-full px-1.5;
+							&.cm-focused {
+								@apply outline-none;
+							}
 							& > .cm-scroller {
 								& .cm-content {
 									& > .cm-line {
-										@apply whitespace-pre-wrap;
+										@apply text-xs font-mono whitespace-pre-wrap;
 									}
 								}
 							}
@@ -53,14 +56,20 @@
 				}
 			}
 			& > aside {
-				@apply z-40 sticky top-0 left-0 w-0 h-screen bg-red-500/50;
+				@apply z-0 sticky top-0 left-0 w-0 h-screen bg-red-500/50;
 				grid-area: aside;
+				& > iframe {
+					@apply z-0 fixed top-20 left-0 translate-x-full w-screen h-[calc(100vh-5rem)] bg-red-500/50 transition-transform duration-1000 ease-in-out;
+				}
+				&.toggle > iframe {
+					@apply translate-x-0;
+				}
 			}
 			& > main {
-				@apply z-10 relative w-full h-full pt-5 bg-blue-500/50;
+				@apply z-10 relative w-full h-full bg-blue-500/50;
 				grid-area: main;
 				& > div.code {
-					@apply grid place-items-center w-[calc(100vw-2.5rem)] min-h-[2.5rem] mx-auto bg-blue-500/50 rounded-sm;
+					@apply grid place-items-center w-[calc(100vw-2.5rem)] min-h-[2.5rem] mx-auto mt-5 bg-blue-500/50 rounded-sm overflow-x-auto;
 					& > .cm-editor.ͼ1.ͼ2.ͼ4 {
 						@apply w-full;
 						& > .cm-scroller {
@@ -69,9 +78,17 @@
 							}
 							& .cm-content {
 								& > .cm-line {
-									@apply w-[calc(100vw-2.5rem)] whitespace-pre-wrap;
 								}
 							}
+						}
+					}
+				}
+				& > ul {
+					@apply grid grid-cols-2 gap-2.5 w-full p-5 bg-blue-500/50;
+					> li {
+						@apply whitespace-pre text-sm font-medium w-full h-10 px-2.5 bg-blue-500/50 focus-within:bg-blue-500 rounded-sm overflow-hidden;
+						> a {
+							@apply block w-full leading-10 text-start focus:outline-none;
 						}
 					}
 				}
@@ -81,46 +98,53 @@
 				grid-area: footer;
 			}
 			& > nav {
-				@apply z-30 sticky grid place-items-center w-20 h-20 bg-blue-600/50;
-				& > button[type="button"] {
+				@apply z-30 sticky top-0 right-0 grid place-items-center w-20 h-20 bg-blue-600/50;
+				& > button[type="button"],
+				& > a {
 					@apply grid place-items-center w-10 h-10 rounded-sm bg-blue-600/50 focus:bg-blue-600/75 focus:outline-none;
-					& > svg {
-						@apply hidden w-5 h-5 fill-current;
-					}
+				}
+				&.toggle ~ aside {
+				}
+				&.toggle ~ *:is(main, footer, nav) {
+					@apply translate-x-[-100vw];
 				}
 			}
-			& > header + nav {
-				@apply top-0 left-0;
-			}
 			& > footer + nav {
-				@apply bottom-0 right-0;
+				@apply top-auto left-auto bottom-0 right-0;
 			}
 		}
 	}
 	dialog {
-		@apply w-screen h-screen flex-col-reverse items-center justify-start m-0 mx-auto p-0 pb-10 bg-transparent overflow-x-hidden overflow-y-auto;
+		@apply w-screen h-screen flex-col-reverse items-center justify-start m-0 mx-auto p-0 bg-transparent overflow-x-hidden overflow-y-auto;
 		&[open] {
 			@apply flex;
+		}
+		&:modal {
+			@apply max-w-none max-h-none;
 		}
 		&::backdrop {
 			@apply bg-black/60;
 		}
 		& > ul {
-			@apply flex flex-col gap-2 w-full pb-5;
+			@apply flex flex-col gap-2 w-full p-5 pb-24;
 			& > li {
+				@apply mb-1;
 				& > article {
 					@apply flex flex-col items-start justify-start gap-1 p-0;
 					& p {
-						@apply p-2 whitespace-pre-wrap text-sm rounded-sm bg-blue-500/50;
+						@apply p-2 whitespace-pre-wrap text-sm leading-6 rounded-sm bg-blue-500/50;
 					}
 					& pre {
-						@apply w-full p-2 text-sm rounded-sm bg-blue-500/50 overflow-x-auto;
+						@apply w-full p-2 text-sm leading-5 font-mono rounded-sm bg-blue-500/50 overflow-x-auto;
 					}
+				}
+				&.user > article {
+					@apply items-end;
 				}
 			}
 		}
 		& > form {
-			@apply fixed bottom-5 right-5 grid w-[calc(100%-2.5rem)];
+			@apply fixed bottom-0 right-0 grid w-screen p-5 bg-blue-500/50;
 			grid-template-columns: 1fr auto;
 			& > div.code {
 				@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] bg-blue-500/50 rounded-sm;
@@ -140,9 +164,6 @@
 			}
 			& > button[type="submit"] {
 				@apply grid place-items-center w-10 h-10 aspect-[1/1] mt-auto mb-0 rounded-sm bg-blue-600/50 focus:bg-blue-600/75 focus:outline-none;
-				& > svg {
-					@apply hidden w-5 h-5 fill-current;
-				}
 			}
 		}
 	}

@@ -10,10 +10,10 @@
 		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<script>
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					navigator.serviceWorker.register('%sveltekit.assets%/service-worker.js');
-				});
+			if ("serviceWorker" in navigator) {
+				window.addEventListener("load", () => {
+					navigator.serviceWorker.register("%sveltekit.assets%/service-worker.js")
+				})
 			}
 		</script>
 		%sveltekit.head%

@@ -2,16 +2,34 @@
 	import { onMount, onDestroy, createEventDispatcher } from "svelte"
 	import { minimalSetup, basicSetup, EditorView } from "codemirror"
 	import { indentWithTab } from "@codemirror/commands"
-	import { EditorState, Compartment } from "@codemirror/state"
+	import { EditorState } from "@codemirror/state"
 	import { keymap } from "@codemirror/view"
 	import { markdown } from "@codemirror/lang-markdown"
+	import { languages } from "@codemirror/language-data"
+	import { inlineSuggestion } from "codemirror-extension-inline-suggestion"
+
 	export let type = "text"
+	export let hint = false
 	export let mini = false
 	export let tabs = false
 	export let code = null
 	export let file = ""
 	let node = null
-	let lang = new Compartment()
+
+	const fetchSuggestion = async (state) => {
+		let slice = state.doc.toString().slice(0, state.selection.main.head)
+		if (slice?.length < 100) return
+		const response = await fetch("/$", {
+			method: "POST",
+			body: JSON.stringify({ predict: { text: slice } }),
+			headers: {
+				"content-type": "application/json"
+			}
+		})
+		const data = await response.json()
+		console.log(data)
+		return data.predict.text
+	}
 	const dispatch = createEventDispatcher()
 	function create(extensions) {
 		if (code) code.destroy()
@@ -46,16 +64,45 @@
 		} else {
 			extensions = [basicSetup]
 		}
-		if (!mini && tabs) {
+		if (tabs) {
 			extensions.push(keymap.of([indentWithTab]))
 		}
+		if (mini) {
+			extensions.push(
+				keymap.of([
+					{
+						key: "ArrowUp",
+						run: () => {
+							dispatch("up")
+						}
+					},
+					{
+						key: "ArrowDown",
+						run: () => {
+							dispatch("down")
+						}
+					}
+				])
+			)
+		}
+		if (hint) {
+			extensions.push(
+				inlineSuggestion({
+					fetchFn: fetchSuggestion,
+					delay: 1000
+				})
+			)
+		}
 		if (type === "md") {
-			extensions.push(lang.of(markdown()))
+			extensions.push(markdown({ codeLanguages: languages }))
+			extensions.push(EditorView.lineWrapping)
 		}
 		create(extensions)
+		code = code
 	})
 	onDestroy(() => {
 		if (code) code.destroy()
+		code = null
 	})
 </script>
 

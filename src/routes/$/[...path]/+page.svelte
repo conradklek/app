@@ -1,3 +1,6 @@
+<!-- BLANK -->
+
+<!--
 <script>
 	import { onMount } from "svelte"
 	import localforage from "localforage"
@@ -5,11 +8,15 @@
 	import { Editor } from "$lib/client/components"
 	import { codemirror } from "$lib/client/stores/codemirror"
 	import { webcontainer } from "$lib/client/stores/webcontainer"
+	import { WebContainer } from "@webcontainer/api"
 
 	export let data
+
+	$: files = null
+
 	async function save() {
-		const files = await read("/")
-		await localforage.setItem("indexedDB", files)
+		const data = await read("/")
+		await localforage.setItem("indexedDB", data)
 		console.log("saved", files)
 	}
 	async function read(path) {
@@ -32,6 +39,9 @@
 				}
 			}
 		}
+		if (path === "/") {
+			files = obj
+		}
 		return obj
 	}
 	function flat(tree, path = "", data = []) {
@@ -39,7 +49,7 @@
 			if (item.directory) {
 				flat(item.directory, `${path}/${name}`, data)
 			} else if (item.file) {
-				data.push([`${path}/${name}`, item.file.contents])
+				data.push(`${path}/${name}`)
 			}
 		}
 		return data
@@ -58,14 +68,9 @@
 	async function load(handler, path = "", data = {}) {
 		if (!handler) {
 			handler = await window.showDirectoryPicker()
-			return (data = {
-				[handler.name]: {
-					directory: await load(handler, handler.name, {})
-				}
-			})
+			return await load(handler, "", {})
 		}
 		for await (const entry of handler.values()) {
-			if (entry.name.startsWith(".")) continue
 			if (entry.kind === "directory") {
 				data[entry.name] = {
 					directory: await load(entry, `${path}/${entry.name}`, {})
@@ -83,7 +88,9 @@
 	}
 	let dialog
 	let editor
+	let iframe
 
+	$: toggle = false
 	$: opened = false
 	$: search = ""
 	$: prompt = ""
@@ -96,14 +103,18 @@
 	$: endStream = false
 	$: resetSearch = false
 
-	onMount(async () => {
-		memory = (await localforage.getItem("memory")) || []
-		embeds = (await localforage.getItem("embeds")) || {}
-	})
-
 	async function sudo(code) {
 		let [command, ...args] = code.slice(0, -1).split(" ").filter(Boolean)
 		switch (command) {
+			case "clear": {
+				console.clear()
+				break
+			}
+			case "kill": {
+				await localforage.setItem("memory", [])
+				memory = []
+				break
+			}
 			case "read": {
 				const data = await read("/")
 				console.table(flat(data))
@@ -116,6 +127,8 @@
 			case "load": {
 				const data = await load()
 				const list = flat(data)
+					.filter(([path]) => !path.startsWith("/."))
+					.filter(([path]) => !path.startsWith("/node_modules"))
 				const dirs = new Set()
 				for (const [path] of list) dirs.add(path.split("/").slice(0, -1).join("/"))
 				for (const dir of dirs) await $webcontainer.fs.mkdir(dir, { recursive: true })
@@ -128,6 +141,7 @@
 			}
 			default: {
 				await pipe($webcontainer.spawn(command, args))
+				files = await read("/")
 				break
 			}
 		}
@@ -143,8 +157,8 @@
 			}
 		})
 		const data = await response.json()
-		await localforage.setItem("embeds", data)
 		console.log(data)
+		await localforage.setItem("embeds", data)
 		embeds = data
 	}
 	async function chat() {
@@ -213,12 +227,30 @@
 		return html
 	}
 
-	$: {
-		console.clear()
-		console.log("prompt", prompt)
-		console.table(memory)
-	}
+	onMount(async () => {
+		try {
+			$webcontainer = await WebContainer.boot()
+			await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
+			$webcontainer.on("server-ready", (port, url) => {
+				console.log("server-ready", port, url)
+				$webcontainer.host = url
+			})
+			$webcontainer.on("port", (event) => {
+				console.log(event)
+			})
+		} catch (e) {
+			console.log(e)
+		}
+		memory = (await localforage.getItem("memory")) || []
+		embeds = (await localforage.getItem("embeds")) || {}
+	})
 </script>
+
+<aside class:toggle>
+	{#if $webcontainer?.host}
+		<iframe title="app" src={$webcontainer.host} />
+	{/if}
+</aside>
 
 <header>
 	<div>
@@ -262,33 +294,38 @@
 	{/if}
 </header>
 
-<nav>
-	<button
-		type="button"
-		on:click={async () => {
-			memory = []
-			await localforage.setItem("memory", memory)
-		}}
-	/>
+<nav class:toggle>
+	{#if $webcontainer?.host}
+		<button type="button" on:click={() => (toggle = !toggle)} />
+	{:else}
+		<button type="button" disabled />
+	{/if}
 </nav>
-
-<aside />
 
 <main>
 	{#if $webcontainer}
-		{#if data.path?.length}
-			{#await $webcontainer.fs.readFile(data.path, "utf8") then file}
-				<Editor
-					{file}
-					code={$codemirror}
-					tabs={true}
-					type={data.path.split(".").pop()}
-					on:update={async (e) => await $webcontainer.fs.writeFile(data.path, e.detail)}
-				/>
-			{/await}
-		{:else}
-			<Editor on:submit={(e) => sudo(e.detail)} mini={true} />
-		{/if}
+		{#await read("/") then _}
+			{@const list = flat(files)}
+			{#if list.includes("/" + data.path)}
+				{#await $webcontainer.fs.readFile(data.path, "utf8") then file}
+					<Editor
+						{file}
+						code={$codemirror}
+						tabs={true}
+						type={data.path.split(".").pop()}
+						on:update={async (e) => await $webcontainer.fs.writeFile(data.path, e.detail)}
+					/>
+				{/await}
+			{:else}
+				{#await $webcontainer.fs.readdir(data.path) then items}
+					{#each items as item}
+						<div>
+							<a href="{data.path}/{item}">{item}</a>
+						</div>
+					{/each}
+				{/await}
+			{/if}
+		{/await}
 	{/if}
 </main>
 
@@ -304,23 +341,7 @@
 	/>
 </nav>
 
-<dialog
-	bind:this={dialog}
-	on:click={(e) => {
-		if (e.target === dialog) {
-			dialog.close()
-			opened = false
-			prompt = ""
-		}
-	}}
-	on:keydown={(e) => {
-		if (e.key === "Escape") {
-			dialog.close()
-			opened = false
-			prompt = ""
-		}
-	}}
->
+<dialog bind:this={dialog}>
 	<form method="dialog" on:submit={send}>
 		{#if opened && !reset}
 			<Editor file={prompt} code={editor} on:update={(e) => (prompt = e.detail)} tabs={false} />
@@ -335,3 +356,4 @@
 		{/each}
 	</ul>
 </dialog>
+-->
