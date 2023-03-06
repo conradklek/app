@@ -5,26 +5,30 @@
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	import localforage from "localforage"
 	onMount(async () => {
-		try {
-			$webcontainer = await WebContainer.boot()
-			$webcontainer.on("server-ready", (port, url) => {
-				$webcontainer.host = url
-				$webcontainer.port = port
-				$webcontainer.pwd = `~/${new URL($webcontainer.host).host.split(".")[0].split("--")[0]}/`
-			})
-			await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
-			$webcontainer.terminal = await $webcontainer.spawn("jsh")
-			$webcontainer.terminal.stream = ""
-			$webcontainer.terminal.output.pipeTo(
-				new WritableStream({
-					write(data) {
-						$webcontainer.terminal.stream += data
-					}
+		if (crossOriginIsolated) {
+			try {
+				$webcontainer = await WebContainer.boot()
+				$webcontainer.on("server-ready", (port, url) => {
+					$webcontainer.host = url
+					$webcontainer.port = port
+					$webcontainer.pwd = `~/${new URL($webcontainer.host).host.split(".")[0].split("--")[0]}/`
 				})
-			)
-			$webcontainer.terminal.input = $webcontainer.terminal.input.getWriter()
-			$webcontainer = $webcontainer
-		} catch (e) {}
+				await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
+				$webcontainer.terminal = await $webcontainer.spawn("jsh")
+				$webcontainer.terminal.stream = ""
+				$webcontainer.terminal.output.pipeTo(
+					new WritableStream({
+						write(data) {
+							$webcontainer.terminal.stream += data
+						}
+					})
+				)
+				$webcontainer.terminal.input = $webcontainer.terminal.input.getWriter()
+				$webcontainer = $webcontainer
+			} catch (e) {}
+		} else {
+			$webcontainer = false
+		}
 	})
 </script>
 
