@@ -34,4 +34,6 @@
 
 {#if $webcontainer}
 	<slot />
+{:else}
+	<h1>Browser not supported.</h1>
 {/if}
