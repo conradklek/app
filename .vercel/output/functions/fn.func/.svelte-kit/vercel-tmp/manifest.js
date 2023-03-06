@@ -4,7 +4,7 @@ export const manifest = {
 	assets: new Set([".DS_Store","favicon.png","img/icon-192.png","img/icon-512.png","manifest.json","service-worker.js"]),
 	mimeTypes: {".png":"image/png",".json":"application/json",".js":"application/javascript"},
 	_: {
-		client: {"start":{"file":"_app/immutable/entry/start.e9e4360a.js","imports":["_app/immutable/entry/start.e9e4360a.js","_app/immutable/chunks/index.ca81ac94.js","_app/immutable/chunks/singletons.a1fa200f.js","_app/immutable/chunks/index.93ba9ac1.js"],"stylesheets":[],"fonts":[]},"app":{"file":"_app/immutable/entry/app.d3a61d62.js","imports":["_app/immutable/entry/app.d3a61d62.js","_app/immutable/chunks/preload-helper.41c905a7.js","_app/immutable/chunks/index.ca81ac94.js"],"stylesheets":[],"fonts":[]}},
+		client: {"start":{"file":"_app/immutable/entry/start.523a17a6.js","imports":["_app/immutable/entry/start.523a17a6.js","_app/immutable/chunks/index.a741111b.js","_app/immutable/chunks/singletons.1d2f6647.js","_app/immutable/chunks/index.9f2e7d1c.js"],"stylesheets":[],"fonts":[]},"app":{"file":"_app/immutable/entry/app.922208fb.js","imports":["_app/immutable/entry/app.922208fb.js","_app/immutable/chunks/preload-helper.41c905a7.js","_app/immutable/chunks/index.a741111b.js"],"stylesheets":[],"fonts":[]}},
 		nodes: [
 			() => import('../output/server/nodes/0.js'),
 			() => import('../output/server/nodes/1.js'),

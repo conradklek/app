@@ -18,7 +18,7 @@
 
 	const fetchSuggestion = async (state) => {
 		let slice = state.doc.toString().slice(0, state.selection.main.head)
-		if (slice?.length < 100) return
+		//if (slice?.length < 100) return
 		const response = await fetch("/$", {
 			method: "POST",
 			body: JSON.stringify({ predict: { text: slice } }),

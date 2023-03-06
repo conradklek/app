@@ -1,1 +1,1 @@
-<a href="$" class="w-screen h-screen grid place-items-center">Enter</a>
+<a href="/$" class="p-4">Enter</a>

@@ -8,7 +8,7 @@ const provider = new p.OpenAI(key)
 export async function POST({ request }) {
 	let { prompt, memory, embeds, predict, document } = await request.json()
 	if (predict) {
-		const text = predict.text
+		const text = `<::SYSTEM::>You are an AI assistant. Predict what text comes after the ellipsis to the best of your ability. Do not start on a new line. Keep your guesses short and do not repeat yourself.<::SYSTEM_END::><::START::>\n${predict.text}`
 		console.log(provider.countTokens(text))
 		const response = await provider.generate(text)
 		return json({ predict: { text: response } })

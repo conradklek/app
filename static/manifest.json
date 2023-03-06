@@ -3,7 +3,6 @@
 	"dir": "ltr",
 	"name": "app",
 	"short_name": "app",
-	"manifest_version": 3,
 	"display": "standalone",
 	"theme_color": "#ffffff",
 	"background_color": "#ffffff",

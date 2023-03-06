@@ -5,7 +5,6 @@
 	import { webcontainer } from "$lib/client/stores/webcontainer"
 	import localforage from "localforage"
 	onMount(async () => {
-		console.log(crossOriginIsolated)
 		try {
 			$webcontainer = await WebContainer.boot()
 			$webcontainer.on("server-ready", (port, url) => {
@@ -15,7 +14,7 @@
 			})
 			await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
 			$webcontainer.terminal = await $webcontainer.spawn("jsh")
-			$webcontainer.terminal.stream = (await localforage.getItem("terminal")) || ""
+			$webcontainer.terminal.stream = ""
 			$webcontainer.terminal.output.pipeTo(
 				new WritableStream({
 					write(data) {

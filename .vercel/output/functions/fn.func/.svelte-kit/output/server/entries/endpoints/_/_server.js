@@ -1,12 +1,13 @@
 import * as p from "promptable";
 import { j as json } from "../../../chunks/index.js";
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 const key = OPENAI_API_KEY;
 const provider = new p.OpenAI(key);
 async function POST({ request }) {
   let { prompt, memory, embeds, predict, document } = await request.json();
   if (predict) {
-    const text = predict.text;
+    const text = `<::SYSTEM::>You are an AI assistant. Predict what text comes after the ellipsis to the best of your ability. Do not start on a new line. Keep your guesses short and do not repeat yourself.<::SYSTEM_END::><::START::>
+${predict.text}`;
     console.log(provider.countTokens(text));
     const response = await provider.generate(text);
     return json({ predict: { text: response } });
