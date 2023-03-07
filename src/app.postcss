@@ -25,27 +25,6 @@
 			"aside main main"
 			"aside footer .";
 		& > #svelte {
-			& > header {
-				@apply z-40 sticky top-0 left-0 grid w-full h-20 bg-black border-b border-b-transparent;
-				grid-area: header;
-				grid-template-columns: auto 1fr;
-				& > div {
-					@apply grid place-items-center w-20 h-20 aspect-[1/1];
-					& > a {
-						@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
-						& > svg {
-							@apply block h-5 w-auto fill-current;
-						}
-					}
-				}
-				& > nav {
-					@apply grid place-items-center w-full h-10 my-auto;
-					grid-template-columns: 1fr auto;
-					& > div.code {
-						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 rounded-sm bg-black ring-inset ring-1 ring-transparent focus-within:ring-transparent overflow-x-auto border-b border-b-white;
-					}
-				}
-			}
 			& > aside {
 				@apply z-0 sticky top-0 left-0 w-0 h-screen;
 				grid-area: aside;
@@ -66,7 +45,7 @@
 						> span {
 							@apply absolute top-0 left-0 w-10 h-10 aspect-[1/1] grid place-items-center pointer-events-none;
 							> svg {
-								@apply block h-4 w-auto fill-current;
+								@apply block h-5 w-auto;
 							}
 						}
 						> a {
@@ -76,9 +55,30 @@
 					}
 				}
 			}
+			& > header {
+				@apply z-40 sticky top-0 left-0 w-full h-20 bg-black border-b border-b-transparent;
+				grid-area: header;
+			}
 			& > footer {
-				@apply z-40 sticky bottom-0 right-0 w-full h-20 bg-black border-t border-t-transparent;
+				@apply z-40 sticky top-0 right-0 grid w-full h-20 bg-black border-t border-t-transparent;
 				grid-area: footer;
+				grid-template-columns: auto 1fr;
+				& > div {
+					@apply grid place-items-center w-20 h-20 aspect-[1/1];
+					& > a {
+						@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
+						& > svg {
+							@apply block;
+						}
+					}
+				}
+				& > nav {
+					@apply grid place-items-center w-full h-10 my-auto;
+					grid-template-columns: 1fr auto;
+					& > div.code {
+						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 rounded-sm bg-black ring-inset ring-1 ring-transparent focus-within:ring-transparent overflow-x-auto border-b border-b-white;
+					}
+				}
 			}
 			& > nav {
 				@apply z-30 sticky top-0 right-0 grid place-items-center w-20 h-20 bg-black border-b border-b-transparent;
@@ -86,7 +86,7 @@
 				& > a {
 					@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
 					& > svg {
-						@apply block h-5 w-auto fill-current;
+						@apply block;
 					}
 				}
 			}
@@ -144,7 +144,7 @@
 			& > button[type="submit"] {
 				@apply grid place-items-center w-10 h-10 aspect-[1/1] mt-auto mb-0 rounded-sm bg-black text-white focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
 				& > svg {
-					@apply block h-5 w-auto fill-current;
+					@apply block;
 				}
 			}
 		}

@@ -139,56 +139,9 @@
 	}
 </script>
 
-<header>
-	<div>
-		<a href="/${$page.data.path?.length ? '/' + $page.data.path.split('/').slice(0, -1).join('/') : ''}">
-			{#if $page.data.path?.length}
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-					><path
-						d="M448 256C448 264.8 440.6 272 431.4 272H54.11l140.7 149.3c6.157 6.531 5.655 16.66-1.118 22.59C190.5 446.6 186.5 448 182.5 448c-4.505 0-9.009-1.75-12.28-5.25l-165.9-176c-5.752-6.094-5.752-15.41 0-21.5l165.9-176c6.19-6.562 16.69-7 23.45-1.094c6.773 5.938 7.275 16.06 1.118 22.59L54.11 240h377.3C440.6 240 448 247.2 448 256z"
-					/></svg
-				>
-			{:else}
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-					><path
-						d="M528 32h-96l-17.94-17.94C405.1 5.057 392.8 0 380.1 0H336C309.5 0 288 21.49 288 48v128C288 202.5 309.5 224 336 224h192C554.5 224 576 202.5 576 176v-96C576 53.49 554.5 32 528 32zM544 176C544 184.8 536.8 192 528 192h-192C327.2 192 320 184.8 320 176v-128C320 39.18 327.2 32 336 32h44.12c4.273 0 8.293 1.664 11.31 4.686L418.7 64H528C536.8 64 544 71.18 544 80V176zM528 320h-96l-17.94-17.94C405.1 293.1 392.8 288 380.1 288H336C309.5 288 288 309.5 288 336v128c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48v-96C576 341.5 554.5 320 528 320zM544 464c0 8.822-7.178 16-16 16h-192c-8.822 0-16-7.178-16-16v-128c0-8.822 7.178-16 16-16h44.12c4.273 0 8.293 1.664 11.31 4.686L418.7 352H528c8.822 0 16 7.178 16 16V464zM240 128C248.8 128 256 120.8 256 112S248.8 96 240 96H32V16C32 7.156 24.84 0 16 0S0 7.156 0 16v352C0 394.5 21.53 416 48 416h192C248.8 416 256 408.8 256 400S248.8 384 240 384h-192C39.17 384 32 376.8 32 368V128H240z"
-					/></svg
-				>
-			{/if}
-		</a>
-	</div>
-	<nav>
-		{#if $webcontainer?.terminal}
-			<Code
-				mini={true}
-				on:submit={(e) => sudo(e.detail)}
-				on:update={(e) => (search = e.detail)}
-				on:up={() => {
-					$webcontainer.terminal.input.write("\x1b[A")
-				}}
-				on:down={() => {
-					$webcontainer.terminal.input.write("\x1b[B")
-				}}
-			/>
-		{/if}
-	</nav>
-</header>
+<header />
 
-<nav>
-	<button
-		type="button"
-		on:click={() => {
-			dialog.showModal()
-			opened = true
-		}}
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-			><path
-				d="M447.1 0h-384c-35.25 0-64 28.75-64 63.1v287.1c0 35.25 28.75 63.1 64 63.1h96v83.1c0 9.838 11.03 15.55 19.12 9.7l124.9-93.7h144c35.25 0 64-28.75 64-63.1V63.1C511.1 28.75 483.2 0 447.1 0zM480 352c0 17.6-14.4 32-32 32h-144.1c-6.928 0-13.67 2.248-19.21 6.406L192 460v-60c0-8.838-7.164-16-16-16H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h384c17.6 0 32 14.4 32 32V352zM128 184c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24S152 221.3 152 208C152 194.7 141.3 184 128 184zM384 184c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C408 194.7 397.3 184 384 184zM256 184c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C280 194.7 269.3 184 256 184z"
-			/></svg
-		>
-	</button>
-</nav>
+<nav />
 
 <main>
 	{#if $webcontainer?.terminal}
@@ -213,23 +166,20 @@
 						<li class={type}>
 							<span>
 								{#if path.slice(1) === $page.data.path}
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-										><path
-											d="M566.6 211.6C557.5 199.1 543.4 192 527.1 192H134.2C114.3 192 96.2 204.5 89.23 223.1L32 375.8V96c0-17.64 14.36-32 32-32h117.5c8.549 0 16.58 3.328 22.63 9.375L258.7 128H448c17.64 0 32 14.36 32 32h32c0-35.35-28.65-64-64-64H272L226.7 50.75C214.7 38.74 198.5 32 181.5 32H64C28.65 32 0 60.65 0 96v320c0 35.35 28.65 64 64 64h403.1c21.11 0 39.53-13.53 45.81-33.69l60-192C578.4 239.6 575.8 224 566.6 211.6zM543.2 244.8l-60 192C481.1 443.5 475 448 467.1 448H64c-3.322 0-6.357-.9551-9.373-1.898c-2.184-1.17-4.109-2.832-5.596-4.977c-3.031-4.375-3.703-9.75-1.828-14.73l72-192C121.5 228.2 127.5 224 134.2 224h393.8c5.141 0 9.844 2.375 12.89 6.516C543.9 234.7 544.8 239.9 543.2 244.8z"
-										/></svg
-									>
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 18.25V7.75c0-1.105.918-2 2.05-2h1.368c.531 0 1.042.201 1.424.561l.932.878c.382.36.892.561 1.424.561h5.302a1 1 0 0 1 1 1v3m-13.5 6.5h12.812l1.642-5.206c.2-.635-.278-1.278-.954-1.294m-13.5 6.5 1.827-5.794c.133-.42.53-.706.98-.706H18.25" />
+									</svg>
 								{:else if type === "file"}
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
-										><path
-											d="M0 64C0 28.65 28.65 0 64 0H220.1C232.8 0 245.1 5.057 254.1 14.06L369.9 129.9C378.9 138.9 384 151.2 384 163.9V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V64zM352 192H240C213.5 192 192 170.5 192 144V32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480H320C337.7 480 352 465.7 352 448V192zM347.3 152.6L231.4 36.69C229.4 34.62 226.8 33.18 224 32.48V144C224 152.8 231.2 160 240 160H351.5C350.8 157.2 349.4 154.6 347.3 152.6z"
-										/></svg
-									>
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M12.75 4.75H7.75C6.64543 4.75 5.75 5.64543 5.75 6.75V17.25C5.75 18.3546 6.64543 19.25 7.75 19.25H16.25C17.3546 19.25 18.25 18.3546 18.25 17.25V10.25M12.75 4.75V8.25C12.75 9.35457 13.6454 10.25 14.75 10.25H18.25M12.75 4.75L18.25 10.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+										<path d="M8.75 15.75H15.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+										<path d="M8.75 12.75H11.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
 								{:else}
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-										><path
-											d="M447.1 96H272L226.7 50.75C214.7 38.74 198.5 32 181.5 32H63.1c-35.35 0-64 28.65-64 64v320c0 35.35 28.65 64 64 64h384c35.35 0 64-28.65 64-64V160C511.1 124.7 483.3 96 447.1 96zM480 416c0 17.64-14.36 32-32 32H64c-17.64 0-32-14.36-32-32V96c0-17.64 14.36-32 32-32h117.5c8.549 0 16.58 3.328 22.63 9.375L258.7 128H448c17.64 0 32 14.36 32 32V416z"
-										/></svg
-									>
+									<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.25 17.25V9.75C19.25 8.64543 18.3546 7.75 17.25 7.75H4.75V17.25C4.75 18.3546 5.64543 19.25 6.75 19.25H17.25C18.3546 19.25 19.25 18.3546 19.25 17.25Z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 7.5L12.5685 5.7923C12.2181 5.14977 11.5446 4.75 10.8127 4.75H6.75C5.64543 4.75 4.75 5.64543 4.75 6.75V11" />
+									</svg>
 								{/if}
 							</span>
 							<a href="/${path.slice(1) === $page.data.path ? path.split('/').slice(0, -1).join('/') : path}" class:active={path.slice(1) === $page.data.path}>
@@ -253,9 +203,56 @@
 
 <aside />
 
-<footer />
+<footer>
+	<div>
+		<a href="/${$page.data.path?.length ? '/' + $page.data.path.split('/').slice(0, -1).join('/') : ''}">
+			{#if $page.data.path?.length}
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M11.25 8.75L7.75 12L11.25 15.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					<path d="M16.25 8.75L12.75 12L16.25 15.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			{:else}
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M5.75 11V18.6671C5.75 19.1739 6.35441 19.4368 6.72519 19.0913L7.43088 18.4337C8.06762 17.8404 9.0151 17.7272 9.77366 18.1539L11.5097 19.1305C11.8142 19.3017 12.1858 19.3017 12.4903 19.1305L14.2263 18.1539C14.9849 17.7272 15.9324 17.8404 16.5691 18.4337L17.2748 19.0913C17.6456 19.4368 18.25 19.1739 18.25 18.6671V11C18.25 7.54822 15.4518 4.75 12 4.75C8.54822 4.75 5.75 7.54822 5.75 11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					<path d="M10.5 10C10.5 10.2761 10.2761 10.5 10 10.5C9.72386 10.5 9.5 10.2761 9.5 10C9.5 9.72386 9.72386 9.5 10 9.5C10.2761 9.5 10.5 9.72386 10.5 10Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+					<path d="M14.5 10C14.5 10.2761 14.2761 10.5 14 10.5C13.7239 10.5 13.5 10.2761 13.5 10C13.5 9.72386 13.7239 9.5 14 9.5C14.2761 9.5 14.5 9.72386 14.5 10Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			{/if}
+		</a>
+	</div>
+	<nav>
+		{#if $webcontainer?.terminal}
+			<Code
+				mini={true}
+				on:submit={(e) => sudo(e.detail)}
+				on:update={(e) => (search = e.detail)}
+				on:up={() => {
+					$webcontainer.terminal.input.write("\x1b[A")
+				}}
+				on:down={() => {
+					$webcontainer.terminal.input.write("\x1b[B")
+				}}
+			/>
+		{/if}
+	</nav>
+</footer>
 
-<nav />
+<nav>
+	<button
+		type="button"
+		on:click={() => {
+			dialog.showModal()
+			opened = true
+		}}
+	>
+		<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+			<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18.25C15.5 18.25 19.25 16.5 19.25 12C19.25 7.5 15.5 5.75 12 5.75C8.5 5.75 4.75 7.5 4.75 12C4.75 13.0298 4.94639 13.9156 5.29123 14.6693C5.50618 15.1392 5.62675 15.6573 5.53154 16.1651L5.26934 17.5635C5.13974 18.2547 5.74527 18.8603 6.43651 18.7307L9.64388 18.1293C9.896 18.082 10.1545 18.0861 10.4078 18.1263C10.935 18.2099 11.4704 18.25 12 18.25Z" />
+			<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9.5 12C9.5 12.2761 9.27614 12.5 9 12.5C8.72386 12.5 8.5 12.2761 8.5 12C8.5 11.7239 8.72386 11.5 9 11.5C9.27614 11.5 9.5 11.7239 9.5 12Z" />
+			<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M12.5 12C12.5 12.2761 12.2761 12.5 12 12.5C11.7239 12.5 11.5 12.2761 11.5 12C11.5 11.7239 11.7239 11.5 12 11.5C12.2761 11.5 12.5 11.7239 12.5 12Z" />
+			<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M15.5 12C15.5 12.2761 15.2761 12.5 15 12.5C14.7239 12.5 14.5 12.2761 14.5 12C14.5 11.7239 14.7239 11.5 15 11.5C15.2761 11.5 15.5 11.7239 15.5 12Z" />
+		</svg>
+	</button>
+</nav>
 
 <dialog bind:this={dialog}>
 	<form method="dialog" on:submit={send}>
@@ -264,17 +261,15 @@
 		{/if}
 		<button type="submit">
 			{#if prompt.trim().length > 0}
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-					><path
-						d="M498.1 5.629C492.7 1.891 486.4 0 480 0c-5.461 0-10.94 1.399-15.88 4.223l-448 255.1C5.531 266.3-.6875 277.8 .0625 289.1s8.375 22.86 19.62 27.55l103.2 43.01l61.85 146.5C186.2 510.6 189.2 512 191.1 512c2.059 0 4.071-.8145 5.555-2.24l85.75-82.4l120.4 50.16c4.293 1.793 8.5 2.472 12.29 2.472c6.615 0 12.11-2.093 15.68-4.097c8.594-4.828 14.47-13.31 15.97-23.05l64-415.1C513.5 24.72 508.3 12.58 498.1 5.629zM32 288l380.1-217.2l-288.2 255.5L32 288zM200.7 462.3L151.1 344.9l229.5-203.4l-169.5 233.1c-2.906 4-3.797 9.094-2.438 13.84c1.374 4.75 4.844 8.594 9.438 10.41l34.4 13.76L200.7 462.3zM416.7 443.3l-167.7-66.56l225.7-310.3L416.7 443.3z"
-					/></svg
-				>
+				<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 19.25L12 4.75L19.25 19.25L12 15.75L4.75 19.25Z" />
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15.5V12.75" />
+				</svg>
 			{:else}
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
-					><path
-						d="M315.3 411.3c-6.253 6.253-16.37 6.253-22.63 0L160 278.6l-132.7 132.7c-6.253 6.253-16.37 6.253-22.63 0c-6.253-6.253-6.253-16.37 0-22.63L137.4 256L4.69 123.3c-6.253-6.253-6.253-16.37 0-22.63c6.253-6.253 16.37-6.253 22.63 0L160 233.4l132.7-132.7c6.253-6.253 16.37-6.253 22.63 0c6.253 6.253 6.253 16.37 0 22.63L182.6 256l132.7 132.7C321.6 394.9 321.6 405.1 315.3 411.3z"
-					/></svg
-				>
+				<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 6.75L6.75 17.25" />
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75L17.25 17.25" />
+				</svg>
 			{/if}
 		</button>
 	</form>
