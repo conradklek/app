@@ -9,6 +9,7 @@
 	import { inlineSuggestion } from "codemirror-extension-inline-suggestion"
 
 	export let type = "text"
+	export let wrap = false
 	export let hint = false
 	export let mini = false
 	export let tabs = false
@@ -92,6 +93,9 @@
 					delay: 1000
 				})
 			)
+		}
+		if (wrap) {
+			extensions.push(EditorView.lineWrapping)
 		}
 		if (type === "md") {
 			extensions.push(markdown({ codeLanguages: languages }))

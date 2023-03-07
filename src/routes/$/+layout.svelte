@@ -281,7 +281,7 @@
 <dialog bind:this={dialog}>
 	<form method="dialog" on:submit={send}>
 		{#if opened && !reset}
-			<Code file={prompt} code={editor} on:update={(e) => (prompt = e.detail)} tabs={false} />
+			<Code file={prompt} code={editor} wrap={true} on:update={(e) => (prompt = e.detail)} tabs={false} />
 		{/if}
 		<button type="submit">
 			{#if prompt.trim().length > 0}
