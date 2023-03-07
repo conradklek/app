@@ -18,7 +18,7 @@
 @layer base {
 	body {
 		@apply relative grid w-screen h-screen overflow-hidden bg-black text-white;
-		grid-template-rows: auto calc(100vh-10rem) auto;
+		grid-template-rows: auto calc(100vh-5rem) auto;
 		grid-template-columns: auto 1fr auto;
 		grid-template-areas:
 			"aside header ."
@@ -30,22 +30,22 @@
 				grid-area: aside;
 			}
 			& > main {
-				@apply z-10 relative w-full h-[calc(100vh-10rem)] bg-transparent overflow-x-hidden overflow-y-auto;
+				@apply z-10 relative w-full h-[calc(100vh-5rem)] bg-transparent overflow-x-hidden overflow-y-auto;
 				grid-area: main;
 				& > div.code {
-					@apply grid place-items-center w-[calc(100vw-1.25rem)] min-h-[2.5rem] ml-2.5 rounded-sm overflow-x-auto;
+					@apply grid place-items-center w-[calc(100vw-1.25rem)] min-h-[2.5rem] ml-2.5 pt-5 rounded-sm overflow-x-auto;
 					& > .cm-editor.ͼ1.ͼ2.ͼ4 {
 						@apply px-1;
 					}
 				}
 				& > ul {
-					@apply grid grid-cols-2 gap-x-5 gap-y-2.5 w-full p-5 pt-0;
+					@apply grid grid-cols-2 gap-x-5 gap-y-2.5 w-full p-5 pt-2.5;
 					> li {
 						@apply relative flex flex-row items-center w-full h-10 pr-2.5 bg-black ring-1 ring-transparent border-b border-b-white rounded-sm;
 						> span {
 							@apply absolute top-0 left-0 w-10 h-10 aspect-[1/1] grid place-items-center pointer-events-none;
 							> svg {
-								@apply block h-5 w-auto;
+								@apply block;
 							}
 						}
 						> a {
@@ -56,7 +56,7 @@
 				}
 			}
 			& > header {
-				@apply z-40 sticky top-0 left-0 w-full h-20 bg-black border-b border-b-transparent;
+				@apply z-40 sticky top-0 left-0 grid w-full h-0 bg-black border-b border-b-transparent;
 				grid-area: header;
 			}
 			& > footer {
@@ -81,7 +81,7 @@
 				}
 			}
 			& > nav {
-				@apply z-30 sticky top-0 right-0 grid place-items-center w-20 h-20 bg-black border-b border-b-transparent;
+				@apply z-30 sticky top-0 right-0 grid place-items-center bg-black border-b border-b-transparent;
 				& > button[type="button"],
 				& > a {
 					@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
@@ -91,7 +91,7 @@
 				}
 			}
 			& > footer + nav {
-				@apply top-auto left-auto bottom-0 right-0 border-b-0 border-t border-t-transparent;
+				@apply top-auto left-auto bottom-0 right-0 w-20 h-20 border-b-0 border-t border-t-transparent;
 			}
 		}
 	}
