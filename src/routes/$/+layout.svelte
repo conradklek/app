@@ -233,7 +233,7 @@
 								{/if}
 							</span>
 							<a href="/${path.slice(1) === $page.data.path ? path.split('/').slice(0, -1).join('/') : path}" class:active={path.slice(1) === $page.data.path}>
-								{path.slice(1) === $page.data.path ? "../ " : ""}{path.split("/").pop()}
+								{path.slice(1) === $page.data.path ? "../" : ""}{path.split("/").pop()}
 							</a>
 						</li>
 					{/each}

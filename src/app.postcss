@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: "Berkeley Mono";
+	font-style: normal;
+	src: url("/fonts/BerkeleyMono-Regular.woff2") format("woff2"), url("/fonts/BerkeleyMono-Regular.woff") format("woff"), url("/fonts/BerkeleyMono-Regular.ttf") format("truetype");
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: "Berkeley Mono";
+	font-style: italic;
+	src: url("/fonts/BerkeleyMono-Italic.woff2") format("woff2"), url("/fonts/BerkeleyMono-Italic.woff") format("woff"), url("/fonts/BerkeleyMono-Italic.ttf") format("truetype");
+}
+
 @layer base {
 	body {
 		@apply relative grid w-screen h-screen overflow-hidden bg-black text-white;
@@ -30,9 +43,6 @@
 					grid-template-columns: 1fr auto;
 					& > div.code {
 						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 rounded-sm bg-black ring-inset ring-1 ring-transparent focus-within:ring-transparent overflow-x-auto border-b border-b-white;
-						& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-							@apply w-full px-1;
-						}
 					}
 				}
 			}
@@ -46,18 +56,7 @@
 				& > div.code {
 					@apply grid place-items-center w-[calc(100vw-1.25rem)] min-h-[2.5rem] ml-2.5 rounded-sm overflow-x-auto;
 					& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-						@apply w-full;
-						& > .cm-scroller {
-							& .cm-gutters {
-								@apply bg-black border-r-0;
-								& .cm-gutterElement {
-									@apply font-mono text-xs leading-5 text-white;
-									&.cm-activeLineGutter {
-										@apply bg-transparent;
-									}
-								}
-							}
-						}
+						@apply px-1;
 					}
 				}
 				& > ul {
@@ -71,7 +70,8 @@
 							}
 						}
 						> a {
-							@apply pl-10 block break-words line-clamp-1 w-full leading-10 text-xs font-light tracking-wide focus:outline-none select-none;
+							@apply pl-10 block break-words line-clamp-1 w-full leading-10 text-xs focus:outline-none select-none;
+							font-family: "Berkeley Mono", monospace;
 						}
 					}
 				}
@@ -133,7 +133,7 @@
 			& > div.code {
 				@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] rounded-sm bg-black ring-inset ring-1 ring-white;
 				& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-					@apply w-full px-1;
+					@apply px-1;
 					& > .cm-scroller {
 						& .cm-gutters {
 							@apply hidden;
@@ -152,10 +152,21 @@
 }
 
 .cm-editor.ͼ1.ͼ2.ͼ4 {
+	@apply w-full;
 	&.cm-focused {
 		@apply outline-none;
 	}
 	& > .cm-scroller {
+		font-family: "Berkeley Mono", monospace;
+		& .cm-gutters {
+			@apply bg-black border-r-0;
+			& .cm-gutterElement {
+				@apply text-xs leading-5 text-white;
+				&.cm-activeLineGutter {
+					@apply bg-transparent;
+				}
+			}
+		}
 		& > .cm-cursorLayer {
 			& > .cm-cursor {
 				@apply border-white;
@@ -163,7 +174,7 @@
 		}
 		& .cm-content {
 			& > .cm-line {
-				@apply font-mono text-xs leading-5 text-white;
+				@apply text-xs leading-5 text-white;
 				&.cm-activeLine {
 					@apply bg-transparent;
 				}
