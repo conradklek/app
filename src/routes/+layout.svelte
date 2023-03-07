@@ -12,6 +12,7 @@
 					$webcontainer.host = url
 					$webcontainer.port = port
 					$webcontainer.pwd = `~/${new URL($webcontainer.host).host.split(".")[0].split("--")[0]}/`
+					console.log("Server ready", $webcontainer.host, $webcontainer.port, $webcontainer.pwd)
 				})
 				await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
 				$webcontainer.terminal = await $webcontainer.spawn("jsh")

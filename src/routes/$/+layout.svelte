@@ -154,16 +154,11 @@
 		memory = (await localforage.getItem("memory")) || []
 		embeds = (await localforage.getItem("embeds")) || {}
 	})
-	/*
 	$: {
 		if ($webcontainer?.terminal?.stream) {
-			console.clear()
 			console.log($webcontainer.terminal?.stream?.replace(ansiRegex(), "").split("❯ ").slice(-2).join("") + search)
-			console.table(memory)
-			if ($codemirror) console.log($codemirror)
 		}
 	}
-	*/
 </script>
 
 <header>
@@ -266,9 +261,13 @@
 					{/each}
 				</ul>
 			{:else if Object.keys(item[1]).includes("file")}
-				{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
-					<Code {file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
-				{/await}
+				{#if $webcontainer.host}
+					<Code file={item[1].file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
+				{:else}
+					{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
+						<Code {file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
+					{/await}
+				{/if}
 			{/if}
 		{/await}
 	{/if}
