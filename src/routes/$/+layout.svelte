@@ -15,7 +15,6 @@
 	$: search = ""
 	$: prompt = ""
 	$: memory = []
-	$: embeds = {}
 
 	$: reset = false
 	$: loading = false
@@ -52,7 +51,6 @@
 			method: "POST",
 			body: JSON.stringify({
 				document,
-				embeds,
 				prompt,
 				memory
 			}),
@@ -62,7 +60,7 @@
 		})
 		const data = await response.json()
 		console.log(data)
-		if (data.error) return (prompt = "")
+		if (data.error || !data.choices) return (prompt = "")
 		const message = { role: "assistant", content: data.choices[0].message.content, uuid: crypto.randomUUID(), date: new Date() }
 		memory.push(message)
 		memory = memory
@@ -112,7 +110,6 @@
 			case "save": {
 				const data = await read($webcontainer, "/")
 				await localforage.setItem("indexedDB", data)
-				console.log("saved", data)
 				break
 			}
 			case "load": {
@@ -122,24 +119,6 @@
 				for (const [path] of list) dirs.add(path.split("/").slice(0, -1).join("/"))
 				for (const dir of dirs) await $webcontainer.fs.mkdir(dir, { recursive: true })
 				for (const [path, item] of list) await $webcontainer.fs.writeFile(path, item.file)
-				break
-			}
-			case "sync": {
-				const response = await fetch("$", {
-					method: "PATCH",
-					body: JSON.stringify({
-						data: flat(await read($webcontainer, "/"))
-							.filter(([, item]) => Object.keys(item).includes("file"))
-							.filter(([path]) => path.endsWith(".md"))
-					}),
-					headers: {
-						"content-type": "application/json"
-					}
-				})
-				const data = await response.json()
-				console.log(data)
-				await localforage.setItem("embeds", data)
-				embeds = data
 				break
 			}
 			default: {
@@ -152,7 +131,6 @@
 	}
 	onMount(async () => {
 		memory = (await localforage.getItem("memory")) || []
-		embeds = (await localforage.getItem("embeds")) || {}
 	})
 	$: {
 		if ($webcontainer?.terminal?.stream) {
