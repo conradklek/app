@@ -4,7 +4,7 @@
 
 @layer base {
 	body {
-		@apply relative grid w-screen h-screen overflow-hidden bg-white;
+		@apply relative grid w-screen h-screen overflow-hidden bg-black text-white;
 		grid-template-rows: auto calc(100vh-10rem) auto;
 		grid-template-columns: auto 1fr auto;
 		grid-template-areas:
@@ -13,15 +13,15 @@
 			"aside footer .";
 		& > #svelte {
 			& > header {
-				@apply z-40 sticky top-0 left-0 grid w-full h-20 bg-white border-b border-b-transparent;
+				@apply z-40 sticky top-0 left-0 grid w-full h-20 bg-black border-b border-b-transparent;
 				grid-area: header;
 				grid-template-columns: auto 1fr;
 				& > div {
 					@apply grid place-items-center w-20 h-20 aspect-[1/1];
 					& > a {
-						@apply grid place-items-center w-10 h-10 rounded-sm bg-neutral-100 active:bg-neutral-50 focus:outline-none ring-1 ring-transparent focus:ring-transparent;
+						@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
 						& > svg {
-							@apply block h-4 w-auto;
+							@apply block h-5 w-auto fill-current;
 						}
 					}
 				}
@@ -29,9 +29,9 @@
 					@apply grid place-items-center w-full h-10 my-auto;
 					grid-template-columns: 1fr auto;
 					& > div.code {
-						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 rounded-sm bg-neutral-100 ring-1 ring-transparent focus-within:ring-transparent overflow-x-auto;
+						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 rounded-sm bg-black ring-inset ring-1 ring-transparent focus-within:ring-transparent overflow-x-auto border-b border-b-white;
 						& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-							@apply w-full px-1.5;
+							@apply w-full px-1;
 						}
 					}
 				}
@@ -44,14 +44,14 @@
 				@apply z-10 relative w-full h-[calc(100vh-10rem)] bg-transparent overflow-x-hidden overflow-y-auto;
 				grid-area: main;
 				& > div.code {
-					@apply grid place-items-center w-[calc(100vw-2.5rem)] min-h-[2.5rem] mx-auto rounded-sm bg-neutral-100 overflow-x-auto;
+					@apply grid place-items-center w-[calc(100vw-1.25rem)] min-h-[2.5rem] ml-2.5 rounded-sm overflow-x-auto;
 					& > .cm-editor.ͼ1.ͼ2.ͼ4 {
 						@apply w-full;
 						& > .cm-scroller {
 							& .cm-gutters {
-								@apply border-r-0;
+								@apply bg-black border-r-0;
 								& .cm-gutterElement {
-									@apply font-mono text-xs leading-6 text-neutral-400;
+									@apply font-mono text-xs leading-5 text-white;
 									&.cm-activeLineGutter {
 										@apply bg-transparent;
 									}
@@ -61,32 +61,32 @@
 					}
 				}
 				& > ul {
-					@apply grid grid-cols-2 gap-2.5 w-full p-5 pt-2.5;
+					@apply grid grid-cols-2 gap-x-5 gap-y-2.5 w-full p-5 pt-0;
 					> li {
-						@apply relative flex flex-row items-center w-full h-10 pr-2.5 bg-neutral-100 active:bg-neutral-50 ring-1 ring-transparent focus-within:bg-blue-100 focus-within:active:bg-blue-200 focus-within:ring-2 focus-within:ring-blue-400 rounded-sm;
+						@apply relative flex flex-row items-center w-full h-10 pr-2.5 bg-black ring-1 ring-transparent border-b border-b-white rounded-sm;
 						> span {
 							@apply absolute top-0 left-0 w-10 h-10 aspect-[1/1] grid place-items-center pointer-events-none;
 							> svg {
-								@apply block h-4 w-auto;
+								@apply block h-4 w-auto fill-current;
 							}
 						}
 						> a {
-							@apply pl-10 block break-words line-clamp-1 w-full leading-10 text-xs font-semibold text-neutral-900 focus:outline-none select-none;
+							@apply pl-10 block break-words line-clamp-1 w-full leading-10 text-xs font-light tracking-wide focus:outline-none select-none;
 						}
 					}
 				}
 			}
 			& > footer {
-				@apply z-40 sticky bottom-0 right-0 w-full h-20 bg-white border-t border-t-transparent;
+				@apply z-40 sticky bottom-0 right-0 w-full h-20 bg-black border-t border-t-transparent;
 				grid-area: footer;
 			}
 			& > nav {
-				@apply z-30 sticky top-0 right-0 grid place-items-center w-20 h-20 bg-white border-b border-b-transparent;
+				@apply z-30 sticky top-0 right-0 grid place-items-center w-20 h-20 bg-black border-b border-b-transparent;
 				& > button[type="button"],
 				& > a {
-					@apply grid place-items-center w-10 h-10 rounded-sm bg-neutral-100 active:bg-neutral-50 focus:outline-none ring-1 ring-transparent focus:ring-transparent;
+					@apply grid place-items-center w-10 h-10 rounded-sm bg-black focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
 					& > svg {
-						@apply block h-4 w-auto;
+						@apply block h-5 w-auto fill-current;
 					}
 				}
 			}
@@ -101,7 +101,7 @@
 			@apply flex;
 		}
 		&::backdrop {
-			@apply bg-black/90;
+			@apply bg-black;
 		}
 		&:modal {
 			@apply max-w-none max-h-none;
@@ -113,10 +113,10 @@
 				& > article {
 					@apply flex flex-col items-start justify-start gap-2 p-0;
 					& > * {
-						@apply bg-neutral-100 rounded-sm;
+						@apply bg-black rounded-sm;
 					}
 					& p {
-						@apply p-2 whitespace-pre-wrap text-sm leading-6;
+						@apply p-2 whitespace-pre-wrap text-xs leading-5;
 					}
 					& pre {
 						@apply w-full p-2 text-sm leading-5 font-mono rounded-sm overflow-x-auto;
@@ -128,12 +128,12 @@
 			}
 		}
 		& > form {
-			@apply fixed bottom-0 right-0 grid w-screen p-5 bg-white;
+			@apply fixed bottom-0 right-0 grid w-screen p-5 bg-black;
 			grid-template-columns: 1fr auto;
 			& > div.code {
-				@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] rounded-sm bg-neutral-100;
+				@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] rounded-sm bg-black ring-inset ring-1 ring-white;
 				& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-					@apply w-full px-1.5;
+					@apply w-full px-1;
 					& > .cm-scroller {
 						& .cm-gutters {
 							@apply hidden;
@@ -142,9 +142,9 @@
 				}
 			}
 			& > button[type="submit"] {
-				@apply grid place-items-center w-10 h-10 aspect-[1/1] mt-auto mb-0 rounded-sm bg-neutral-100 active:bg-neutral-50 focus:outline-none ring-1 ring-transparent focus:ring-transparent;
+				@apply grid place-items-center w-10 h-10 aspect-[1/1] mt-auto mb-0 rounded-sm bg-black text-white focus:outline-none ring-inset ring-1 ring-transparent focus:ring-transparent border-b border-b-white;
 				& > svg {
-					@apply block h-4 w-auto;
+					@apply block h-5 w-auto fill-current;
 				}
 			}
 		}
@@ -156,11 +156,14 @@
 		@apply outline-none;
 	}
 	& > .cm-scroller {
-		& .cm-gutters {
+		& > .cm-cursorLayer {
+			& > .cm-cursor {
+				@apply border-white;
+			}
 		}
 		& .cm-content {
 			& > .cm-line {
-				@apply font-mono text-xs leading-6 text-neutral-900;
+				@apply font-mono text-xs leading-5 text-white;
 				&.cm-activeLine {
 					@apply bg-transparent;
 				}

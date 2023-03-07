@@ -4,7 +4,7 @@ const worker = self
 const FILES = `cache-${version}`
 
 const toCache = [...build, ...files, ...prerendered]
-const staticAssets = new Set(toCache)
+//const staticAssets = new Set(toCache)
 
 worker.addEventListener("install", (event) => {
 	event.waitUntil(
@@ -22,7 +22,7 @@ worker.addEventListener("activate", (event) => {
 		})
 	)
 })
-
+/*
 async function fetchAndCache(request) {
 	const cache = await caches.open(FILES)
 
@@ -51,3 +51,4 @@ worker.addEventListener("fetch", (event) => {
 
 	if (isHttp && !isDevServerRequest && !skipBecauseUncached) event.respondWith((isStaticAsset && caches.match(cleanRequest)) || fetchAndCache(cleanRequest))
 })
+*/

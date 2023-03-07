@@ -98,7 +98,7 @@
 			extensions.push(EditorView.lineWrapping)
 		}
 		if (type === "md") {
-			extensions.push(markdown({ codeLanguages: languages }))
+			//extensions.push(markdown({ codeLanguages: languages }))
 			extensions.push(EditorView.lineWrapping)
 		}
 		create(extensions)
