@@ -6,7 +6,6 @@
 	import { codemirror } from "$lib/client/stores/codemirror"
 	import { webcontainer, read, flat, load } from "$lib/client/stores/webcontainer"
 	import { onMount } from "svelte"
-	import ansiRegex from "ansi-regex"
 
 	let dialog
 	let editor
@@ -132,10 +131,17 @@
 	onMount(async () => {
 		memory = (await localforage.getItem("memory")) || []
 	})
-	$: {
-		if ($webcontainer?.terminal?.stream) {
-			console.log($webcontainer.terminal?.stream?.replace(ansiRegex(), "").split("❯ ").slice(-2).join("") + search)
+	$: files = []
+	async function init(path) {
+		files = flat(await read($webcontainer, "/"))
+		const item = files.find(([i]) => i.slice(1) === path)
+		if (!item) return
+		if (item[1].directory) {
+			$webcontainer.terminal.input.write("cd " + $webcontainer.root + "/" + path + "\r")
 		}
+	}
+	$: {
+		init($page.data.path)
 	}
 </script>
 
@@ -185,32 +191,34 @@
 </nav>
 
 <main>
-	{#if $webcontainer?.terminal}
-		{#await read($webcontainer, "/") then items}
-			{@const item = flat(items).find(([item]) => item.slice(1) === $page.data.path) || ["/", { directory: true }]}
-			{#if Object.keys(item[1]).includes("directory")}
-				{@const list = $page.data.path?.length
-					? [item].concat(
-							flat(items)
-								.filter(([, item]) => item.directory)
-								.concat(flat(items).filter(([, item]) => !item.directory))
-								.filter(([path]) => path.slice(1).startsWith($page.data.path + "/") && path.slice(1).split("/").length === $page.data.path.split("/").length + 1)
-								.filter(([path]) => path.slice(1) !== $page.data.path)
-					  )
-					: flat(items)
-							.filter(([, item]) => item.directory)
-							.concat(flat(items).filter(([, item]) => !item.directory))
-							.filter(([path]) => path.slice(1).split("/").length === 1)}
+	{#if $webcontainer?.terminal && files.length}
+		{@const item = $page.data.path?.length
+			? files.find(([path]) => path.slice(1) === $page.data.path)
+			: [
+					"/",
+					{
+						directory: files
+							.filter(([path]) => path.slice(1).split("/").length === 1)
+							.reduce((acc, [path, item]) => {
+								acc[path.slice(1)] = item
+								return acc
+							}, {})
+					}
+			  ]}
+		{#if item}
+			{@const type = Object.keys(item[1]).includes("file") ? "file" : "directory"}
+			{#if type === "directory"}
+				{@const list = Object.entries(item[1].directory).sort((a, b) => {
+					if (a[1].directory && !b[1].directory) return -1
+					if (!a[1].directory && b[1].directory) return 1
+					return a[0].localeCompare(b[0])
+				})}
 				<ul on:keydown={arrows}>
 					{#each list as [path, item] (path)}
 						{@const type = Object.keys(item).includes("file") ? "file" : "directory"}
 						<li class={type}>
 							<span>
-								{#if path.slice(1) === $page.data.path}
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" clip-rule="evenodd" d="M5 3C3.34315 3 2 4.34315 2 6V17.5592C2 18.9072 3.09277 20 4.44076 20H18.0296C18.0345 20 18.0401 20 18.045 20C18.0636 19.9999 18.0821 19.9996 18.1006 19.9992C19.3837 19.9693 20.5093 19.1248 20.8937 17.8948L22.5494 12.5965C22.9151 11.4264 22.1542 10.2391 21 10.0318V9C21 7.34315 19.6569 6 18 6H12.5352L11.4258 4.3359C10.8694 3.5013 9.93269 3 8.92963 3H5ZM19 10V9C19 8.44772 18.5523 8 18 8H12.5352C11.8665 8 11.242 7.6658 10.8711 7.1094L9.76168 5.4453C9.57622 5.1671 9.26399 5 8.92963 5H5C4.44772 5 4 5.44772 4 6V17.5592C4 17.8027 4.19734 18 4.44076 18C4.63355 18 4.80396 17.8747 4.86146 17.6907L6.60694 12.1052C6.99833 10.8527 8.15823 10 9.47038 10H19Z" fill="currentColor" />
-									</svg>
-								{:else if type === "file"}
+								{#if type === "file"}
 									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2H5.75C4.7835 2 4 2.7835 4 3.75V20.25C4 21.2165 4.7835 22 5.75 22H18.25C19.2165 22 20 21.2165 20 20.25V10H13.75C12.7835 10 12 9.2165 12 8.25V2ZM8 14.25C8 13.8358 8.33579 13.5 8.75 13.5H12.25C12.6642 13.5 13 13.8358 13 14.25C13 14.6642 12.6642 15 12.25 15H8.75C8.33579 15 8 14.6642 8 14.25ZM8.75 17.5C8.33579 17.5 8 17.8358 8 18.25C8 18.6642 8.33579 19 8.75 19H15.25C15.6642 19 16 18.6642 16 18.25C16 17.8358 15.6642 17.5 15.25 17.5H8.75Z" fill="currentColor" />
 										<path d="M19.5566 8.5C19.5343 8.475 19.5112 8.45058 19.4874 8.42678L13.5732 2.51256C13.5494 2.48876 13.525 2.46571 13.5 2.44343V8.25C13.5 8.38807 13.6119 8.5 13.75 8.5H19.5566Z" fill="currentColor" />
@@ -221,7 +229,7 @@
 									</svg>
 								{/if}
 							</span>
-							<a href="/${path.slice(1) === $page.data.path ? path.split('/').slice(0, -1).join('/') : path}" class:active={path.slice(1) === $page.data.path}>
+							<a href="/$/{$page.data.path?.length ? $page.data.path + '/' : ''}{path}">
 								{path.slice(1) === $page.data.path ? "../" : ""}{path.split("/").pop()}
 							</a>
 						</li>
@@ -236,15 +244,22 @@
 					{/await}
 				{/if}
 			{/if}
-		{/await}
+		{/if}
 	{/if}
 </main>
 
 <aside />
 
 <footer>
-	{#if $page.data.path?.length}
-		<ol>
+	<ol>
+		{#if $page.data.path?.length}
+			<li>
+				<a href="/$">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M9.99985 16L6.70696 12.7071C6.31643 12.3166 6.31643 11.6834 6.70696 11.2929L9.99985 8M16.9998 16L13.707 12.7071C13.3164 12.3166 13.3164 11.6834 13.707 11.2929L16.9998 8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</a>
+			</li>
 			{#each $page.data.path.split("/") as path, i}
 				<li>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -260,8 +275,13 @@
 					</a>
 				</li>
 			{/each}
-		</ol>
-	{/if}
+		{/if}
+		<button type="button">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 10.8954 2.89543 10 4 10C5.10457 10 6 10.8954 6 12C6 13.1046 5.10457 14 4 14C2.89543 14 2 13.1046 2 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM18 12C18 10.8954 18.8954 10 20 10C21.1046 10 22 10.8954 22 12C22 13.1046 21.1046 14 20 14C18.8954 14 18 13.1046 18 12Z" fill="black" />
+			</svg>
+		</button>
+	</ol>
 </footer>
 
 <dialog bind:this={dialog}>
@@ -276,7 +296,7 @@
 				</svg>
 			{:else}
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M15.7071 9.70711C16.0976 9.31658 16.0976 8.68342 15.7071 8.29289C15.3166 7.90237 14.6834 7.90237 14.2929 8.29289L15.7071 9.70711ZM8.29289 14.2929C7.90237 14.6834 7.90237 15.3166 8.29289 15.7071C8.68342 16.0976 9.31658 16.0976 9.70711 15.7071L8.29289 14.2929ZM14.2929 15.7071C14.6834 16.0976 15.3166 16.0976 15.7071 15.7071C16.0976 15.3166 16.0976 14.6834 15.7071 14.2929L14.2929 15.7071ZM9.70711 8.29289C9.31658 7.90237 8.68342 7.90237 8.29289 8.29289C7.90237 8.68342 7.90237 9.31658 8.29289 9.70711L9.70711 8.29289ZM14.2929 8.29289L8.29289 14.2929L9.70711 15.7071L15.7071 9.70711L14.2929 8.29289ZM15.7071 14.2929L9.70711 8.29289L8.29289 9.70711L14.2929 15.7071L15.7071 14.2929Z" fill="black" />
+					<path d="M15.7071 9.70711C16.0976 9.31658 16.0976 8.68342 15.7071 8.29289C15.3166 7.90237 14.6834 7.90237 14.2929 8.29289L15.7071 9.70711ZM8.29289 14.2929C7.90237 14.6834 7.90237 15.3166 8.29289 15.7071C8.68342 16.0976 9.31658 16.0976 9.70711 15.7071L8.29289 14.2929ZM14.2929 15.7071C14.6834 16.0976 15.3166 16.0976 15.7071 15.7071C16.0976 15.3166 16.0976 14.6834 15.7071 14.2929L14.2929 15.7071ZM9.70711 8.29289C9.31658 7.90237 8.68342 7.90237 8.29289 8.29289C7.90237 8.68342 7.90237 9.31658 8.29289 9.70711L9.70711 8.29289ZM14.2929 8.29289L8.29289 14.2929L9.70711 15.7071L15.7071 9.70711L14.2929 8.29289ZM15.7071 14.2929L9.70711 8.29289L8.29289 9.70711L14.2929 15.7071L15.7071 14.2929Z" fill="currentColor" />
 				</svg>
 			{/if}
 		</button>
