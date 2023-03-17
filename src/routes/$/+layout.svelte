@@ -6,6 +6,8 @@
 	import { codemirror } from "$lib/client/stores/codemirror"
 	import { webcontainer, read, flat, load } from "$lib/client/stores/webcontainer"
 	import { onMount } from "svelte"
+	import { WebContainer } from "@webcontainer/api"
+	//import ansiRegex from "ansi-regex"
 
 	let dialog
 	let editor
@@ -59,22 +61,25 @@
 		})
 		const data = await response.json()
 		console.log(data)
-		if (data.error || !data.choices) return (prompt = "")
-		const message = { role: "assistant", content: data.choices[0].message.content, uuid: crypto.randomUUID(), date: new Date() }
-		memory.push(message)
+		if (data.choices) {
+			memory.push({ role: "assistant", content: data.choices[0].message.content, id: data.id, date: new Date() })
+		} else if (data.image) {
+			memory.push({ role: "assistant", content: "", image: data.image, id: crypto.randomUUID(), date: new Date() })
+		}
 		memory = memory
+		console.log(memory)
 		return (loading = false)
 	}
 
 	async function send(e) {
 		if (!prompt.trim().length) return (prompt = "")
 		e.preventDefault()
-		memory.push({ role: "user", content: prompt, uuid: crypto.randomUUID(), date: new Date() })
+		memory.push({ role: "user", content: prompt, id: crypto.randomUUID(), date: new Date() })
 		memory = memory
 		reset = true
 		await chat()
 		prompt = ""
-		await localforage.setItem("memory", memory)
+		//await localforage.setItem("memory", memory)
 		queueMicrotask(() => (reset = false))
 	}
 
@@ -89,7 +94,7 @@
 		let [command, ...args] = code.trim().split(" ")
 		switch (command) {
 			case "read": {
-				const data = await read($webcontainer, args[0])
+				const data = await read($webcontainer, args[0] || "/")
 				console.log(data)
 				break
 			}
@@ -130,19 +135,33 @@
 	}
 	onMount(async () => {
 		memory = (await localforage.getItem("memory")) || []
-	})
-	$: files = []
-	async function init(path) {
-		files = flat(await read($webcontainer, "/"))
-		const item = files.find(([i]) => i.slice(1) === path)
-		if (!item) return
-		if (item[1].directory) {
-			$webcontainer.terminal.input.write("cd " + $webcontainer.root + "/" + path + "\r")
+		try {
+			$webcontainer = await WebContainer.boot()
+			/*
+			$webcontainer.on("server-ready", (port, url) => {
+				$webcontainer.host = url
+				$webcontainer.port = port
+				$webcontainer.pwd = `~/${new URL($webcontainer.host).host.split(".")[0].split("--")[0]}/`
+				console.log("Server ready", $webcontainer.host, $webcontainer.port, $webcontainer.pwd)
+			})
+			*/
+			await $webcontainer.mount((await localforage.getItem("indexedDB")) || {})
+			$webcontainer.terminal = await $webcontainer.spawn("jsh")
+			$webcontainer.terminal.stream = ""
+			$webcontainer.terminal.output.pipeTo(
+				new WritableStream({
+					write(data) {
+						$webcontainer.terminal.stream += data
+					}
+				})
+			)
+			$webcontainer.terminal.input = $webcontainer.terminal.input.getWriter()
+			//console.log($webcontainer.terminal.stream.replace(ansiRegex(), ""))
+			$webcontainer = $webcontainer
+		} catch (e) {
+			console.log(e)
 		}
-	}
-	$: {
-		init($page.data.path)
-	}
+	})
 </script>
 
 <header>
@@ -166,10 +185,10 @@
 				on:submit={(e) => sudo(e.detail)}
 				on:update={(e) => (search = e.detail)}
 				on:up={() => {
-					$webcontainer.terminal.input.write("\x1b[A")
+					//$webcontainer.terminal.input.write("\x1b[A")
 				}}
 				on:down={() => {
-					$webcontainer.terminal.input.write("\x1b[B")
+					//$webcontainer.terminal.input.write("\x1b[B")
 				}}
 			/>
 		{/if}
@@ -191,60 +210,63 @@
 </nav>
 
 <main>
-	{#if $webcontainer?.terminal && files.length}
-		{@const item = $page.data.path?.length
-			? files.find(([path]) => path.slice(1) === $page.data.path)
-			: [
-					"/",
-					{
-						directory: files
-							.filter(([path]) => path.slice(1).split("/").length === 1)
-							.reduce((acc, [path, item]) => {
-								acc[path.slice(1)] = item
-								return acc
-							}, {})
-					}
-			  ]}
-		{#if item}
-			{@const type = Object.keys(item[1]).includes("file") ? "file" : "directory"}
-			{#if type === "directory"}
-				{@const list = Object.entries(item[1].directory).sort((a, b) => {
-					if (a[1].directory && !b[1].directory) return -1
-					if (!a[1].directory && b[1].directory) return 1
-					return a[0].localeCompare(b[0])
-				})}
-				<ul on:keydown={arrows}>
-					{#each list as [path, item] (path)}
-						{@const type = Object.keys(item).includes("file") ? "file" : "directory"}
-						<li class={type}>
-							<span>
-								{#if type === "file"}
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2H5.75C4.7835 2 4 2.7835 4 3.75V20.25C4 21.2165 4.7835 22 5.75 22H18.25C19.2165 22 20 21.2165 20 20.25V10H13.75C12.7835 10 12 9.2165 12 8.25V2ZM8 14.25C8 13.8358 8.33579 13.5 8.75 13.5H12.25C12.6642 13.5 13 13.8358 13 14.25C13 14.6642 12.6642 15 12.25 15H8.75C8.33579 15 8 14.6642 8 14.25ZM8.75 17.5C8.33579 17.5 8 17.8358 8 18.25C8 18.6642 8.33579 19 8.75 19H15.25C15.6642 19 16 18.6642 16 18.25C16 17.8358 15.6642 17.5 15.25 17.5H8.75Z" fill="currentColor" />
-										<path d="M19.5566 8.5C19.5343 8.475 19.5112 8.45058 19.4874 8.42678L13.5732 2.51256C13.5494 2.48876 13.525 2.46571 13.5 2.44343V8.25C13.5 8.38807 13.6119 8.5 13.75 8.5H19.5566Z" fill="currentColor" />
-									</svg>
-								{:else}
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M3.75 3C2.7835 3 2 3.7835 2 4.75V18.25C2 19.2165 2.7835 20 3.75 20H20.25C21.2165 20 22 19.2165 22 18.25V7.75C22 6.7835 21.2165 6 20.25 6H12.5352C12.4516 6 12.3735 5.95822 12.3272 5.88867L10.9209 3.77927C10.5963 3.29243 10.0499 3 9.46482 3H3.75Z" fill="currentColor" />
-									</svg>
-								{/if}
-							</span>
-							<a href="/$/{$page.data.path?.length ? $page.data.path + '/' : ''}{path}">
-								{path.slice(1) === $page.data.path ? "../" : ""}{path.split("/").pop()}
-							</a>
-						</li>
-					{/each}
-				</ul>
-			{:else if Object.keys(item[1]).includes("file")}
-				{#if $webcontainer.host}
-					<Code file={item[1].file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
-				{:else}
-					{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
-						<Code {file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
-					{/await}
+	{#if $webcontainer?.terminal}
+		{#await read($webcontainer, "/") then items}
+			{@const files = flat(items)}
+			{@const item = $page.data.path?.length
+				? files.find(([path]) => path.slice(1) === $page.data.path)
+				: [
+						"/",
+						{
+							directory: files
+								.filter(([path]) => path.slice(1).split("/").length === 1)
+								.reduce((acc, [path, item]) => {
+									acc[path.slice(1)] = item
+									return acc
+								}, {})
+						}
+				  ]}
+			{#if item}
+				{@const type = Object.keys(item[1]).includes("file") ? "file" : "directory"}
+				{#if type === "directory"}
+					{@const list = Object.entries(item[1].directory).sort((a, b) => {
+						if (a[1].directory && !b[1].directory) return -1
+						if (!a[1].directory && b[1].directory) return 1
+						return a[0].localeCompare(b[0])
+					})}
+					<ul on:keydown={arrows}>
+						{#each list as [path, item] (path)}
+							{@const type = Object.keys(item).includes("file") ? "file" : "directory"}
+							<li class={type}>
+								<span>
+									{#if type === "file"}
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2H5.75C4.7835 2 4 2.7835 4 3.75V20.25C4 21.2165 4.7835 22 5.75 22H18.25C19.2165 22 20 21.2165 20 20.25V10H13.75C12.7835 10 12 9.2165 12 8.25V2ZM8 14.25C8 13.8358 8.33579 13.5 8.75 13.5H12.25C12.6642 13.5 13 13.8358 13 14.25C13 14.6642 12.6642 15 12.25 15H8.75C8.33579 15 8 14.6642 8 14.25ZM8.75 17.5C8.33579 17.5 8 17.8358 8 18.25C8 18.6642 8.33579 19 8.75 19H15.25C15.6642 19 16 18.6642 16 18.25C16 17.8358 15.6642 17.5 15.25 17.5H8.75Z" fill="currentColor" />
+											<path d="M19.5566 8.5C19.5343 8.475 19.5112 8.45058 19.4874 8.42678L13.5732 2.51256C13.5494 2.48876 13.525 2.46571 13.5 2.44343V8.25C13.5 8.38807 13.6119 8.5 13.75 8.5H19.5566Z" fill="currentColor" />
+										</svg>
+									{:else}
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M3.75 3C2.7835 3 2 3.7835 2 4.75V18.25C2 19.2165 2.7835 20 3.75 20H20.25C21.2165 20 22 19.2165 22 18.25V7.75C22 6.7835 21.2165 6 20.25 6H12.5352C12.4516 6 12.3735 5.95822 12.3272 5.88867L10.9209 3.77927C10.5963 3.29243 10.0499 3 9.46482 3H3.75Z" fill="currentColor" />
+										</svg>
+									{/if}
+								</span>
+								<a href="/$/{$page.data.path?.length ? $page.data.path + '/' : ''}{path}">
+									{path.slice(1) === $page.data.path ? "../" : ""}{path.split("/").pop()}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{:else if Object.keys(item[1]).includes("file")}
+					{#if $webcontainer.host}
+						<Code file={item[1].file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
+					{:else}
+						{#await $webcontainer.fs.readFile($page.data.path, "utf8") then file}
+							<Code {file} code={$codemirror} tabs={true} wrap={true} type={$page.data.path.split(".").pop()} on:update={async (e) => await $webcontainer.fs.writeFile($page.data.path, e.detail)} />
+						{/await}
+					{/if}
 				{/if}
 			{/if}
-		{/if}
+		{/await}
 	{/if}
 </main>
 
@@ -302,9 +324,13 @@
 		</button>
 	</form>
 	<ul>
-		{#each memory as message (message.uuid)}
+		{#each memory as message (message.id)}
 			<li class={message.role}>
-				{@html mark(message.content)}
+				{#if message.image}
+					<img src={message.image} alt="AI" />
+				{:else}
+					{@html mark(message.content)}
+				{/if}
 			</li>
 		{/each}
 	</ul>
