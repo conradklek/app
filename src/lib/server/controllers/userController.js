@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import User from "$lib/server/models/User.js"
 
 export const createUser = async (userData) => {
@@ -15,10 +16,21 @@ export const getUserByEmail = async (email) => {
 }
 
 export const updateUser = async (userId, updateData) => {
-	const user = await User.findById(userId)
-	user.data = updateData
-	await user.save()
-	return user
+	if (!Types.ObjectId.isValid(userId)) {
+		throw new Error("Invalid user ID")
+	}
+
+	try {
+		const updatedUser = await User.findByIdAndUpdate(userId, { $set: { data: updateData } }, { new: true, runValidators: true })
+
+		if (!updatedUser) {
+			throw new Error("User not found")
+		}
+
+		return updatedUser
+	} catch (error) {
+		throw new Error(`Error updating user: ${error.message}`)
+	}
 }
 
 export const deleteUser = async (userId) => {
