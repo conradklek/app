@@ -117,12 +117,12 @@
 					& > li {
 						@apply mb-1;
 						& > article {
-							@apply flex flex-col items-start justify-start gap-2 p-0;
+							@apply flex flex-col items-start justify-start gap-2 p-0 bg-white rounded-sm;
 							& > * {
 								@apply bg-transparent rounded;
 							}
 							& p {
-								@apply p-2 whitespace-pre-wrap text-xs leading-5;
+								@apply p-2 whitespace-pre-wrap text-sm leading-5;
 							}
 							& pre {
 								@apply w-full p-2 text-sm leading-5 font-mono rounded-sm overflow-x-auto;
@@ -134,7 +134,7 @@
 					}
 				}
 				& > form {
-					@apply fixed bottom-0 right-0 grid w-screen p-5 bg-transparent;
+					@apply fixed bottom-0 right-0 grid w-screen p-5 bg-white;
 					grid-template-columns: 1fr auto;
 					& > div.code {
 						@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] rounded-sm bg-neutral-100 ring-1 ring-transparent;

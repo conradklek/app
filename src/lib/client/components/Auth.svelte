@@ -12,10 +12,9 @@
 				throw new Error(await response.text())
 			}
 			const json = await response.json()
-			console.log(json)
 			if (json.status === 200) {
-				await localforage.setItem("indexedDB", json.data.user.data || {})
-				window.location.reload()
+				await localforage.setItem("indexedDB", {})
+				goto("/")
 			}
 		} catch (error) {
 			console.log(error)
@@ -32,10 +31,9 @@
 				throw new Error(await response.text())
 			}
 			const json = await response.json()
-			console.log(json)
 			if (json.status === 200) {
 				await localforage.setItem("indexedDB", json.data.user.data || {})
-				window.location.reload()
+				goto("/")
 			}
 		} catch (error) {
 			console.log(error)

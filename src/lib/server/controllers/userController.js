@@ -15,7 +15,10 @@ export const getUserByEmail = async (email) => {
 }
 
 export const updateUser = async (userId, updateData) => {
-	return await User.findByIdAndUpdate(userId, updateData, { new: true })
+	const user = await User.findById(userId)
+	user.data = updateData
+	await user.save()
+	return user
 }
 
 export const deleteUser = async (userId) => {
