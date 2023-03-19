@@ -15,6 +15,10 @@ export const getUserByEmail = async (email) => {
 	return await User.findOne({ email })
 }
 
+export const getUserByUsername = async (username) => {
+	return await User.findOne({ username })
+}
+
 export const updateUser = async (userId, updateData) => {
 	if (!Types.ObjectId.isValid(userId)) {
 		throw new Error("Invalid user ID")
