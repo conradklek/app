@@ -14,7 +14,9 @@
 			const json = await response.json()
 			if (json.status === 200) {
 				await localforage.setItem("indexedDB", {})
-				goto("/")
+				setTimeout(() => {
+					goto("/")
+				}, 1000)
 			}
 		} catch (error) {
 			console.log(error)
@@ -33,7 +35,9 @@
 			const json = await response.json()
 			if (json.status === 200) {
 				await localforage.setItem("indexedDB", json.data.user.data || {})
-				goto("/")
+				setTimeout(() => {
+					goto("/")
+				}, 1000)
 			}
 		} catch (error) {
 			console.log(error)
