@@ -71,8 +71,8 @@
 					bind:this={editor}
 				/>
 			</label>
-			<div class="z-10 sticky top-0 right-0 flex flex-row items-center justify-end h-full aspect-[1/1] ml-auto pr-5 whitespace-nowrap bg-blue-500/50">
-				<button type="submit" class="flex items-center justify-center w-8 h-8 rounded-sm bg-blue-500/50">
+			<div class="z-10 sticky top-0 right-0 flex flex-row items-center justify-center h-full aspect-[1/1] ml-auto whitespace-nowrap bg-blue-500/50">
+				<button type="submit" class="flex items-center justify-center w-10 h-10 rounded-sm whitespace-nowrap focus:outline-none bg-blue-500/25 focus:bg-blue-500/50 ring ring-transparent focus:ring-blue-500/20 focus:ring-offset-1 focus:ring-offset-blue-500/50">
 					<img alt="send" src={_send} />
 				</button>
 			</div>
