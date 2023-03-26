@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken"
 import { JWT_SECRET } from "$env/static/private"
 
-export const createToken = (payload) => {
+export const createSession = (payload) => {
 	return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" })
 }
 
-export const verifyToken = (token) => {
+export const verifySession = (session) => {
 	try {
-		return jwt.verify(token, JWT_SECRET)
+		return jwt.verify(session, JWT_SECRET)
 	} catch (error) {
 		return null
 	}

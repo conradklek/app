@@ -4,204 +4,34 @@
 
 @layer base {
 	body {
-		@apply relative grid w-screen h-screen overflow-hidden bg-neutral-50 text-neutral-900;
-		grid-template-rows: auto calc(100vh-10rem) auto;
-		grid-template-columns: auto 1fr auto;
-		grid-template-areas:
-			"aside header nav"
-			"aside main main"
-			"aside footer footer";
-		& > #svelte {
-			& > aside {
-				@apply z-0 sticky top-0 left-0 w-0 h-screen;
-				grid-area: aside;
-			}
-			& > main {
-				@apply z-10 relative w-full h-[calc(100vh-10rem)] bg-white overflow-x-hidden overflow-y-auto;
-				grid-area: main;
-				& > div.code {
-					@apply grid place-items-center w-full rounded-sm overflow-x-auto;
-					.cm-editor.ͼ1.ͼ2.ͼ4 {
-						& > .cm-scroller {
-							& .cm-content {
-								& > .cm-line {
-									@apply pl-5;
-								}
-							}
-						}
-					}
-				}
-				& > ul {
-					@apply grid grid-cols-2 gap-2.5 w-full p-5 pt-px;
-					> li {
-						@apply relative flex flex-row items-center w-full h-10 rounded-sm bg-neutral-100 border border-neutral-100 focus-within:border-blue-50/75 ring-1 ring-transparent focus-within:ring-blue-200/90 focus-within:bg-blue-200/75 focus-within:text-blue-700 active:bg-blue-200/90 transition-all duration-75 ease-in-out;
-						> span {
-							@apply absolute top-0 left-0 w-10 h-10 aspect-[1/1] grid place-items-center pointer-events-none;
-							> svg {
-								@apply block;
-							}
-						}
-						> a {
-							@apply block break-words line-clamp-1 w-full leading-10 pl-10 font-medium focus:outline-none select-none;
-						}
-					}
-				}
-			}
-			& > footer {
-				@apply z-40 sticky bottom-0 left-0 grid place-items-center w-full h-20 bg-white;
-				grid-area: footer;
-				& > ol {
-					@apply flex flex-row items-center justify-start gap-1 w-full h-10 mx-5 pl-5 overflow-x-auto rounded-sm bg-neutral-100 ring-1 ring-transparent;
-					& > li {
-						@apply flex flex-row items-center justify-start h-full font-medium -mr-3 pr-2.5;
-						& svg {
-							@apply block translate-y-px;
-						}
-						& > a {
-							@apply block leading-9 whitespace-nowrap focus:outline-none;
-						}
-					}
-					& > button {
-						@apply sticky top-0 right-0 grid place-items-center h-full aspect-[2/1] ml-auto bg-neutral-100 ring-1 ring-transparent;
-						& > svg {
-							@apply block;
-						}
-					}
-				}
-			}
-			& > header {
-				@apply z-40 sticky top-0 left-0 grid w-[calc(100vw-5rem)] h-20 bg-white;
-				grid-area: header;
-				grid-template-columns: auto 1fr;
-				& > div {
-					@apply grid place-items-center w-20 h-20 aspect-[1/1];
-					& > a {
-						@apply grid place-items-center w-10 h-10 rounded-sm bg-neutral-100 focus:outline-none ring-1 ring-transparent;
-						& > svg {
-							@apply block;
-						}
-					}
-				}
-				& > nav {
-					@apply grid place-items-center w-full h-10 my-auto;
-					grid-template-columns: 1fr auto;
-					& > div.code {
-						@apply grid place-items-center w-[calc(100vw-10rem)] h-10 px-1.5 rounded-sm bg-neutral-100 focus:outline-none ring-1 ring-transparent;
-					}
-				}
-			}
-			& > nav {
-				@apply z-30 sticky top-0 right-0 w-20 h-20 grid place-items-center bg-white;
-				grid-area: nav;
-				& > button[type="button"],
-				& > a {
-					@apply grid place-items-center w-10 h-10 rounded-sm bg-neutral-100 focus:outline-none ring-1 ring-transparent;
-					& > svg {
-						@apply block;
-					}
-				}
-			}
-			& > dialog {
-				@apply w-screen h-screen flex-col-reverse items-center justify-start m-0 mx-auto p-0 bg-transparent overflow-x-hidden overflow-y-auto;
-				&[open] {
-					@apply flex;
-				}
-				&::backdrop {
-					@apply bg-neutral-50;
-				}
-				&:modal {
-					@apply max-w-none max-h-none;
-				}
-				& > ul {
-					@apply flex flex-col gap-2 w-full p-5 pb-24;
-					& > li {
-						@apply mb-1;
-						& > article {
-							@apply flex flex-col items-start justify-start gap-2 p-0 bg-white rounded-sm;
-							& > * {
-								@apply bg-transparent rounded;
-							}
-							& p {
-								@apply p-2 whitespace-pre-wrap text-sm leading-5;
-							}
-							& pre {
-								@apply w-full p-2 text-sm leading-5 font-mono rounded-sm overflow-x-auto;
-							}
-						}
-						&.user > article {
-							@apply items-end;
-						}
-					}
-				}
-				& > form {
-					@apply fixed bottom-0 right-0 grid w-screen p-5 bg-white;
-					grid-template-columns: 1fr auto;
-					& > div.code {
-						@apply grid place-items-center w-[calc(100vw-6.25rem)] min-h-[2.5rem] rounded-sm bg-neutral-100 ring-1 ring-transparent;
-						& > .cm-editor.ͼ1.ͼ2.ͼ4 {
-							@apply px-1.5;
-							& > .cm-scroller {
-								& .cm-gutters {
-									@apply hidden;
-								}
-							}
-						}
-					}
-					& > button[type="submit"] {
-						@apply grid place-items-center w-10 h-10 aspect-[1/1] mt-auto mb-0 rounded-sm bg-neutral-100 text-black focus:outline-none ring-1 ring-transparent;
-						& > svg {
-							@apply block;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-#auth {
-	@apply fixed inset-0 flex flex-col items-start justify-start gap-y-10 w-screen h-screen p-5 bg-white;
-	& > form {
-		@apply flex flex-col items-start justify-start;
-		& > button[type="submit"],
-		& > label,
-		& > input {
-			@apply px-1.5;
-		}
-		& > button[type="submit"] {
-			@apply mt-1.5;
-		}
+		@apply w-screen overflow-x-hidden overscroll-none bg-blue-500/50;
 	}
 }
 
 .cm-editor.ͼ1.ͼ2.ͼ4 {
 	@apply w-full;
-	&.cm-focused {
-		@apply outline-none;
-	}
-	& > .cm-scroller {
-		@apply font-sans;
-		& .cm-gutters {
-			@apply min-w-[3.75rem] pl-5 bg-neutral-100 border-r-0 rounded-r-sm;
-			& .cm-gutterElement {
-				@apply ml-auto text-right font-medium text-base leading-6 text-black tabular-nums;
-				&.cm-activeLineGutter {
-					@apply bg-transparent;
-				}
-			}
-		}
-		& > .cm-cursorLayer {
-			& > .cm-cursor {
-				@apply border-black;
-			}
-		}
-		& .cm-content {
-			& > .cm-line {
-				@apply font-medium text-base leading-6 text-black;
-				&.cm-activeLine {
-					@apply bg-transparent;
-				}
-			}
-		}
-	}
+}
+.cm-editor.ͼ1.ͼ2.ͼ4.cm-focused {
+	@apply outline-none;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller {
+	@apply font-sans;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters {
+	@apply min-w-[3.75rem] pl-5 bg-neutral-100 border-r-0;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters .cm-gutterElement {
+	@apply ml-auto text-right font-medium text-base leading-6 text-black tabular-nums;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters .cm-gutterElement.cm-activeLineGutter {
+	@apply bg-transparent;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller > .cm-cursorLayer > .cm-cursor {
+	@apply border-black;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-content > .cm-line {
+	@apply font-medium text-base leading-6 text-black;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-content > .cm-line.cm-activeLine {
+	@apply bg-transparent;
 }

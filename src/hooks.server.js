@@ -1,20 +1,13 @@
-import { connectDB } from "$lib/server/db.js"
-import { verifyToken } from "$lib/server/session.js"
+import { verifySession } from "$lib/server/session"
+import { connectDB } from "$lib/server/db"
 
 connectDB()
 
 export async function handle({ event, resolve }) {
-	const token = event.cookies.get("token") || null
-	const user = token ? verifyToken(token) : null
+	const session = event.cookies.get("session") || null
+	const user = session ? verifySession(session) : null
 	event.locals.user = user
 	const response = await resolve(event)
-	response.headers.set("authorization", token)
+	response.headers.set("authorization", session)
 	return response
-}
-
-export function getSession({ event }) {
-	const { user } = event.locals
-	return {
-		user
-	}
 }
