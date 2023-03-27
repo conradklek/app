@@ -40,4 +40,4 @@
 	})
 </script>
 
-<div bind:this={node} class="bg-blue-500/25 overflow-hidden border-b border-b-blue-500/20" />
+<div bind:this={node} class="bg-blue-500/25 overflow-hidden" />

@@ -1,28 +1,24 @@
 <script>
-	import { browser } from "$app/environment"
-	import { onMount, onDestroy, createEventDispatcher } from "svelte"
+	import { onMount, onDestroy } from "svelte"
 	export let menu = null
 	function close(e) {
-		if (e.target.closest("#menu")) return
 		menu = null
-	}
-	$: {
-		if (browser) {
-			window.addEventListener("click", close)
-			if (menu.x + 128 > window.innerWidth) {
-				menu.x = window.innerWidth - 128
-			}
-			if (menu.y + 128 > window.innerHeight) {
-				menu.y = window.innerHeight - 128
-			}
-		}
 	}
 	onMount(() => {
 		console.log("mounted", menu)
+		window.addEventListener("scroll", close)
+		window.addEventListener("click", close)
+		if (menu.x + 128 > window.innerWidth) {
+			menu.x = window.innerWidth - 136
+		}
+		if (menu.y + 128 > window.innerHeight) {
+			menu.y = window.innerHeight - 128
+		}
 	})
 	onDestroy(() => {
 		console.log("destroyed")
 		window.removeEventListener("click", close)
+		window.removeEventListener("scroll", close)
 	})
 </script>
 

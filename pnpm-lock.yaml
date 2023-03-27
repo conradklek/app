@@ -15,6 +15,7 @@ specifiers:
   '@sveltejs/kit': ^1.14.0
   '@tailwindcss/aspect-ratio': ^0.4.2
   '@tailwindcss/line-clamp': ^0.4.2
+  '@webcontainer/api': 1.0.1
   bcrypt: ^5.1.0
   codemirror: ^6.0.1
   jsonwebtoken: ^9.0.0
@@ -27,9 +28,9 @@ specifiers:
   svelte: ^3.57.0
   svelte-preprocess: ^5.0.3
   tailwindcss: ^3.2.7
-  three: ^0.150.1
   vercel: ^28.18.1
   vite: ^4.2.1
+  xterm: ^5.1.0
 
 dependencies:
   '@codemirror/commands': 6.2.2
@@ -42,12 +43,13 @@ dependencies:
   '@codemirror/state': 6.2.0
   '@codemirror/view': 6.9.3
   '@markdoc/markdoc': 0.2.2
+  '@webcontainer/api': 1.0.1
   bcrypt: 5.1.0
   codemirror: 6.0.1
   jsonwebtoken: 9.0.0
   mongoose: 7.0.3
   openai: 3.2.1
-  three: 0.150.1
+  xterm: 5.1.0
 
 devDependencies:
   '@sveltejs/adapter-vercel': 2.4.1_@sveltejs+kit@1.14.0
@@ -3154,6 +3156,10 @@ packages:
     resolution: {integrity: sha512-BEO6al7BYqcnfX15W2cnGR+Q566ACXAT9UQykORCWW80lmkpWsnEob6zJS1ZVBKsSJC8+7vJkHwlp+lXG1UCdw==}
     dev: true
 
+  /@webcontainer/api/1.0.1:
+    resolution: {integrity: sha512-+NDt/H4ntx3F10gMmj9kP3xfxlYu/U4uQ4+70dA05ZZQndnfrGjShkk7nDjbbqHy8920cw8QQtmM2CjJnxNB2A==}
+    dev: false
+
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
 
@@ -4842,7 +4848,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       glob: 7.2.3
       ignore: 5.2.4
       merge2: 1.4.1
@@ -7394,10 +7400,6 @@ packages:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  /three/0.150.1:
-    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
-    dev: false
-
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: true
@@ -7975,6 +7977,10 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
     dev: true
+
+  /xterm/5.1.0:
+    resolution: {integrity: sha512-LovENH4WDzpwynj+OTkLyZgJPeDom9Gra4DMlGAgz6pZhIDCQ+YuO7yfwanY+gVbn/mmZIStNOnVRU/ikQuAEQ==}
+    dev: false
 
   /yallist/3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}

@@ -1,8 +1,16 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { createSession } from "$lib/server/session"
-import { getUserByEmail } from "$lib/server/controllers/user"
+import { getUserByEmail, getUserByUsername } from "$lib/server/controllers/user"
 
 export async function load({ locals }) {
+	if (locals.user) {
+		const user = await getUserByUsername(locals.user.username)
+		if (!user) {
+			locals.user = null
+		} else {
+			locals.user.data = user.data
+		}
+	}
 	return {
 		user: locals.user
 	}
