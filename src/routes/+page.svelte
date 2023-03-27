@@ -5,16 +5,33 @@
 	import { wc } from "$lib/client/stores/wc"
 	export let data
 	let node
-	async function init(terminal) {
-		const installProcess = await $wc.spawn("pnpm", ["install"])
-		installProcess.output.pipeTo(
+	async function pipe(stream) {
+		const process = await stream
+		process.output.pipeTo(
 			new WritableStream({
 				write(data) {
-					terminal.write(data)
+					$wc.terminal.write(data)
 				}
 			})
 		)
-		return installProcess.exit
+		return process.exit
+	}
+	async function read(path) {
+		const obj = {}
+		const dir = await $wc.fs.readdir(path, { withFileTypes: true })
+		for (const file of dir) {
+			if (file.isDirectory()) {
+				if (file.name === "node_modules" || file.name.startsWith(".")) continue
+				obj[file.name] = { directory: await read(`${path}/${file.name}`) }
+			} else if (file.isFile()) {
+				obj[file.name] = {
+					file: {
+						contents: await $wc.fs.readFile(`${path}/${file.name}`, "utf8")
+					}
+				}
+			}
+		}
+		return obj
 	}
 	onMount(async () => {
 		if (data.user) {
@@ -28,23 +45,19 @@
 					const { WebContainer } = await import("@webcontainer/api")
 					$wc = await WebContainer.boot()
 					await $wc.mount(data.user.data)
+					$wc.terminal = terminal
 					if (data.user.data["package.json"]) {
 						const json = JSON.parse(data.user.data["package.json"].file.contents)
 						console.log(json)
-						const exit = await init(terminal)
+						const exit = await pipe($wc.spawn("pnpm", ["install"]))
 						if (exit === 0) {
-							const serverProcess = await $wc.spawn("pnpm", ["start"])
-							serverProcess.output.pipeTo(
-								new WritableStream({
-									write(data) {
-										terminal.write(data)
-									}
-								})
-							)
+							const files = await read("/")
+							console.log(files)
+							terminal.writeln("Installation complete!")
 							$wc.on("server-ready", (port, url) => {
 								$wc.src = url
 							})
-							terminal.writeln("Installation complete!")
+							await pipe($wc.spawn("pnpm", ["start"]))
 						} else {
 							terminal.writeln("Installation failed!")
 						}
@@ -73,8 +86,6 @@
 		<a href="/{data.user.username}" class="block h-8 px-1.5 font-medium leading-8 rounded-sm whitespace-nowrap focus:outline-none bg-blue-500/25 focus:bg-blue-500/50 ring ring-transparent focus:ring-blue-500/20 focus:ring-offset-1 focus:ring-offset-blue-500/50">{data.user.username}</a>
 		<button type="submit" class="block h-8 px-1.5 font-medium leading-8 rounded-sm whitespace-nowrap focus:outline-none bg-blue-500/25 focus:bg-blue-500/50 ring ring-transparent focus:ring-blue-500/20 focus:ring-offset-1 focus:ring-offset-blue-500/50">Logout</button>
 	</form>
+	<iframe title={data.user.username} class="w-full h-[calc(100vh-5rem)] overflow-hidden" src={$wc?.src || ""} />
+	<div bind:this={node} class="w-full h-[calc(100vh-5rem)] overflow-hidden" />
 {/if}
-
-<iframe title={data.user.username} class="w-full h-[calc(100vh-5rem)] overflow-hidden" src={$wc?.src || ""} />
-
-<div bind:this={node} class="w-full h-[calc(100vh-5rem)] overflow-hidden" />
