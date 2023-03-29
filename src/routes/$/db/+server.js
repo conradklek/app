@@ -23,7 +23,7 @@ function walk(tree, path, data) {
 
 async function processCommand({ command, args, path, data, file, load, user }) {
 	const error = (message) => json({ status: 400, message })
-	if (file && command !== "echo") {
+	if (file && file !== "null" && command !== "echo") {
 		return error("You are not in a directory")
 	}
 	const updateData = async (newData) => {

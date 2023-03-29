@@ -1,5 +1,7 @@
 <script>
 	import { enhance, applyAction } from "$app/forms"
+	export let messages = []
+	export let controls = {}
 	export let load
 	export let path
 	export let file
@@ -55,7 +57,11 @@
 				cancel()
 			}
 			data.set("data", JSON.stringify(load))
-			if (file) data.set("file", file?.viewState.state.doc.toString() ?? null)
+			if (path.endsWith(".gpt")) {
+				data.set("file", JSON.stringify({ messages, controls }))
+			} else {
+				data.set("file", file?.viewState?.state.doc.toString() ?? null)
+			}
 			data.set("path", path)
 			form.reset()
 			return async ({ result }) => {

@@ -1,11 +1,12 @@
 <script>
 	import { _send } from "$lib/assets/svg"
 	import Markdoc from "@markdoc/markdoc"
+	export let messages = []
+	export let controls = {}
 	export let chat
 	export let file
 	let editor
 	$: prompt = ""
-	$: messages = []
 	function mark(doc) {
 		const ast = Markdoc.parse(doc)
 		const content = Markdoc.transform(ast)
@@ -14,16 +15,16 @@
 	}
 	async function submit() {
 		if (prompt.trim().length) {
-			messages.push({ role: "user", content: prompt, id: crypto.randomUUID(), date: new Date() })
+			messages.push({ role: "user", content: prompt, id: crypto.randomUUID(), date: new Date().toISOString() })
 			messages = messages
 			prompt = ""
 			const res = await fetch("/$/ai", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ messages, document: file ? file.viewState.state.doc.toString() : "" })
+				body: JSON.stringify({ messages, document: file ? file.viewState.state.doc.toString() : "", controls })
 			})
 			const data = await res.json()
-			messages.push({ role: "assistant", content: data.choices[0].message.content, id: data.id, date: new Date() })
+			messages.push({ role: "assistant", content: data.choices[0].message.content, id: data.id, date: new Date().toISOString() })
 			messages = messages
 			console.table(messages)
 		} else {
@@ -81,10 +82,9 @@
 			<li class="flex flex-col items-start justify-start w-[calc(100vw-1.25rem)] mx-auto p-2.5 bg-white rounded-sm">
 				<div class="flex flex-row items-center justify-between gap-1 w-full p-1">
 					<span class="px-1">{message.role}</span>
-					<span class="px-1">{message.date.toLocaleTimeString()}</span>
 				</div>
 				<div class="flex flex-row items-center justify-between gap-1 w-full p-1">
-					<span class="px-1">{@html message.content}</span>
+					<span class="px-1">{@html mark(message.content)}</span>
 				</div>
 			</li>
 		{/each}

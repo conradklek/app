@@ -1,7 +1,6 @@
 <script>
 	import "xterm/css/xterm.css"
 	import { onMount } from "svelte"
-	import { browser } from "$app/environment"
 	import { wc } from "$lib/client/stores/wc"
 	export let data
 	let node
@@ -21,7 +20,7 @@
 		const dir = await $wc.fs.readdir(path, { withFileTypes: true })
 		for (const file of dir) {
 			if (file.isDirectory()) {
-				if (file.name === "node_modules" || file.name.startsWith(".")) continue
+				if (file.name === "node_modules" || file.name.startsWith(".") || file.name === "pnpm-lock.yaml") continue
 				obj[file.name] = { directory: await read(`${path}/${file.name}`) }
 			} else if (file.isFile()) {
 				obj[file.name] = {
@@ -47,14 +46,12 @@
 					await $wc.mount(data.user.data)
 					$wc.terminal = terminal
 					if (data.user.data["package.json"]) {
-						const json = JSON.parse(data.user.data["package.json"].file.contents)
-						console.log(json)
 						const exit = await pipe($wc.spawn("pnpm", ["install"]))
 						if (exit === 0) {
 							const files = await read("/")
 							console.log(files)
 							terminal.writeln("Installation complete!")
-							$wc.on("server-ready", (port, url) => {
+							$wc.on("server-ready", async (port, url) => {
 								$wc.src = url
 							})
 							await pipe($wc.spawn("pnpm", ["start"]))
@@ -68,9 +65,6 @@
 			}
 		}
 	})
-	$: {
-		if (browser) console.log(data)
-	}
 </script>
 
 {#if !data.user}

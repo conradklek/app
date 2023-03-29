@@ -1,11 +1,13 @@
 <script>
 	import { _caret, _chat, _command, _file, _folder } from "$lib/assets/svg"
-	import { Chat, Code, Menu, Node } from "$lib/client/components"
+	import { Chat, Code, Menu, Node, Room } from "$lib/client/components"
 	export let data
 	$: chat = null
 	$: code = null
 	$: node = null
 	$: menu = null
+	$: messages = []
+	$: controls = {}
 </script>
 
 <header class="z-10 sticky top-0 left-0 grid grid-flow-col items-center justify-between w-screen h-20 overflow-auto bg-blue-500/50 border-b border-b-blue-500/25 shadow-[0_4px_0_hsla(220DEG,100%,50%,0.075)]">
@@ -58,10 +60,12 @@
 
 <main class="z-0 relative w-screen min-h-[calc(100vh-10rem)] mx-auto overflow-x-hidden">
 	{#if data.load}
-		{#if Object.keys(data.load).includes("contents")}
+		{#if Object.keys(data.load).join("") === "contents"}
 			{@const type = data.path?.split(".").pop()}
 			{#if ["md", "js", "html", "css", "json"].includes(type)}
 				<Code bind:code file={data.load.contents} {type} />
+			{:else if ["gpt"].includes(type)}
+				<Room bind:messages bind:controls contents={data.load.contents} />
 			{/if}
 		{:else}
 			<ul class="grid grid-cols-2 gap-2.5 p-5 bg-blue-500/25 border-b border-b-blue-500/25">
@@ -98,9 +102,9 @@
 	</div>
 </footer>
 
-<Chat bind:chat bind:file={code} />
+<Chat bind:chat bind:file={code} bind:messages bind:controls />
 
-<Node bind:node path={data.path} load={data.load} file={code} />
+<Node bind:node path={data.path} load={data.load} file={code} bind:messages bind:controls />
 
 {#if menu}
 	<Menu bind:menu />
