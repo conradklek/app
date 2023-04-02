@@ -74,7 +74,7 @@ function extractFormInputs(form) {
 		code: form.get("code"),
 		path: form.get("path").split("/"),
 		file: form.get("file"),
-		data: JSON.parse(form.get("data")),
+		data: form.get("data") ? JSON.parse(form.get("data")) : null,
 		load: form.get("load") ? JSON.parse(form.get("load")) : null
 	}
 }
@@ -150,7 +150,25 @@ async function moveItem({ args, path, data, user, updateData, error }) {
 }
 
 async function loadData({ path, data, load, user, updateData, error }) {
-	const mergedData = { ...data, ...load }
+	const deepMerge = (target, source) => {
+		const isObject = (obj) => obj && typeof obj === "object"
+		if (!isObject(target) || !isObject(source)) {
+			return source
+		}
+		Object.keys(source).forEach((key) => {
+			const targetValue = target[key]
+			const sourceValue = source[key]
+			if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+				target[key] = targetValue.concat(sourceValue)
+			} else if (isObject(targetValue) && isObject(sourceValue)) {
+				target[key] = deepMerge(Object.assign({}, targetValue), sourceValue)
+			} else {
+				target[key] = sourceValue
+			}
+		})
+		return target
+	}
+	const mergedData = deepMerge(data, load)
 	if (path.length === 1) {
 		user.data = mergedData
 	} else {

@@ -1,7 +1,6 @@
 <script>
+	import { _search } from "$lib/assets/svg"
 	import { enhance, applyAction } from "$app/forms"
-	export let messages = []
-	export let controls = {}
 	export let load
 	export let path
 	export let file
@@ -48,35 +47,38 @@
 		action="/$/db"
 		method="POST"
 		use:enhance={async ({ form, data, action, cancel, submitter }) => {
-			const code = data.get("code")
+			let code = data.get("code")
 			if (code.trim().length) {
 				if (code.trim().toLowerCase() === "load") {
 					data.set("load", JSON.stringify(await upload()))
+				} else {
+					data.set("data", JSON.stringify(load))
 				}
+				if (path.endsWith(".gpt")) {
+					//data.set("file", JSON.stringify({ messages, controls }))
+				} else {
+					data.set("file", file?.viewState?.state.doc.toString() ?? null)
+				}
+				data.set("path", path)
 			} else {
 				cancel()
 			}
-			data.set("data", JSON.stringify(load))
-			if (path.endsWith(".gpt")) {
-				data.set("file", JSON.stringify({ messages, controls }))
-			} else {
-				data.set("file", file?.viewState?.state.doc.toString() ?? null)
-			}
-			data.set("path", path)
-			form.reset()
 			return async ({ result }) => {
 				if (result.status === 200) {
 					await applyAction(result)
+					form.reset()
 				} else {
 					console.log(result)
 				}
 			}
 		}}
-		class="flex flex-row items-center justify-center w-screen h-10 my-5"
+		class="flex flex-row items-center justify-center w-screen h-20 p-5"
 	>
-		<label for="code" class="block w-full">
-			<span class="sr-only">Command</span>
-			<input type="text" id="code" name="code" autocomplete="off" class="w-full h-10 p-2.5 leading-10 focus:outline-none" />
+		<label for="code" class="flex flex-row items-center justify-center w-full">
+			<div class="flex flex-row items-center justify-center w-10 h-10 aspect-[1/1] rounded-l-sm bg-white">
+				<img alt="command" src={_search} />
+			</div>
+			<input type="text" id="code" name="code" autocomplete="off" class="w-full h-10 px-0 leading-10 focus:outline-none rounded-r-sm" />
 		</label>
 	</form>
 </dialog>

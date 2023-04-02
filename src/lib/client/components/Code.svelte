@@ -17,7 +17,7 @@
 
 	const dispatch = createEventDispatcher()
 
-	onMount(() => {
+	onMount(async () => {
 		code = new EditorView({
 			state: EditorState.create({
 				doc: file,
@@ -26,8 +26,10 @@
 					keymap.of([indentWithTab]),
 					type === "md" ? markdown({ codeLanguages: languages }) : type === "js" ? javascript() : type === "html" ? html() : type === "css" ? css() : json(),
 					EditorView.lineWrapping,
-					EditorView.updateListener.of((update) => {
-						if (update.docChanged) dispatch("update", update.state.doc.toString())
+					EditorView.updateListener.of(async (update) => {
+						if (update.docChanged) {
+							dispatch("update", update.state.doc.toString())
+						}
 					})
 				]
 			}),
