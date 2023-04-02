@@ -1,13 +1,19 @@
 <script>
+	import { invalidateAll } from "$app/navigation"
+	import { enhance } from "$app/forms"
 	import { _caret, _chat, _command, _file, _folder } from "$lib/assets/svg"
 	import { Chat, Code, Form, Mask, Menu, Node } from "$lib/client/components"
 	export let data
-	export let form
+	$: form = null
 	$: chat = null
 	$: code = null
 	$: node = null
 	$: menu = null
 	$: bool = true
+	$: {
+		console.log(data)
+		console.log(form)
+	}
 </script>
 
 {#if data.user?.username === data.path?.split("/")[0]}
@@ -119,10 +125,45 @@
 	<Node bind:node path={data.path} load={data.load} file={code} />
 
 	{#if menu}
-		<Menu bind:menu />
+		<Menu bind:menu>
+			<form
+				method="POST"
+				action="/{menu.path}?/pwd"
+				use:enhance={async () => {
+					return async ({ result }) => {
+						console.log(result)
+						if (result?.status === 200) {
+							console.log(result.data.path)
+							menu = null
+						}
+					}
+				}}
+				class="flex flex-row items-center justify-center w-full h-8 bg-blue-500/50"
+			>
+				<button type="submit" class="w-full h-full px-1.5 leading-8 text-left">pwd</button>
+			</form>
+			{#if menu.item}
+				<form
+					method="POST"
+					action="/{menu.path}?/rm"
+					use:enhance={async () => {
+						return async ({ result }) => {
+							console.log(result)
+							if (result?.status === 200) {
+								await invalidateAll()
+								menu = null
+							}
+						}
+					}}
+					class="flex flex-row items-center justify-center w-full h-8 bg-blue-500/50"
+				>
+					<button type="submit" class="w-full h-full px-1.5 leading-8 text-left">rm</button>
+				</form>
+			{/if}
+		</Menu>
 	{/if}
 
 	{#if form}
-		<Form {form} />
+		<Form bind:form />
 	{/if}
 {/if}

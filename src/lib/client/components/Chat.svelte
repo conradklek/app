@@ -6,46 +6,20 @@
 	export let chat
 	let editor
 	$: prompt = ""
-	/*
-	function mark(doc) {
-		const ast = Markdoc.parse(doc)
-		const content = Markdoc.transform(ast)
-		const html = Markdoc.renderers.html(content)
-		return html
-	}
-	*/
 	async function submit() {
 		if (prompt.trim().length) {
-			messages.push({ role: "user", content: prompt, id: crypto.randomUUID(), date: new Date().toISOString() })
-			messages = messages
-			prompt = ""
 			const response = await fetch("/$/ai", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ messages, controls, path })
+				body: JSON.stringify({ messages: [...messages, { role: "user", content: prompt, id: crypto.randomUUID(), date: new Date().toISOString() }], controls, path })
 			})
-			const readable = response.body.getReader()
-			const decoder = new TextDecoder()
-			let message = { role: "assistant", content: "", id: crypto.randomUUID(), date: new Date().toISOString() }
-			messages.push(message)
-			messages = messages
-			let regex = /data:\s*(\{[^}]*\})/g
-			while (true) {
-				const { done, value } = await readable.read()
-				if (done) break
-				const text = decoder.decode(value)
-				let match
-				while ((match = regex.exec(text)) !== null) {
-					const chunk = match[1]
-					let reg = /{"content":\s*(?:"([^"]*)"|null)/g
-					let obj = reg.exec(chunk)
-					if (obj) {
-						message.content += obj[1] || ""
-						messages = messages
-					}
-				}
+			if (response.status === 200) {
+				const { messages: _messages, controls: _controls } = await response.json()
+				messages = _messages
+				controls = _controls
+				prompt = ""
+				console.log(messages, controls)
 			}
-			console.log(message)
 		} else {
 			prompt = ""
 			chat.close()
@@ -108,11 +82,4 @@
 			</li>
 		{/each}
 	</ol>
-	<!--
-	<form action="/$/db" class="z-30 fixed top-0 right-0 w-20 h-20 flex items-center justify-center bg-blue-500/50">
-		<button type="submit" class="flex items-center justify-center w-10 h-10 rounded-sm whitespace-nowrap focus:outline-none bg-blue-500/25 focus:bg-blue-500/50 ring ring-transparent focus:ring-blue-500/20 focus:ring-offset-1 focus:ring-offset-blue-500/50">
-			<img alt="save" src={_save} />
-		</button>
-	</form>
-	-->
 </dialog>
