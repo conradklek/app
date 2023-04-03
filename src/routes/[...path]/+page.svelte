@@ -2,9 +2,8 @@
 	import { invalidateAll } from "$app/navigation"
 	import { enhance } from "$app/forms"
 	import { _caret, _chat, _command, _file, _folder } from "$lib/assets/svg"
-	import { Chat, Code, Form, Mask, Menu, Node } from "$lib/client/components"
+	import { Chat, Code, Mask, Menu, Node } from "$lib/client/components"
 	export let data
-	$: form = null
 	$: chat = null
 	$: code = null
 	$: node = null
@@ -12,7 +11,6 @@
 	$: bool = true
 	$: {
 		console.log(data)
-		console.log(form)
 	}
 </script>
 
@@ -161,9 +159,5 @@
 				</form>
 			{/if}
 		</Menu>
-	{/if}
-
-	{#if form}
-		<Form bind:form />
 	{/if}
 {/if}

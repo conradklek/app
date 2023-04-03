@@ -3,7 +3,7 @@ import { ChatOpenAI } from "langchain/chat_models"
 import { HumanChatMessage, SystemChatMessage } from "langchain/schema"
 import { OpenAI } from "langchain"
 import { initializeAgentExecutor } from "langchain/agents"
-import { SerpAPI, Calculator } from "langchain/tools"
+import { SerpAPI } from "langchain/tools"
 import { OPENAI_API_KEY, SERPAPI_API_KEY } from "$env/static/private"
 
 export async function POST({ locals, request }) {
@@ -14,14 +14,14 @@ export async function POST({ locals, request }) {
 	console.log(data)
 	let chat = new ChatOpenAI({ temperature: data.controls.temperature || 0.7, modelName: "gpt-4", openAIApiKey: OPENAI_API_KEY })
 	let system = data.controls.system || "You are an AI assistant."
-	system += "\nIf you do not know the answer, or would like to use a calculator, reply with three dots '...' and a search will be performed to provide you context."
+	system += "\nIf you do not know the answer, or would like information beyond the scope of this conversation, reply with three dots '...' and a search will be performed to provide you context."
 	console.log(system)
 	console.log(data.messages.map((message) => message?.content || ""))
 	let response = await chat.call([new SystemChatMessage(system), ...data.messages.map((message) => new HumanChatMessage(message?.content || ""))])
 	console.log(response)
-	if (response.text.toLowerCase().trim() === "idk") {
+	if (response.text.toLowerCase().trim() === "...") {
 		const model = new OpenAI({ temperature: 0, openAIApiKey: OPENAI_API_KEY })
-		const tools = [new SerpAPI(SERPAPI_API_KEY), new Calculator()]
+		const tools = [new SerpAPI(SERPAPI_API_KEY)]
 		const executor = await initializeAgentExecutor(tools, model, "zero-shot-react-description")
 		console.log("Loaded agent.")
 		let input = data.messages.at(-1).content

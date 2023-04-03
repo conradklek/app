@@ -27,7 +27,7 @@ export const actions = {
 		if (!isMatch) return fail(400, { email, incorrect: true })
 		const session = createSession({ id: user._id, username: user.username })
 		cookies.set("session", session)
-		throw redirect(303, "/" + user.username)
+		throw redirect(303, "/")
 	},
 	logout: async (event) => {
 		event.cookies.delete("session")
