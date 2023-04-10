@@ -8,21 +8,21 @@
 	$: show = false
 </script>
 
-<ul class="m-1.5 p-2.5 ring-2 ring-inset ring-indigo-300 rounded-sm">
+<ul class="m-1.5 p-2.5 bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 rounded-sm">
 	{#each keys as key (path + "/" + key)}
 		{@const item = data[key]}
 		{@const kind = Object.keys(item).join("")}
 		<li>
 			<slot {item}>
 				{#if kind === "directory"}
-					<button type="button" on:click={() => (show = !show)} class="flex flex-row items-center justify-start gap-1 whitespace-nowrap select-none font-medium focus:outline-none focus:text-indigo-400" class:text-indigo-400={show}>
+					<button type="button" on:click={() => (show = !show)} class="flex flex-row items-center justify-start gap-1 whitespace-nowrap select-none focus:outline-none" class:text-white={show}>
 						<div class="flex items-center justify-center w-7 h-7">
 							<img src={show ? _folder_open : _folder} alt="directory" class="block w-4 h-auto" />
 						</div>
 						{key}
 					</button>
 				{:else if kind === "file"}
-					<button type="button" on:click={() => ($lib.open = $lib.open?.path === path + "/" + key ? null : { path: path + "/" + key, item })} class="flex flex-row items-center justify-start gap-1 whitespace-nowrap select-none font-medium focus:outline-none focus:text-indigo-400" class:text-indigo-400={open(path + "/" + key)}>
+					<button type="button" on:click={() => ($lib.open = $lib.open?.path === path + "/" + key ? null : { path: path + "/" + key, item })} class="flex flex-row items-center justify-start gap-1 whitespace-nowrap select-none focus:outline-none" class:text-white={open(path + "/" + key)}>
 						<div class="flex items-center justify-center w-7 h-7">
 							<img src={_file} alt="file" class="block w-2.5 h-auto" />
 						</div>

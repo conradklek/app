@@ -130,15 +130,17 @@
 		return obj
 	}
 	onMount(async () => {
+		let response = await fetch("/$/db/conradklek", {
+			method: "GET"
+		})
+		console.log(response)
+		console.log(await response.json())
+		response = await fetch("/$/db/conradklek/library/index.html", {
+			method: "GET"
+		})
+		console.log(response)
+		console.log(await response.json())
 		if (data.user) {
-			const response = await fetch("/$", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({ user: data.user.username })
-			})
-			console.log(await response.json())
 			if (!$lib.data) {
 				$lib.data = data.user.data
 			}
@@ -175,7 +177,7 @@
 			<h2 class="relative px-5 text-white text-sm tracking-wide select-none">
 				<span class="font-regular">Artificial Intelligence</span>
 				<span class="block lg:inline font-light">&#8212; tailored to fit your every need</span>
-				<div class="absolute -bottom-0.5 -left-5 -translate-x-0.5 w-full h-0.5 bg-gradient-to-r from-transparent via-transparent via-40% to-[hsla(242DEG,100%,42%,1)]" />
+				<div class="absolute -bottom-0.5 -left-5 -translate-x-0.5 w-full h-0.5 bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-r from-transparent via-transparent via-40% to-[hsla(242DEG,100%,42%,1)]" />
 			</h2>
 			<form action="/?/login" method="POST" class="sticky bottom-0 right-0 flex flex-row items-center justify-center gap-x-2.5 h-28 mt-auto p-5 pt-0 bg-[hsla(242DEG,50%,2%,1)]">
 				<div class="flex flex-col items-start justify-start">
@@ -196,8 +198,8 @@
 	</div>
 	<section id="signup" class="relative z-20 w-screen min-h-[50vh] bg-[hsla(236DEG,28%,92%,1)]" />
 {:else}
-	<div class="relative h-screen flex flex-col overflow-y-auto xl:overflow-y-auto bg-black/95" class:overflow-y-hidden={$app.side === "right" || $lib.open} class:xl:overflow-y-hidden={$lib.open} bind:this={$app.root}>
-		<header class="z-50 sticky top-0 left-0 shrink-0">
+	<div class="relative h-screen flex flex-col overflow-y-auto xl:overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-[hsl(270DEG,6%,4%)]" class:overflow-y-hidden={$app.side === "right" || $lib.open} class:xl:overflow-y-hidden={$lib.open} bind:this={$app.root}>
+		<header class="z-50 sticky top-0 left-0 shrink-0 bg-gradient-to-r from-[hsl(240DEG,6%,6%)] via-[hsla(240DEG,6%,6%,90%)] to-[hsl(240DEG,6%,6%)] ring-1 ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 			<div class="mx-auto flex h-16 max-w-7xl items-center justify-start px-4 sm:px-6 lg:px-8">
 				<button
 					type="button"
@@ -205,13 +207,13 @@
 						$app.agent = null
 						$app = $app
 					}}
-					class="h-8 w-8 rounded-full focus:outline-none ring-2 ring-inset ring-indigo-300 focus:ring-indigo-400"
+					class="h-8 w-8 rounded-full focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
 				/>
 				<nav class="z-0 grid grid-flow-col items-center gap-1.5 pl-1.5">
 					<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 						<img alt="caret" src={_caret} class="block w-2 h-auto" />
 					</div>
-					<div class="block h-8 leading-8 px-2 rounded-sm select-none ring-2 ring-inset ring-indigo-300">
+					<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 						{#if $app.agent}
 							{$app.agent.name.slice(0, -4)}
 						{:else}
@@ -222,7 +224,7 @@
 				<div class="flex items-center gap-x-4 ml-auto">
 					<button
 						type="button"
-						class="block lg:hidden h-8 w-8 rounded-full cursor-pointer ring-2 ring-inset ring-indigo-300 focus:ring-indigo-400"
+						class="block lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
 						on:click={() => {
 							$app.side = $app.side === "left" ? null : "left"
 							$app = $app
@@ -230,7 +232,7 @@
 					/>
 					<button
 						type="button"
-						class="block xl:hidden h-8 w-8 rounded-full cursor-pointer ring-2 ring-inset ring-indigo-300 focus:ring-indigo-400"
+						class="block xl:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
 						on:click={() => {
 							$app.side = $app.side === "right" ? null : "right"
 							$app = $app
@@ -241,7 +243,7 @@
 		</header>
 
 		<div class="relative z-0 mx-auto flex w-full max-w-7xl items-start gap-x-0 sm:px-6 lg:px-8">
-			<aside class="w-60 h-[calc(100vh-4rem)] z-10 fixed lg:sticky top-16 left-0 hidden shrink-0 lg:block overflow-x-hidden overflow-y-auto bg-black" class:hidden={$app.side !== "left"}>
+			<aside class="w-60 h-[calc(100vh-4rem)] z-10 fixed lg:sticky top-16 left-0 hidden shrink-0 lg:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-r from-transparent to-[hsl(240DEG,6%,6%)] border-r border-r-[hsl(240DEG,6%,9%)]" class:hidden={$app.side !== "left"}>
 				<form
 					action="/$/db"
 					method="POST"
@@ -269,21 +271,21 @@
 					}}
 				>
 					<label for="agentName" class="sr-only">Agents</label>
-					<div class="w-full flex flex-row items-center justify-center rounded-sm ring-inset ring-2 ring-indigo-300 focus-within:ring-indigo-400">
-						<input id="agentName" name="agentName" type="text" autocomplete="off" class="w-full h-10 px-2.5 rounded-l-sm bg-transparent focus:outline-none" />
+					<div class="w-full flex flex-row items-center justify-center bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] rounded-sm shadow shadow-black/50">
+						<input id="agentName" name="agentName" type="text" autocomplete="off" class="w-full h-10 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)]" />
 						<button type="submit" class="flex items-center justify-center h-10 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none">create</button>
 					</div>
 				</form>
 				<ul class="grid grid-cols-1 gap-2.5 px-5 pb-5">
-					{#if $lib.host}
+					{#if $lib.host && $page.data.user?.data}
 						{#each Object.keys($page.data.user.data)
 							.map((item) => {
 								return { name: item, contents: data.user.data[item]?.file?.contents || data.user.data[item]?.directory, kind: [Object.keys(data.user.data[item]).join("")].includes("directory") ? "directory" : "file" }
 							})
 							.filter((item) => item.name.endsWith(".gpt")) as item (item.name)}
-							{@const { controls, messages } = JSON.parse(item.contents)}
+							{@const { controls, messages } = item?.contents?.length ? JSON.parse(item.contents) : {}}
 							<li class="flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
-								<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab">
+								<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 									{#if controls?.imageURL?.length}
 										<img alt={item.kind} src="data:image/png;base64,{controls.imageURL}" class="pointer-events-none object-cover rounded-sm" />
 									{/if}
@@ -294,16 +296,16 @@
 										$app.agent = null
 										$app = $app
 										queueMicrotask(() => {
-											if (item.contents.length) {
+											if (item.contents?.length) {
 												let { messages, controls } = JSON.parse(item.contents)
 												$app.agent = { name: item.name, contents: item.contents, messages, controls }
 											} else {
-												$app.agent = { name: item.name, contents: item.contents, messages: [], controls: {} }
+												$app.agent = { name: item.name, contents: "", messages: [], controls: {} }
 											}
 											$app = $app
 										})
 									}}
-									class="w-full h-full p-0.5 pl-2.5 text-left line-clamp-1 focus:outline-none select-none rounded-sm ring-2 ring-inset ring-indigo-300 focus-within:ring-indigo-400"
+									class="w-full h-full p-0.5 pl-2.5 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
 								>
 									{item.name.slice(0, -4)}
 								</button>
@@ -314,27 +316,31 @@
 			</aside>
 
 			<main id="feed" class="z-0 relative flex flex-col flex-1">
-				<ul id="list" bind:this={$app.feed} class="flex flex-col items-start justify-end w-full h-full min-h-[calc(100vh-11rem-4rem)] pb-5 lg:px-3">
+				<ul id="list" bind:this={$app.feed} class="flex flex-col items-start justify-end w-full h-full min-h-[calc(100vh-11rem-4rem)] pb-6 lg:px-3 xl:bg-gradient-to-tl xl:from-[hsl(240DEG,6%,6%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-transparent">
 					{#each $app.agent ? $app.agent.messages : $app.messages as message (message.id)}
 						{#if message.role === "assistant"}
-							<li class="flex flex-row items-start justify-start">
-								<div class="w-12 h-12 m-4 aspect-[1/1] rounded-sm ring-2 ring-inset ring-indigo-300">
+							<li class="flex flex-row items-start justify-start pr-16">
+								<div class="w-12 h-12 m-4 aspect-[1/1] rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50">
 									{#if $app.agent?.controls?.imageURL}
 										<img id="image" src="data:image/png;base64,{$app.agent.controls.imageURL}" class="w-full h-full object-cover rounded-sm" alt="Dall-e Generated Mask" />
 									{/if}
 								</div>
-								<div class="prose-invert prose-sm [&_article]:flex [&_article]:flex-col [&_article]:items-start [&_article]:justify-start pt-3 pr-4">{@html mark(message.content)}</div>
+								<div class="whitespace-pre-wrap text-sm flex flex-col items-start justify-start pt-3 pr-4">
+									<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-2"><!--{@html mark(message.content)}-->{message.content}</div>
+								</div>
 							</li>
 						{:else}
-							<li class="flex flex-row items-start justify-start ml-auto pl-4">
-								<div class="prose-invert prose-sm [&_article]:flex [&_article]:flex-col [&_article]:items-end [&_article]:justify-end pt-3 pr-4">{@html mark(message.content)}</div>
-								<div class="w-12 h-12 m-4 ml-0 aspect-[1/1] rounded-sm ring-2 ring-inset ring-indigo-300" />
+							<li class="flex flex-row items-start justify-start ml-auto pl-20">
+								<div class="whitespace-pre-wrap text-sm flex flex-col items-end justify-end pt-3 pr-4">
+									<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-2"><!--{@html mark(message.content)}-->{message.content}</div>
+								</div>
+								<div class="w-12 h-12 m-4 ml-0 aspect-[1/1] rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50" />
 							</li>
 						{/if}
 					{/each}
 				</ul>
-				<form action="/$/ai/gpt-4" method="POST" on:submit|preventDefault={send} class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0">
-					<div class="flex flex-row w-full h-full sm:px-4 lg:px-7 py-8">
+				<form action="/$/ai/gpt-4" method="POST" on:submit|preventDefault={send} class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
+					<div class="flex flex-row w-full h-full sm:px-4 md:pr-0 lg:pl-7 xl:pl-7 py-8">
 						<label for="editor" class="w-full h-full flex flex-row items-center justify-center">
 							<span class="sr-only">prompt</span>
 							<textarea
@@ -342,7 +348,7 @@
 								type="text"
 								name="editor"
 								autocomplete="off"
-								class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-2 ring-inset ring-indigo-300 focus:ring-indigo-400 bg-transparent rounded-sm"
+								class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 rounded-sm"
 								bind:this={$app.textarea}
 								on:keydown={async (e) => {
 									if (e.key === "Enter" && !e.shiftKey) {
@@ -353,7 +359,7 @@
 							/>
 						</label>
 						<div class="flex flex-row items-center justify-center h-full sm:aspect-[1/1] flex-1 ml-auto px-4 whitespace-nowrap">
-							<button type="submit" class="flex items-center justify-center w-10 h-10 rounded-sm whitespace-nowrap focus:outline-none ring-2 ring-inset ring-indigo-300 focus:ring-indigo-400">
+							<button type="submit" class="flex items-center justify-center w-10 h-10 rounded-sm whitespace-nowrap focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 								<img alt="send" src={_send} class="block w-5 h-auto" />
 							</button>
 						</div>
@@ -361,7 +367,7 @@
 				</form>
 			</main>
 
-			<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-black" class:hidden={$app.side !== "right"}>
+			<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-l from-transparent via-transparent via-60% to-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)]" class:hidden={$app.side !== "right"}>
 				{#if $app.agent}
 					<Mask contents={$app.agent.contents} path={data.user.username + "/" + $app.agent.name} />
 				{:else}

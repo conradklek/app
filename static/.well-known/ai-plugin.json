@@ -1,0 +1,18 @@
+{
+	"schema_version": "v1",
+	"name_for_model": "app",
+	"name_for_human": "app",
+	"description_for_human": "CRUD File-System",
+	"description_for_model": "CRUD File-System",
+	"api": {
+		"type": "openapi",
+		"url": "https://app-cklek.vercel.app/api.json",
+		"has_user_authentication": false
+	},
+	"auth": {
+		"type": "none"
+	},
+	"logo_url": "https://app-cklek.vercel.app/favicon.png",
+	"contact_email": "sentient.ai.agent@gmail.com",
+	"legal_info_url": "https://app-cklek.vercel.app/"
+}

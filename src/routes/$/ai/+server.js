@@ -9,6 +9,7 @@ import { InputValues, PartialValues, AgentStep, AgentAction, AgentFinish, BaseCh
 import { SerpAPI, Calculator, Tool } from "langchain/tools"
 import { initializeAgentExecutor } from "langchain/agents"
 import { BufferMemory } from "langchain/memory"
+import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
 /*
 export const POST = async () => {
 	const model = new ChatOpenAI({ temperature: 0, modelName: "gpt-4", openAIApiKey: OPENAI_API_KEY })
@@ -76,6 +77,17 @@ export async function POST({ request, locals }) {
 						})
 					})
 					response = await chat.call(chatMessages)
+					/*
+					const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/api.json/.well-known/ai-plugin.json")]
+					const agent = await initializeAgentExecutor(tools, new ChatOpenAI({ temperature: 0 }), "chat-zero-shot-react-description", true)
+
+					const result = await agent.call({
+						input: "What are the files located the directory '/$/db/conradklek/library'?"
+					})
+
+					console.log({ result })
+					controller.enqueue(result)
+					*/
 				},
 				cancel() {
 					ac.abort()

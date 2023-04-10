@@ -1,0 +1,90 @@
+{
+	"openapi": "3.0.2",
+	"info": {
+		"title": "File and Directory API",
+		"version": "1.0.0"
+	},
+	"paths": {
+		"/$/db/{path}": {
+			"get": {
+				"summary": "Retrieve a file or directory",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "The path to the file or directory"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"$ref": "#/components/schemas/DirectoryResponse"
+										},
+										{
+											"$ref": "#/components/schemas/FileResponse"
+										}
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"DirectoryResponse": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "integer",
+						"format": "int32",
+						"example": 200
+					},
+					"directory": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"example": ["readme.md", "library", "package.json"]
+					}
+				}
+			},
+			"FileResponse": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "integer",
+						"format": "int32",
+						"example": 200
+					},
+					"file": {
+						"type": "object",
+						"properties": {
+							"contents": {
+								"type": "string",
+								"example": ""
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
