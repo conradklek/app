@@ -1,3 +1,4 @@
+/*
 import { verifySession } from "$lib/server/session"
 import { connectDB } from "$lib/server/db"
 
@@ -14,3 +15,4 @@ export async function handle({ event, resolve }) {
 	response.headers.set("authorization", session)
 	return response
 }
+*/

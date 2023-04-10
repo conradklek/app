@@ -8,9 +8,11 @@ import { CallbackManager } from "langchain/callbacks"
 import { initializeAgentExecutor, ZapierToolKit } from "langchain/agents"
 
 export async function POST({ request, locals }) {
+	/*
 	if (!locals.user?.username) {
 		return json({ status: 400, message: "Unauthorized" })
 	}
+	*/
 	let data = await request.json()
 	let { messages, controls, agent } = data
 	let user = await getUserByUsername(locals.user.username)

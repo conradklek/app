@@ -5,10 +5,7 @@ const config = {
 	kit: {
 		adapter: adapter({
 			runtime: "nodejs18.x"
-		}),
-		output: {
-			preloadStrategy: "preload-mjs"
-		}
+		})
 	},
 	preprocess: [
 		vitePreprocess({
