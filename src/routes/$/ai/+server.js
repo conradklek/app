@@ -1,36 +1,92 @@
 import { json } from "@sveltejs/kit"
+import { OPENAI_API_KEY, SERPAPI_API_KEY, ZAPIER_NLA_API_KEY } from "$env/static/private"
+import { CallbackManager } from "langchain/callbacks"
+import { ZapierToolKit, LLMSingleActionAgent, AgentActionOutputParser, AgentExecutor } from "langchain/agents"
+import { LLMChain } from "langchain/chains"
 import { ChatOpenAI } from "langchain/chat_models"
-import { HumanChatMessage, SystemChatMessage } from "langchain/schema"
-import { OpenAI } from "langchain"
+import { BasePromptTemplate, SerializedBasePromptTemplate, renderTemplate, BaseChatPromptTemplate } from "langchain/prompts"
+import { InputValues, PartialValues, AgentStep, AgentAction, AgentFinish, BaseChatMessage, HumanChatMessage, SystemChatMessage, AIChatMessage } from "langchain/schema"
+import { SerpAPI, Calculator, Tool } from "langchain/tools"
 import { initializeAgentExecutor } from "langchain/agents"
-import { SerpAPI } from "langchain/tools"
-import { OPENAI_API_KEY, SERPAPI_API_KEY } from "$env/static/private"
+import { BufferMemory } from "langchain/memory"
+/*
+export const POST = async () => {
+	const model = new ChatOpenAI({ temperature: 0, modelName: "gpt-4", openAIApiKey: OPENAI_API_KEY })
+	const tools = [new SerpAPI(SERPAPI_API_KEY), new Calculator()]
+	const executor = await initializeAgentExecutor(tools, model, "chat-conversational-react-description", true)
+	executor.memory = new BufferMemory({
+		returnMessages: true,
+		memoryKey: "chat_history",
+		inputKey: "input"
+	})
+	console.log("Loaded agent.")
 
-export async function POST({ locals, request }) {
-	if (!locals.user?.id) {
+	const input0 = "hi, i am bob"
+
+	const result0 = await executor.call({ input: input0 })
+
+	console.log(`Got output ${result0.output}`)
+
+	const input1 = "whats my name?"
+
+	const result1 = await executor.call({ input: input1 })
+
+	console.log(`Got output ${result1.output}`)
+
+	const input2 = "whats the weather in pomfret?"
+
+	const result2 = await executor.call({ input: input2 })
+
+	console.log(`Got output ${result2.output}`)
+
+	return json({ status: 200, message: "OK" })
+}
+*/
+
+export async function POST({ request, locals }) {
+	if (!locals.user?.username) {
 		return json({ status: 400, message: "Unauthorized" })
 	}
 	let data = await request.json()
-	console.log(data)
-	let chat = new ChatOpenAI({ temperature: data.controls.temperature || 0.7, modelName: "gpt-4", openAIApiKey: OPENAI_API_KEY })
-	let system = data.controls.system || "You are an AI assistant."
-	system += "\nIf you do not know the answer, or would like information beyond the scope of this conversation, reply with three dots '...' and a search will be performed to provide you context."
-	console.log(system)
-	console.log(data.messages.map((message) => message?.content || ""))
-	let response = await chat.call([new SystemChatMessage(system), ...data.messages.map((message) => new HumanChatMessage(message?.content || ""))])
-	console.log(response)
-	if (response.text.toLowerCase().trim() === "...") {
-		const model = new OpenAI({ temperature: 0, openAIApiKey: OPENAI_API_KEY })
-		const tools = [new SerpAPI(SERPAPI_API_KEY)]
-		const executor = await initializeAgentExecutor(tools, model, "zero-shot-react-description")
-		console.log("Loaded agent.")
-		let input = data.messages.at(-1).content
-		console.log(`Executing with input "${input}"...`)
-		const result = await executor.call({ input })
-		console.log(`Got output ${result.output}`)
-		data.messages.push({ role: "assistant", content: result.output, id: crypto.randomUUID(), date: new Date().toISOString() })
-	} else {
-		data.messages.push({ role: "assistant", content: response.text, id: crypto.randomUUID(), date: new Date().toISOString() })
+	let { prompt, messages } = data
+	if (prompt?.length) {
+		let systemMessage = "You are an AI assistant. Continue the conversation with the user."
+		let chatMessages = [new SystemChatMessage(systemMessage), ...messages.map((message) => (message.role === "user" ? new HumanChatMessage(message.content) : new AIChatMessage(message.content)))]
+		return new Response(
+			new ReadableStream({
+				async start(controller) {
+					let text = ""
+					let chat = new ChatOpenAI({
+						temperature: 0,
+						modelName: "gpt-4",
+						openAIApiKey: OPENAI_API_KEY
+					})
+					chat = new ChatOpenAI({
+						temperature: 0.4,
+						modelName: "gpt-4",
+						openAIApiKey: OPENAI_API_KEY,
+						streaming: true,
+						callbackManager: CallbackManager.fromHandlers({
+							async handleLLMNewToken(token) {
+								text += token
+								controller.enqueue(token)
+								console.clear()
+								console.log(text)
+							}
+						})
+					})
+					response = await chat.call(chatMessages)
+				},
+				cancel() {
+					ac.abort()
+				}
+			}),
+			{
+				headers: {
+					"Content-Type": "text/event-stream"
+				}
+			}
+		)
 	}
-	return json(data)
+	return json({ status: 400, message: "Invalid request" })
 }

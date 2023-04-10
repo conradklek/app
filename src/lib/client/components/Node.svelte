@@ -54,11 +54,7 @@
 				} else {
 					data.set("data", JSON.stringify(load))
 				}
-				if (path.endsWith(".gpt")) {
-					//data.set("file", JSON.stringify({ messages, controls }))
-				} else {
-					data.set("file", file?.viewState?.state.doc.toString() ?? null)
-				}
+				data.set("file", file?.viewState?.state.doc.toString() ?? null)
 				data.set("path", path)
 			} else {
 				cancel()
@@ -67,12 +63,13 @@
 				if (result.status === 200) {
 					await applyAction(result)
 					form.reset()
+					node.close()
 				} else {
 					console.log(result)
 				}
 			}
 		}}
-		class="flex flex-row items-center justify-center w-screen h-20 p-5"
+		class="flex flex-row items-center justify-center w-full max-w-xl h-16 mx-auto px-5"
 	>
 		<label for="code" class="flex flex-row items-center justify-center w-full">
 			<div class="flex flex-row items-center justify-center w-10 h-10 aspect-[1/1] rounded-l-sm bg-white">

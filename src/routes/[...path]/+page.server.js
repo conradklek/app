@@ -3,9 +3,6 @@ import { updateUser, getUserByUsername } from "$lib/server/controllers/user"
 
 export async function load({ locals, params }) {
 	let load = {}
-	if (!locals.user?.username) {
-		throw redirect(303, "/")
-	}
 	if (params.path?.length) {
 		const user = await getUserByUsername(params.path.split("/")[0])
 		if (!user) {

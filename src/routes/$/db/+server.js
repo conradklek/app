@@ -23,9 +23,6 @@ function walk(tree, path, data) {
 
 async function processCommand({ command, args, path, data, file, load, user }) {
 	const error = (message) => json({ status: 400, message })
-	if (file && file !== "null" && command !== "echo") {
-		return error("You are not in a directory")
-	}
 	const updateData = async (newData) => {
 		await updateUser(user._id, newData)
 		return json({ status: 200, type: "redirect", location: "/" + path.join("/") })
@@ -83,9 +80,6 @@ async function removeItem({ args, path, data, user, updateData, error }) {
 		return error("You must specify a file or directory to remove")
 	}
 	const item = args[0]
-	if (!data[item]) {
-		return error("The file or directory does not exist")
-	}
 	if (path.length === 1) {
 		delete user.data[item]
 	} else {

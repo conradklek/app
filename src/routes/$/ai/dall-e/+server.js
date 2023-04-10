@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration)
 export async function POST({ request }) {
 	const form = await request.formData()
 	const prompt = form.get("prompt")
-	const response = await openai.createImage({ prompt, size: "1024x1024", response_format: "b64_json" })
+	const response = await openai.createImage({ prompt, size: "256x256", response_format: "b64_json" })
 	const data = JSON.stringify(response.data.data[0])
 	return new Response(data)
 }

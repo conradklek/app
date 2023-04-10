@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+	html {
+		@apply min-h-full;
+	}
 	body {
-		@apply w-screen overflow-x-hidden overscroll-none bg-blue-500/50;
+		@apply w-screen h-full overflow-x-hidden overscroll-none bg-black text-white;
 	}
 }
 

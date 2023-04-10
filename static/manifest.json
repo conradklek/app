@@ -3,7 +3,7 @@
 	"dir": "ltr",
 	"name": "app",
 	"short_name": "app",
-	"display": "standalone",
+	"display": "fullscreen",
 	"theme_color": "#ffffff",
 	"background_color": "#ffffff",
 	"icons": [
