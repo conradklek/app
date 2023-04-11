@@ -12,27 +12,7 @@
 	"paths": {
 		"/api": {
 			"post": {
-				"summary": "Spawn a new agent that can be used to solve a task.",
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"prompt": {
-										"type": "string"
-									}
-								},
-								"required": ["prompt"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Agent created successfully."
-					}
-				}
+				"summary": "responds with hello world"
 			}
 		}
 	}

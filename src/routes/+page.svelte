@@ -26,11 +26,7 @@
 		console.log(textarea.value)
 		const prompt = textarea.value
 		const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
-		console.log(
-			tools.map((tool) => {
-				return { name: tool.name, description: tool.description }
-			})
-		)
+		console.log(tools)
 		messages.push({
 			role: "user",
 			content: prompt,
@@ -49,14 +45,7 @@
 			new ChatOpenAI({
 				temperature: 0,
 				modelName: "gpt-4",
-				openAIApiKey: "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",
-				streaming: true,
-				callbackManager: CallbackManager.fromHandlers({
-					async handleLLMNewToken(token) {
-						messages.at(-1).content += token
-						messages = messages
-					}
-				})
+				openAIApiKey: "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"
 			}),
 			"chat-zero-shot-react-description",
 			true
@@ -65,6 +54,8 @@
 			input: prompt
 		})
 		console.log(result)
+		messages.at(-1).content = result.output
+		messages = messages
 		textarea.focus()
 	}
 </script>
