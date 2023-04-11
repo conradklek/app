@@ -1,164 +1,36 @@
 {
 	"openapi": "3.0.0",
 	"info": {
-		"title": "MongoDB Data API",
+		"title": "app",
 		"version": "1.0.0"
 	},
 	"servers": [
 		{
-			"url": "https://data.mongodb-api.com/app/data-zfwhk/endpoint/data/v1"
+			"url": "https://app-cklek.vercel.app"
 		}
 	],
 	"paths": {
-		"/action/insertOne": {
+		"/api": {
 			"post": {
-				"summary": "Insert a document",
-				"operationId": "insertOne",
-				"parameters": [
-					{
-						"name": "apiKey",
-						"in": "header",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"summary": "Spawn a new agent that can be used to solve a task. Agent has access to a calculator.",
 				"requestBody": {
 					"content": {
 						"application/json": {
 							"schema": {
 								"type": "object",
 								"properties": {
-									"dataSource": {
+									"prompt": {
 										"type": "string"
-									},
-									"database": {
-										"type": "string"
-									},
-									"collection": {
-										"type": "string"
-									},
-									"document": {
-										"type": "object",
-										"properties": {
-											"name": {
-												"type": "string"
-											}
-										},
-										"required": ["name"]
 									}
 								},
-								"required": ["dataSource", "database", "collection", "document"]
+								"required": ["prompt"]
 							}
 						}
 					}
 				},
 				"responses": {
 					"200": {
-						"description": "Document inserted successfully"
-					}
-				}
-			}
-		},
-		"/action/findOne": {
-			"post": {
-				"summary": "Find a document",
-				"operationId": "findOne",
-				"parameters": [
-					{
-						"name": "apiKey",
-						"in": "header",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"dataSource": {
-										"type": "string"
-									},
-									"database": {
-										"type": "string"
-									},
-									"collection": {
-										"type": "string"
-									},
-									"filter": {
-										"type": "object",
-										"properties": {
-											"name": {
-												"type": "string"
-											}
-										},
-										"required": ["name"]
-									}
-								},
-								"required": ["dataSource", "database", "collection", "filter"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Document found successfully"
-					}
-				}
-			}
-		},
-		"/action/deleteOne": {
-			"post": {
-				"summary": "Delete a document",
-				"operationId": "deleteOne",
-				"parameters": [
-					{
-						"name": "apiKey",
-						"in": "header",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"dataSource": {
-										"type": "string"
-									},
-									"database": {
-										"type": "string"
-									},
-									"collection": {
-										"type": "string"
-									},
-									"filter": {
-										"type": "object",
-										"properties": {
-											"name": {
-												"type": "string"
-											}
-										},
-										"required": ["name"]
-									}
-								},
-								"required": ["dataSource", "database", "collection", "filter"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Document deleted successfully"
+						"description": "Agent created successfully."
 					}
 				}
 			}

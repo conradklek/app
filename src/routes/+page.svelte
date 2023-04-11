@@ -1,21 +1,68 @@
 <script>
 	import "../app.postcss"
+	import { CallbackManager } from "langchain/callbacks"
+	import { LLMChain } from "langchain/chains"
+	import { ChatOpenAI } from "langchain/chat_models"
+	import { SerpAPI, Calculator, Tool } from "langchain/tools"
+	import { initializeAgentExecutor } from "langchain/agents"
+	import { BufferMemory } from "langchain/memory"
+	import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
 	import { _caret, _chat, _command, _file, _folder, _send } from "$lib/assets/svg"
 	import { onMount } from "svelte"
 	import { enhance } from "$app/forms"
 	import { invalidateAll } from "$app/navigation"
 	export let data
-	export let form
+	//export let form
 	$: root = null
 	$: node = null
 	$: side = null
+	$: textarea = null
 	$: messages = []
 	onMount(() => {
 		console.clear()
 		console.log(data)
 	})
-	$: {
-		console.log(form)
+	async function submit() {
+		console.log(textarea.value)
+		const prompt = textarea.value
+		//const tools = [new Calculator()]
+		//const tools = [new RequestsGetTool(), new RequestsPostTool()]
+		const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
+		messages.push({
+			role: "user",
+			content: prompt,
+			id: crypto.randomUUID()
+		})
+		messages = messages
+		textarea.value = ""
+		messages.push({
+			role: "assistant",
+			content: "",
+			id: crypto.randomUUID()
+		})
+		messages = messages
+		const agent = await initializeAgentExecutor(
+			tools,
+			new ChatOpenAI({
+				temperature: 0,
+				modelName: "gpt-4",
+				openAIApiKey: "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",
+				streaming: true,
+				callbackManager: CallbackManager.fromHandlers({
+					async handleLLMNewToken(token) {
+						messages.at(-1).content += token
+						messages = messages
+					}
+				})
+			}),
+			"chat-zero-shot-react-description",
+			true
+		)
+		const result = await agent.call({
+			input: prompt
+		})
+		console.log(result)
+		textarea.focus()
 	}
 </script>
 
@@ -53,26 +100,24 @@
 					{/if}
 				{/each}
 			</ul>
-			<form
-				action="/api"
-				method="POST"
-				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]"
-				bind:this={node}
-				use:enhance={({ form, data }) => {
-					console.log("submit")
-					const prompt = data.get("prompt")
-					console.log(prompt)
-					return async ({ result }) => {
-						console.log("result", result)
-						form.reset()
-						form.elements.prompt.focus()
-					}
-				}}
-			>
+			<form action="/api" method="POST" class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]" on:submit|preventDefault={submit}>
 				<div class="flex flex-row w-full h-full sm:px-4 md:pr-0 lg:pl-7 xl:pl-7 py-8">
 					<label for="prompt" class="w-full h-full flex flex-row items-center justify-center">
 						<span class="sr-only">prompt</span>
-						<textarea id="prompt" type="text" name="prompt" autocomplete="off" class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 rounded-sm" />
+						<textarea
+							id="prompt"
+							type="text"
+							name="prompt"
+							bind:this={textarea}
+							autocomplete="off"
+							class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 rounded-sm"
+							on:keyup={(e) => {
+								if (e.key === "Enter" && !e.shiftKey) {
+									e.preventDefault()
+									submit()
+								}
+							}}
+						/>
 					</label>
 					<div class="flex flex-row items-center justify-center h-full sm:aspect-[1/1] flex-1 ml-auto px-4 whitespace-nowrap">
 						<button type="submit" class="flex items-center justify-center w-10 h-10 rounded-sm whitespace-nowrap focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
