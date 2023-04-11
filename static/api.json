@@ -13,6 +13,23 @@
 		"/api": {
 			"get": {
 				"summary": "responds with hello world"
+			},
+			"post": {
+				"summary": "responds with the prompt in UPPERCASE",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"prompt": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
