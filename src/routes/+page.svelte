@@ -13,6 +13,42 @@
 		console.clear()
 		console.log(data)
 	})
+	async function submit() {
+		const prompt = textarea.value
+		if (!prompt) return
+		let response = await fetch("/ai", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				prompt
+			})
+		})
+		let reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
+		messages.push({
+			role: "user",
+			content: prompt,
+			id: crypto.randomUUID()
+		})
+		messages = messages
+		messages.push({
+			role: "assistant",
+			content: "",
+			id: crypto.randomUUID()
+		})
+		messages = messages
+		textarea.value = ""
+		textarea.focus()
+		while (true) {
+			let { done, value } = await reader.read()
+			if (value) {
+				messages.at(-1).content += value
+				messages = messages
+			}
+			if (done) break
+		}
+	}
 </script>
 
 <div class="relative h-screen flex flex-col overflow-y-auto xl:overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-[hsl(270DEG,6%,4%)]" class:overflow-y-hidden={side === "right"} bind:this={root}>
@@ -49,31 +85,7 @@
 					{/if}
 				{/each}
 			</ul>
-			<form
-				action="/?/ai"
-				method="POST"
-				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]"
-				use:enhance={({ form, data }) => {
-					const prompt = data.get("prompt")
-					return async ({ result }) => {
-						console.log(result.data)
-						messages.push({
-							role: "user",
-							content: prompt,
-							id: crypto.randomUUID()
-						})
-						messages = messages
-						messages.push({
-							role: "assistant",
-							content: result.data.response,
-							id: crypto.randomUUID()
-						})
-						messages = messages
-						form.reset()
-						textarea.focus()
-					}
-				}}
-			>
+			<form action="/ai" method="POST" class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]" on:submit|preventDefault={submit}>
 				<div class="flex flex-row w-full h-full sm:px-4 md:pr-0 lg:pl-7 xl:pl-7 py-8">
 					<label for="prompt" class="w-full h-full flex flex-row items-center justify-center">
 						<span class="sr-only">prompt</span>
