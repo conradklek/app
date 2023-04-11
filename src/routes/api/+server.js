@@ -9,6 +9,10 @@ import { initializeAgentExecutor } from "langchain/agents"
 import { BufferMemory } from "langchain/memory"
 import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
 
-export async function POST() {
-	return new Response("Hello world")
+export async function GET() {
+	return new Response("Hello, friend.", {
+		headers: {
+			"Content-Type": "text/plain"
+		}
+	})
 }
