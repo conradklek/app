@@ -4,7 +4,6 @@
 	import { onMount } from "svelte"
 	import { enhance } from "$app/forms"
 	import { invalidateAll } from "$app/navigation"
-	import { text } from "svelte/internal"
 	export let data
 	$: root = null
 	$: side = null
