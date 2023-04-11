@@ -11,7 +11,6 @@ export const actions = {
 		const data = await request.formData()
 		const prompt = data.get("prompt")
 		const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
-		console.log(tools)
 		const agent = await initializeAgentExecutor(
 			tools,
 			new ChatOpenAI({
@@ -26,6 +25,6 @@ export const actions = {
 			input: prompt
 		})
 		console.log(result)
-		return { result: result.output }
+		return { response: result.output }
 	}
 }

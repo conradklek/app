@@ -53,9 +53,22 @@
 				action="/?/ai"
 				method="POST"
 				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]"
-				use:enhance={({ form }) => {
+				use:enhance={({ form, data }) => {
+					const prompt = data.get("prompt")
 					return async ({ result }) => {
 						console.log(result.data)
+						messages.push({
+							role: "user",
+							content: prompt,
+							id: crypto.randomUUID()
+						})
+						messages = messages
+						messages.push({
+							role: "assistant",
+							content: result.data.response,
+							id: crypto.randomUUID()
+						})
+						messages = messages
 						form.reset()
 						textarea.focus()
 					}
