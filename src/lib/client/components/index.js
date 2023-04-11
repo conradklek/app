@@ -1,5 +1,0 @@
-export { default as Anon } from "./Anon.svelte"
-export { default as Book } from "./Book.svelte"
-export { default as Code } from "./Code.svelte"
-export { default as Mask } from "./Mask.svelte"
-export { default as Open } from "./Open.svelte"

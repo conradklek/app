@@ -2,8 +2,8 @@
 	"schema_version": "v1",
 	"name_for_model": "app",
 	"name_for_human": "app",
-	"description_for_human": "CRUD File-System",
-	"description_for_model": "CRUD File-System",
+	"description_for_human": "app",
+	"description_for_model": "app",
 	"api": {
 		"type": "openapi",
 		"url": "https://app-cklek.vercel.app/api.json",

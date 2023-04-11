@@ -1,6 +1,4 @@
 import { fail, redirect } from "@sveltejs/kit"
-import { createSession } from "$lib/server/session"
-import { getUserByEmail, getUserByUsername } from "$lib/server/controllers/user"
 import { ChatOpenAI } from "langchain/chat_models"
 import { HumanChatMessage, AIChatMessage, SystemChatMessage } from "langchain/schema"
 import { SerpAPI, ZapierNLAWrapper, Calculator } from "langchain/tools"
@@ -29,7 +27,7 @@ export async function load({ locals, fetch }) {
 	console.log(document)
 	const { username, data } = document
 	return {
-		user: { data, username }
+		user: { data, username: "sudo" }
 	}
 }
 /*

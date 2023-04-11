@@ -1,87 +1,164 @@
 {
-	"openapi": "3.0.2",
+	"openapi": "3.0.0",
 	"info": {
-		"title": "File and Directory API",
+		"title": "MongoDB Data API",
 		"version": "1.0.0"
 	},
+	"servers": [
+		{
+			"url": "https://data.mongodb-api.com/app/data-zfwhk/endpoint/data/v1"
+		}
+	],
 	"paths": {
-		"/$/db/{path}": {
-			"get": {
-				"summary": "Retrieve a file or directory",
+		"/action/insertOne": {
+			"post": {
+				"summary": "Insert a document",
+				"operationId": "insertOne",
 				"parameters": [
 					{
-						"in": "path",
-						"name": "path",
+						"name": "apiKey",
+						"in": "header",
 						"required": true,
 						"schema": {
 							"type": "string"
-						},
-						"description": "The path to the file or directory"
+						}
 					}
 				],
-				"responses": {
-					"200": {
-						"description": "Successful operation",
-						"content": {
-							"application/json": {
-								"schema": {
-									"oneOf": [
-										{
-											"$ref": "#/components/schemas/DirectoryResponse"
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dataSource": {
+										"type": "string"
+									},
+									"database": {
+										"type": "string"
+									},
+									"collection": {
+										"type": "string"
+									},
+									"document": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											}
 										},
-										{
-											"$ref": "#/components/schemas/FileResponse"
-										}
-									]
-								}
+										"required": ["name"]
+									}
+								},
+								"required": ["dataSource", "database", "collection", "document"]
 							}
 						}
-					},
-					"400": {
-						"description": "Bad request"
-					},
-					"404": {
-						"description": "Not found"
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Document inserted successfully"
 					}
 				}
 			}
-		}
-	},
-	"components": {
-		"schemas": {
-			"DirectoryResponse": {
-				"type": "object",
-				"properties": {
-					"status": {
-						"type": "integer",
-						"format": "int32",
-						"example": 200
-					},
-					"directory": {
-						"type": "array",
-						"items": {
+		},
+		"/action/findOne": {
+			"post": {
+				"summary": "Find a document",
+				"operationId": "findOne",
+				"parameters": [
+					{
+						"name": "apiKey",
+						"in": "header",
+						"required": true,
+						"schema": {
 							"type": "string"
-						},
-						"example": ["readme.md", "library", "package.json"]
+						}
 					}
-				}
-			},
-			"FileResponse": {
-				"type": "object",
-				"properties": {
-					"status": {
-						"type": "integer",
-						"format": "int32",
-						"example": 200
-					},
-					"file": {
-						"type": "object",
-						"properties": {
-							"contents": {
-								"type": "string",
-								"example": ""
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dataSource": {
+										"type": "string"
+									},
+									"database": {
+										"type": "string"
+									},
+									"collection": {
+										"type": "string"
+									},
+									"filter": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											}
+										},
+										"required": ["name"]
+									}
+								},
+								"required": ["dataSource", "database", "collection", "filter"]
 							}
 						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Document found successfully"
+					}
+				}
+			}
+		},
+		"/action/deleteOne": {
+			"post": {
+				"summary": "Delete a document",
+				"operationId": "deleteOne",
+				"parameters": [
+					{
+						"name": "apiKey",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"dataSource": {
+										"type": "string"
+									},
+									"database": {
+										"type": "string"
+									},
+									"collection": {
+										"type": "string"
+									},
+									"filter": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											}
+										},
+										"required": ["name"]
+									}
+								},
+								"required": ["dataSource", "database", "collection", "filter"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Document deleted successfully"
 					}
 				}
 			}
