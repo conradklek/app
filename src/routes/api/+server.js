@@ -1,4 +1,4 @@
-import { json } from "sveltejs/kit"
+import { json } from "@sveltejs/kit"
 import { CallbackManager } from "langchain/callbacks"
 import { ZapierToolKit, LLMSingleActionAgent, AgentActionOutputParser, AgentExecutor } from "langchain/agents"
 import { LLMChain } from "langchain/chains"
@@ -23,7 +23,7 @@ export async function POST({ request }) {
 		new ChatOpenAI({
 			temperature: 0,
 			modelName: "gpt-4",
-			openAIApiKey: "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",
+			openAIApiKey: "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"
 		}),
 		"chat-zero-shot-react-description",
 		true
