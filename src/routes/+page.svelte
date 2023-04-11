@@ -26,6 +26,11 @@
 		console.log(textarea.value)
 		const prompt = textarea.value
 		const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
+		console.log(
+			tools.map((tool) => {
+				return { name: tool.name, description: tool.description }
+			})
+		)
 		messages.push({
 			role: "user",
 			content: prompt,
