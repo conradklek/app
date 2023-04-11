@@ -25,8 +25,6 @@
 	async function submit() {
 		console.log(textarea.value)
 		const prompt = textarea.value
-		//const tools = [new Calculator()]
-		//const tools = [new RequestsGetTool(), new RequestsPostTool()]
 		const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
 		messages.push({
 			role: "user",

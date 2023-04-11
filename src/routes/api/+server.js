@@ -10,7 +10,7 @@ import { BufferMemory } from "langchain/memory"
 import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
 
 export async function POST({ request }) {
-	const data = await request.json()
+	const { prompt } = await request.json()
 	console.log("data")
 	const tools = [new Calculator()]
 	let message = {
