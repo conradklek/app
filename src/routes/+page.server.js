@@ -5,6 +5,7 @@ import { SerpAPI, Calculator, Tool } from "langchain/tools"
 import { initializeAgentExecutor } from "langchain/agents"
 import { BufferMemory } from "langchain/memory"
 import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
+import { env } from "$env/dynamic/private"
 
 export const actions = {
 	ai: async ({ request }) => {
@@ -16,7 +17,7 @@ export const actions = {
 			new ChatOpenAI({
 				temperature: 0,
 				modelName: "gpt-4",
-				openAIApiKey: "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"
+				openAIApiKey: env.OPENAI_API_KEY
 			}),
 			"chat-zero-shot-react-description",
 			true
