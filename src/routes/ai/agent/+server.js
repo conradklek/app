@@ -4,7 +4,9 @@ import { ZapierNLAWrapper } from "langchain/tools"
 
 export async function GET({ url }) {
 	let query = url.searchParams
-	let prompt = query.get("prompt")
+	let to = query.get("to")
+	let subject = query.get("subject")
+	let body = query.get("body")
 	const zapier = new ZapierNLAWrapper({
 		apiKey: "sk-ak-3uMtywSqE9rkkjcLCCzydtYCnO"
 	})
@@ -21,7 +23,7 @@ export async function GET({ url }) {
 		true
 	)
 	const result = await agent.call({
-		input: prompt
+		input: `To: ${to}\nSubject: ${subject}\n\n${body}`
 	})
 	return new Response(result.output, {
 		headers: {
