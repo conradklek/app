@@ -13,9 +13,8 @@ export async function GET({ url }) {
 
 export async function POST({ request }) {
 	console.log(request)
-	const data = await request.json()
-	const name = data.name
-	return new Response(`Hello, ${name}!`, {
+	console.log(await request.text())
+	return new Response(`Hello, world!`, {
 		headers: {
 			"Content-Type": "text/plain"
 		}

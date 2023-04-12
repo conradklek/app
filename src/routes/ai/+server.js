@@ -11,7 +11,6 @@ export async function POST({ request }) {
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
-				let stream = ""
 				const agent = await initializeAgentExecutor(
 					tools,
 					new ChatOpenAI({
@@ -21,9 +20,6 @@ export async function POST({ request }) {
 						streaming: true,
 						callbackManager: CallbackManager.fromHandlers({
 							async handleLLMNewToken(token) {
-								console.clear()
-								stream += token
-								console.log(stream)
 								controller.enqueue(token)
 							}
 						})
@@ -31,10 +27,9 @@ export async function POST({ request }) {
 					"chat-zero-shot-react-description",
 					true
 				)
-				const result = await agent.call({
+				await agent.call({
 					input: prompt
 				})
-				console.log(result)
 				controller.close()
 			}
 		}),
