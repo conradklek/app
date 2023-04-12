@@ -12,7 +12,7 @@ export async function GET({ url }) {
 		new ChatOpenAI({
 			temperature: 0,
 			modelName: "gpt-4",
-			openAIApiKey: env.OPENAI_API_KEY
+			openAIApiKey: "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"
 		}),
 		"chat-zero-shot-react-description",
 		true
