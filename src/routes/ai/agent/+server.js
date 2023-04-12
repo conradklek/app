@@ -20,7 +20,7 @@ export async function GET({ url }) {
 	const result = await agent.call({
 		input: prompt
 	})
-	return new Response(result, {
+	return new Response(result.output, {
 		headers: {
 			"Content-Type": "text/plain"
 		}
