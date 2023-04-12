@@ -32,30 +32,23 @@
 			id: crypto.randomUUID()
 		})
 		messages = messages
-		let message = {
+		messages.push({
 			role: "assistant",
 			content: "",
 			id: crypto.randomUUID()
-		}
+		})
 		textarea.value = ""
 		textarea.focus()
 		let stream = ""
-		let answer = false
 		while (true) {
 			let { done, value } = await reader.read()
 			if (value) {
 				stream += value
 				console.clear()
 				console.log(stream)
-				if (stream.endsWith("Final Answer:") && !answer) {
-					answer = true
-					messages.push(message)
-					messages = messages
-				} else if (answer) {
-					messages.at(-1).content += value
-					messages.at(-1).content = messages.at(-1).content.trim()
-					messages = messages
-				}
+				messages.at(-1).content += value
+				messages.at(-1).content = messages.at(-1).content.trim()
+				messages = messages
 			}
 			if (done) {
 				break
