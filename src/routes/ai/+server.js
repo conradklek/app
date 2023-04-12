@@ -2,6 +2,7 @@ import { CallbackManager } from "langchain/callbacks"
 import { ChatOpenAI } from "langchain/chat_models"
 import { initializeAgentExecutor } from "langchain/agents"
 import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
+import { env } from "$env/dynamic/private"
 
 export async function POST({ request }) {
 	const data = await request.json()
@@ -16,7 +17,7 @@ export async function POST({ request }) {
 					new ChatOpenAI({
 						temperature: 0,
 						modelName: "gpt-4",
-						openAIApiKey: "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",
+						openAIApiKey: env.OPENAI_API_KEY,
 						streaming: true,
 						callbackManager: CallbackManager.fromHandlers({
 							async handleLLMNewToken(token) {
