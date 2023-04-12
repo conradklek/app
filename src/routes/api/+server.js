@@ -1,5 +1,6 @@
 export async function GET({ url }) {
-	let { name } = url.searchParams
+	let query = url.searchParams
+	let name = query.get("name")
 	if (!name) {
 		name = "anon"
 	}
