@@ -1,7 +1,6 @@
 import { ChatOpenAI } from "langchain/chat_models"
 import { ZapierToolKit, initializeAgentExecutor } from "langchain/agents"
 import { ZapierNLAWrapper } from "langchain/tools"
-import { env } from "$env/dynamic/private"
 
 export async function GET({ url }) {
 	let query = url.searchParams
@@ -24,7 +23,7 @@ export async function GET({ url }) {
 		true
 	)
 	const result = await agent.call({
-		input: `To: ${to}\nSubject: ${subject}\n\n${body}`
+		input: `Use your tools to send an email to ${to}\n with the subject:\n ${subject}\nAnd the body:\n${body}`
 	})
 	return new Response(result.output, {
 		headers: {
