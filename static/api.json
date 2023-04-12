@@ -24,6 +24,21 @@
 					}
 				]
 			}
+		},
+		"/ai/agent": {
+			"get": {
+				"summary": "Creates an agent with a calculator tool to solve the prompt provided in the query string",
+				"parameters": [
+					{
+						"name": "prompt",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
 		}
 	}
 }
