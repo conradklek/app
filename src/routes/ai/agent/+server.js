@@ -1,6 +1,7 @@
 import { ChatOpenAI } from "langchain/chat_models"
 import { ZapierToolKit, initializeAgentExecutor } from "langchain/agents"
 import { ZapierNLAWrapper } from "langchain/tools"
+import { env } from "$env/dynamic/private"
 
 export async function GET({ url }) {
 	let query = url.searchParams
@@ -8,7 +9,7 @@ export async function GET({ url }) {
 	let subject = query.get("subject")
 	let body = query.get("body")
 	const zapier = new ZapierNLAWrapper({
-		apiKey: "sk-ak-3uMtywSqE9rkkjcLCCzydtYCnO"
+		apiKey: env.ZAPIER_API_KEY
 	})
 	const toolkit = await ZapierToolKit.fromZapierNLAWrapper(zapier)
 	const tools = toolkit.tools
@@ -17,7 +18,7 @@ export async function GET({ url }) {
 		new ChatOpenAI({
 			temperature: 0,
 			modelName: "gpt-4",
-			openAIApiKey: "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"
+			openAIApiKey: env.OPENAI_API_KEY
 		}),
 		"chat-zero-shot-react-description",
 		true

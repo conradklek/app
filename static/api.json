@@ -23,6 +23,23 @@
 						}
 					}
 				]
+			},
+			"POST": {
+				"summary": "Responds with hello plus the name provided in the body",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		},
 		"http://localhost:5173/ai/agent": {
