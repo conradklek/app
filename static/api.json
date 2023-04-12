@@ -46,6 +46,14 @@
 						}
 					},
 					{
+						"name": "subject",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
 						"name": "body",
 						"in": "query",
 						"required": true,

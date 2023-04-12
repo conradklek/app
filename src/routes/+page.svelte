@@ -52,7 +52,6 @@
 				console.clear()
 				console.log(stream)
 				messages.at(-1).content += value
-				//messages.at(-1).content = messages.at(-1).content.trim()
 				messages = messages
 				root.scrollTo({
 					top: root.scrollHeight,
