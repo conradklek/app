@@ -6,11 +6,11 @@
 	},
 	"servers": [
 		{
-			"url": "https://app-cklek.vercel.app"
+			"url": "http://localhost:5173"
 		}
 	],
 	"paths": {
-		"https://app-cklek.vercel.app/api": {
+		"http://localhost:5173/api": {
 			"get": {
 				"summary": "Responds with hello plus the name provided in the query string",
 				"parameters": [
@@ -25,7 +25,7 @@
 				]
 			}
 		},
-		"https://app-cklek.vercel.app/ai/agent": {
+		"http://localhost:5173/ai/agent": {
 			"get": {
 				"summary": "Creates an agent capable of using a calculator",
 				"parameters": [
