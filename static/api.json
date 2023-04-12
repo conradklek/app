@@ -27,10 +27,26 @@
 		},
 		"http://localhost:5173/ai/agent": {
 			"get": {
-				"summary": "Creates an agent capable of using a calculator",
+				"summary": "Creates an AI agent capable of using Email",
 				"parameters": [
 					{
-						"name": "prompt",
+						"name": "to",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "body",
 						"in": "query",
 						"required": true,
 						"schema": {

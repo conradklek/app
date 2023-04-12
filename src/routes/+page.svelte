@@ -2,8 +2,13 @@
 	import "../app.postcss"
 	import { _caret, _chat, _command, _file, _folder, _send } from "$lib/assets/svg"
 	import { onMount } from "svelte"
-	import { enhance } from "$app/forms"
-	import { invalidateAll } from "$app/navigation"
+	import Markdoc from "@markdoc/markdoc"
+	function mark(doc) {
+		const ast = Markdoc.parse(doc)
+		const content = Markdoc.transform(ast)
+		const html = Markdoc.renderers.html(content)
+		return html
+	}
 	export let data
 	$: root = null
 	$: side = null
@@ -47,8 +52,12 @@
 				console.clear()
 				console.log(stream)
 				messages.at(-1).content += value
-				messages.at(-1).content = messages.at(-1).content.trim()
+				//messages.at(-1).content = messages.at(-1).content.trim()
 				messages = messages
+				root.scrollTo({
+					top: root.scrollHeight,
+					behavior: "smooth"
+				})
 			}
 			if (done) {
 				break
@@ -77,14 +86,14 @@
 					{#if message.role === "assistant"}
 						<li class="flex flex-row items-start justify-start pr-16">
 							<div class="w-12 h-12 m-4 aspect-[1/1] rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50" />
-							<div class="whitespace-pre-wrap text-sm flex flex-col items-start justify-start pt-3 pr-4">
-								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-2">{message.content}</div>
+							<div class="text-sm flex flex-col items-start justify-start pt-3 pr-4">
+								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-0 [&_article]:p-2 [&_article]:prose [&_article]:prose-invert [&_article]:prose-sm">{@html mark(message.content)}</div>
 							</div>
 						</li>
 					{:else}
 						<li class="flex flex-row items-start justify-start ml-auto pl-20">
-							<div class="whitespace-pre-wrap text-sm flex flex-col items-end justify-end pt-3 pr-4">
-								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-2">{message.content}</div>
+							<div class="text-sm flex flex-col items-end justify-end pt-3 pr-4">
+								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-0 [&_article]:p-2 [&_article]:prose [&_article]:prose-invert [&_article]:prose-sm">{@html mark(message.content)}</div>
 							</div>
 							<div class="w-12 h-12 m-4 ml-0 aspect-[1/1] rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50" />
 						</li>
