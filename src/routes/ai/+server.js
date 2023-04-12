@@ -7,7 +7,7 @@ import { env } from "$env/dynamic/private"
 export async function POST({ request }) {
 	const data = await request.json()
 	const prompt = data.prompt
-	const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
+	const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("http://localhost:5173/.well-known/ai-plugin.json")]
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
