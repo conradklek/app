@@ -11,9 +11,8 @@ export async function GET({ url }) {
 	})
 }
 
-export async function POST({ request }) {
-	console.log(request)
-	console.log(await request.text())
+export async function POST(event) {
+	console.log(event)
 	return new Response(`Hello, world!`, {
 		headers: {
 			"Content-Type": "text/plain"

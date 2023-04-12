@@ -9,7 +9,7 @@ export async function GET({ url }) {
 	let subject = query.get("subject")
 	let body = query.get("body")
 	const zapier = new ZapierNLAWrapper({
-		apiKey: env.ZAPIER_API_KEY
+		apiKey: "sk-ak-3uMtywSqE9rkkjcLCCzydtYCnO"
 	})
 	const toolkit = await ZapierToolKit.fromZapierNLAWrapper(zapier)
 	const tools = toolkit.tools
@@ -18,7 +18,7 @@ export async function GET({ url }) {
 		new ChatOpenAI({
 			temperature: 0,
 			modelName: "gpt-4",
-			openAIApiKey: env.OPENAI_API_KEY
+			openAIApiKey: "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"
 		}),
 		"chat-zero-shot-react-description",
 		true

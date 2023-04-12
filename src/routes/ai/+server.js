@@ -27,9 +27,13 @@ export async function POST({ request }) {
 					"chat-zero-shot-react-description",
 					true
 				)
-				await agent.call({
-					input: prompt
-				})
+				try {
+					await agent.call({
+						input: prompt
+					})
+				} catch (error) {
+					console.log(error)
+				}
 				controller.close()
 			}
 		}),
