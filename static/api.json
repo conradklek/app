@@ -27,7 +27,7 @@
 		},
 		"/ai/agent": {
 			"get": {
-				"summary": "Creates an agent with a calculator tool to solve the prompt provided in the query string",
+				"summary": "Creates an agent capable of performing internet searches and using a calculator given a prompt provided in the query string",
 				"parameters": [
 					{
 						"name": "prompt",

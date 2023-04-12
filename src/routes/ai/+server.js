@@ -1,15 +1,12 @@
 import { CallbackManager } from "langchain/callbacks"
-import { LLMChain } from "langchain/chains"
 import { ChatOpenAI } from "langchain/chat_models"
-import { SerpAPI, Calculator, Tool } from "langchain/tools"
 import { initializeAgentExecutor } from "langchain/agents"
 import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
-import { env } from "$env/dynamic/private"
 
 export async function POST({ request }) {
 	const data = await request.json()
 	const prompt = data.prompt
-	const tools = [ new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
+	const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("https://app-cklek.vercel.app/.well-known/ai-plugin.json")]
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
@@ -19,7 +16,7 @@ export async function POST({ request }) {
 					new ChatOpenAI({
 						temperature: 0,
 						modelName: "gpt-4",
-						openAIApiKey: env.OPENAI_API_KEY,
+						openAIApiKey: "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",
 						streaming: true,
 						callbackManager: CallbackManager.fromHandlers({
 							async handleLLMNewToken(token) {
