@@ -12,24 +12,17 @@
 	"paths": {
 		"/api": {
 			"get": {
-				"summary": "responds with hello world"
-			},
-			"post": {
-				"summary": "responds with the prompt in UPPERCASE",
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"prompt": {
-										"type": "string"
-									}
-								}
-							}
+				"summary": "Responds with hello plus the name provided in the query string",
+				"parameters": [
+					{
+						"name": "name",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
-				}
+				]
 			}
 		}
 	}
