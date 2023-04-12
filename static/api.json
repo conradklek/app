@@ -28,14 +28,9 @@
 				"summary": "Responds with hello plus the name provided in the body",
 				"requestBody": {
 					"content": {
-						"application/json": {
+						"text/plain": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"name": {
-										"type": "string"
-									}
-								}
+								"type": "string"
 							}
 						}
 					}
