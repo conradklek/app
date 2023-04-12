@@ -7,7 +7,7 @@ export async function GET() {
 }
 
 export async function POST({ request }) {
-	const { prompt } = await request.json()
+	const { prompt } = JSON.parse(await request.text())
 	return new Response(prompt.toUpperCase(), {
 		headers: {
 			"Content-Type": "text/plain"
