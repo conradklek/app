@@ -1,39 +1,46 @@
 import { CallbackManager } from "langchain/callbacks"
 import { ChatOpenAI } from "langchain/chat_models"
-import { initializeAgentExecutor } from "langchain/agents"
-import { RequestsGetTool, RequestsPostTool, AIPluginTool } from "langchain/tools"
-import { env } from "$env/dynamic/private"
+import { HumanChatMessage, SystemChatMessage, AIChatMessage } from "langchain/schema"
+import { OPENAI_API_KEY } from "$env/static/private"
 
 export async function POST({ request }) {
-	const data = await request.json()
-	const prompt = data.prompt
-	const tools = [new RequestsGetTool(), new RequestsPostTool(), await AIPluginTool.fromPluginUrl("http://localhost:5173/.well-known/ai-plugin.json")]
+	const { messages, prompt, controls } = await request.json()
+	const system = new SystemChatMessage(controls?.system ?? "You are an AI assistant. If the user asks to translate something to emoji, format your response using only emojis. If the user does not ask to translate something to emoji, you may format your response using Markdown.")
+	const { temperature, topP, frequencyPenalty, presencePenalty, maxTokens } = controls
+	console.log(messages)
+	console.log(prompt)
+	console.log(controls)
+	let _messages = [
+		system,
+		...messages.map((m) => {
+			if (m.role === "user") {
+				return new HumanChatMessage(m.content)
+			} else {
+				return new AIChatMessage(m.content)
+			}
+		})
+	]
+	console.log(_messages)
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
-				const agent = await initializeAgentExecutor(
-					tools,
-					new ChatOpenAI({
-						temperature: 0,
-						modelName: "gpt-4",
-						openAIApiKey: env.OPENAI_API_KEY,
-						streaming: true,
-						callbackManager: CallbackManager.fromHandlers({
-							async handleLLMNewToken(token) {
-								controller.enqueue(token)
-							}
-						})
-					}),
-					"chat-zero-shot-react-description",
-					true
-				)
-				try {
-					await agent.call({
-						input: prompt
+				const chat = new ChatOpenAI({
+					temperature: temperature || 0.7,
+					topP: topP || 1.0,
+					frequencyPenalty: frequencyPenalty || 0,
+					presencePenalty: presencePenalty || 0,
+					maxTokens: maxTokens || 2048,
+					modelName: "gpt-4",
+					openAIApiKey: OPENAI_API_KEY,
+					streaming: true,
+					callbackManager: CallbackManager.fromHandlers({
+						async handleLLMNewToken(token) {
+							controller.enqueue(token)
+						}
 					})
-				} catch (error) {
-					console.log(error)
-				}
+				})
+				const response = await chat.call(_messages)
+				console.log(response)
 				controller.close()
 			}
 		}),
