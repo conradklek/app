@@ -5,11 +5,8 @@ import { OPENAI_API_KEY } from "$env/static/private"
 
 export async function POST({ request }) {
 	const { messages, prompt, controls } = await request.json()
-	const system = new SystemChatMessage(controls?.system ?? "You are an AI assistant. If the user asks to translate something to emoji, format your response using only emojis. If the user does not ask to translate something to emoji, you may format your response using Markdown.")
+	const system = new SystemChatMessage(controls?.system ?? "You are an AI assistant..")
 	const { temperature, topP, frequencyPenalty, presencePenalty, maxTokens } = controls
-	console.log(messages)
-	console.log(prompt)
-	console.log(controls)
 	let _messages = [
 		system,
 		...messages.map((m) => {
@@ -20,10 +17,10 @@ export async function POST({ request }) {
 			}
 		})
 	]
-	console.log(_messages)
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
+				let stream = ""
 				const chat = new ChatOpenAI({
 					temperature: temperature || 0.7,
 					topP: topP || 1.0,
@@ -36,11 +33,13 @@ export async function POST({ request }) {
 					callbackManager: CallbackManager.fromHandlers({
 						async handleLLMNewToken(token) {
 							controller.enqueue(token)
+							stream += token
+							console.clear()
+							console.log(stream)
 						}
 					})
 				})
-				const response = await chat.call(_messages)
-				console.log(response)
+				await chat.call(_messages)
 				controller.close()
 			}
 		}),

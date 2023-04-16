@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-vercel": "^2.4.1",
-		"@sveltejs/kit": "^1.15.4",
+		"@sveltejs/kit": "^1.15.5",
 		"postcss": "^8.4.21",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.8.7",
@@ -25,9 +25,10 @@
 	"type": "module",
 	"dependencies": {
 		"@markdoc/markdoc": "^0.2.2",
-		"@splinetool/runtime": "^0.9.294",
+		"@splinetool/runtime": "^0.9.297",
 		"@tailwindcss/typography": "^0.5.9",
 		"langchain": "^0.0.45",
-		"localforage": "^1.10.0"
+		"localforage": "^1.10.0",
+		"openai": "^3.2.1"
 	}
 }

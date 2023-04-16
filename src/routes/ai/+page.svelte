@@ -1,5 +1,4 @@
 <script>
-	import "../../app.postcss"
 	import { _caret, _chat, _command, _file, _folder, _send } from "$lib/assets/svg"
 	import { onMount } from "svelte"
 	import Markdoc from "@markdoc/markdoc"
@@ -22,7 +21,7 @@
 			controls: {
 				id: crypto.randomUUID(),
 				name: name,
-				system: "You are an AI assistant. If the user asks to translate something to emoji, format your response using only emojis. If the user does not ask to translate something to emoji, you may format your response using Markdown.",
+				system: "You are an AI assistant.",
 				temperature: 0.7,
 				topP: 1.0,
 				frequencyPenalty: 0.0,
@@ -31,14 +30,14 @@
 			}
 		}
 	}
-	$: agents = [create_agent("Emoji_Bot")]
+	$: agents = [create_agent("Agent")]
 	$: textarea = null
 	onMount(async () => {
 		console.clear()
 		agents = (await localforage.getItem("agents")) || agents
 		console.log(agents)
 		if (!agents.length) {
-			agents.push(create_agent("Emoji_Bot"))
+			agents.push(create_agent("Agent"))
 			agents = agents
 			await localforage.setItem("agents", agents)
 		}
@@ -51,14 +50,13 @@
 		}
 		mask = (await localforage.getItem("mask")) || mask
 		queueMicrotask(() => {
-			root.scrollTo({
-				top: root.scrollHeight,
-				behavior: "smooth"
-			})
+			scroll_down()
 		})
 	})
 	async function submit() {
 		const prompt = textarea.value
+		textarea.value = ""
+		textarea.focus()
 		if (!prompt) return
 		agent.messages.push({
 			role: "user",
@@ -85,8 +83,6 @@
 		}
 		agent.messages.push(message)
 		agent = agent
-		textarea.value = ""
-		textarea.focus()
 		let stream = ""
 		while (true) {
 			let { done, value } = await reader.read()
@@ -97,10 +93,7 @@
 				message.content += value
 				message = message
 				agent = agent
-				root.scrollTo({
-					top: root.scrollHeight,
-					behavior: "smooth"
-				})
+				scroll_down()
 			}
 			if (done) {
 				break
@@ -122,17 +115,23 @@
 				console.error("Not an image file")
 			}
 		}
-		const fileInput = document.createElement("input")
-		fileInput.type = "file"
-		fileInput.accept = "image/*"
-		fileInput.style.display = "none"
-		fileInput.addEventListener("change", (e) => {
+		const file_input = document.createElement("input")
+		file_input.type = "file"
+		file_input.accept = "image/*"
+		file_input.style.display = "none"
+		file_input.addEventListener("change", (e) => {
 			const files = e.target.files
 			if (files.length > 0) {
 				handle_image_file(files[0])
 			}
 		})
-		fileInput.click()
+		file_input.click()
+	}
+	function scroll_down() {
+		root.scrollTo({
+			top: root.scrollHeight,
+			behavior: "smooth"
+		})
 	}
 </script>
 
@@ -140,10 +139,7 @@
 	on:resize={() => {
 		if (side !== null) {
 			side = null
-			root.scrollTo({
-				top: root.scrollHeight,
-				behavior: "smooth"
-			})
+			scroll_down()
 		}
 	}}
 />
@@ -176,8 +172,16 @@
 	{#if agent}
 		<div class="relative z-0 mx-auto flex w-screen max-w-7xl items-start gap-x-0 sm:px-6 lg:px-8">
 			<aside class="w-60 h-[calc(100vh-4rem)] z-10 fixed lg:sticky top-16 left-0 hidden shrink-0 lg:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-r from-transparent to-[hsl(240DEG,6%,6%)] border-r border-r-[hsl(240DEG,6%,9%)]" class:hidden={side !== "left"}>
+				<ul class="grid grid-cols-1 gap-2.5 px-5 py-4 -ml-1.5">
+					<li class="flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
+						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
+							<span class="text-2xl select-none">🦜</span>
+						</div>
+						<a href="/ai/langchain" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">LangChain</a>
+					</li>
+				</ul>
 				<form
-					class="flex flex-col items-start justify-start w-full p-5"
+					class="flex flex-col items-start justify-start w-full pl-3.5 pb-4 pr-5"
 					on:submit|preventDefault={async (e) => {
 						if (e.target.agentName.value) {
 							if (agents.find((agent) => agent.controls.name === e.target.agentName.value)) {
@@ -196,7 +200,7 @@
 						<button type="submit" class="flex items-center justify-center h-10 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none tracking-wide">Create</button>
 					</div>
 				</form>
-				<ul class="grid grid-cols-1 gap-2.5 px-5 pb-5">
+				<ul class="grid grid-cols-1 gap-2.5 px-5 pb-5 -ml-1.5">
 					{#each agents as item (item.controls.name)}
 						<li class="flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
 							<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
@@ -213,10 +217,7 @@
 									agent = item
 									await localforage.setItem("agent_id", item.controls.id)
 									queueMicrotask(() => {
-										root.scrollTo({
-											top: root.scrollHeight,
-											behavior: "smooth"
-										})
+										scroll_down()
 									})
 								}}
 							>
@@ -270,7 +271,7 @@
 			</main>
 			<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-l from-transparent via-transparent via-60% to-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)]" class:hidden={side !== "right"}>
 				<form
-					action="/ai/dall-e"
+					action="/ai/langchain"
 					method="POST"
 					use:enhance={async () => {
 						return async ({ result, data, cancel }) => {
@@ -370,7 +371,7 @@
 						<div class="p-2 text-sm text-[hsl(240DEG,8%,32%)] focus:text-white text-blue-600 rounded-sm sr-only">How much to penalize new tokens based on whether they appear in the text so far. Increases the model's likelihood to talk about new topics.</div>
 					</div>
 					<div class="flex flex-row mt-5 pb-2.5">
-						<button type="button" class="w-full h-10 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (agent.messages = [])}>Clear Messages</button>
+						<button type="button" class="w-full h-10 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" disabled={!agent.messages.length} on:click={() => (agent.messages = [])}>Clear Messages</button>
 					</div>
 				</div>
 			</aside>

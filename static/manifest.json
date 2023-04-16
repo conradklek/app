@@ -1,11 +1,11 @@
 {
 	"lang": "en",
 	"dir": "ltr",
-	"name": "app",
-	"short_name": "app",
+	"name": "Sentient AI",
+	"short_name": "Sentient AI",
 	"display": "fullscreen",
-	"theme_color": "#ffffff",
-	"background_color": "#ffffff",
+	"theme_color": "#000000",
+	"background_color": "#000000",
 	"icons": [
 		{
 			"src": "./img/icon-192.png",
