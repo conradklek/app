@@ -22,7 +22,7 @@
 			</div>
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
 				<a href="/ai" class="ml-auto text-sm leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-2 ring-white ring-inset">
-					Try for yourself
+					Create your Agency
 					<img alt="caret" src={_caret} class="block w-2 h-auto transition-transform duration-200" />
 				</a>
 			</div>

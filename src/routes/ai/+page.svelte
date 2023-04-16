@@ -26,7 +26,8 @@
 				topP: 1.0,
 				frequencyPenalty: 0.0,
 				presencePenalty: 0.0,
-				maxTokens: 2048
+				maxTokens: 2048,
+				profile: "Robot Pixel Art 96x96"
 			}
 		}
 	}
@@ -164,8 +165,12 @@
 				</nav>
 			{/if}
 			<div class="flex items-center gap-x-4 ml-auto">
-				<button type="button" class="block lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "left" ? null : "left")} />
-				<button type="button" class="block xl:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "right" ? null : "right")} />
+				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "left" ? null : "left")}>
+					<img src={_caret} class="block w-2 h-auto -rotate-180" alt="left side menu toggle" />
+				</button>
+				<button type="button" class="grid place-items-center xl:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "right" ? null : "right")}>
+					<img src={_caret} class="block w-2 h-auto" alt="right side menu toggle" />
+				</button>
 			</div>
 		</div>
 	</header>
@@ -271,7 +276,7 @@
 			</main>
 			<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-l from-transparent via-transparent via-60% to-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)]" class:hidden={side !== "right"}>
 				<form
-					action="/ai/langchain"
+					action="/ai/dall-e"
 					method="POST"
 					use:enhance={async () => {
 						return async ({ result, data, cancel }) => {
