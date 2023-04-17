@@ -13,7 +13,7 @@
 			</div>
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
 				<a href="/ai" class="ml-auto leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-1 ring-white ring-inset">
-					Create your Agency
+					Start Your Agency
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</a>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
 				<dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
 					<div class="flex flex-col">
-						<dt class="text-base tracking-wide leading-7 text-white">Open Source</dt>
+						<dt class="text-base font-medium tracking-wide leading-7 text-white">Open Source</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
 							<p class="flex-auto text-[hsl(240DEG,12%,32%)]">
 								Committed to building in public. View the source code and contribute to the project via the public <a href="https://github.com/conradklek/app" class="text-[hsl(240DEG,6%,56%)] underline">GitHub Repository</a>
@@ -76,7 +76,7 @@
 						</dd>
 					</div>
 					<div class="flex flex-col">
-						<dt class="text-base tracking-wide leading-7 text-white">Free to use</dt>
+						<dt class="text-base font-medium tracking-wide leading-7 text-white">Free to use</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
 							<p class="flex-auto text-[hsl(240DEG,12%,32%)]">
 								Your agents are stored locally on your device. Open the <a href="/ai" class="text-[hsl(240DEG,6%,56%)] underline">Agent Dashboard</a> and start creating unique experiences.
@@ -84,7 +84,7 @@
 						</dd>
 					</div>
 					<div class="flex flex-col">
-						<dt class="text-base tracking-wide leading-7 text-white">Thoughtfully Designed</dt>
+						<dt class="text-base font-medium tracking-wide leading-7 text-white">Thoughtfully Designed</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
 							<p class="flex-auto text-[hsl(240DEG,12%,32%)]">Programs designed with people in mind. Don't let bad UI be a barrier to your creativity.</p>
 						</dd>
