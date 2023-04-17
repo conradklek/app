@@ -194,7 +194,7 @@
 				<h2 class="text-5xl font-thin text-white sm:text-7xl" style="font-family: 'PP Editorial Old', serif;">You need to try this.</h2>
 				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world's most advanced AI. It's so easy to use, you'll be amazed.</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
-					<a href="/" class="inline-flex space-x-3">
+					<a href="/ai" class="inline-flex space-x-3">
 						<span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-indigo-500/20">Sentience</span>
 						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,6%,36%)]">
 							<span>Svelte Hackathon Project</span>

@@ -4,7 +4,6 @@ const worker = self
 const FILES = `cache-${version}`
 
 const toCache = [...build, ...files, ...prerendered]
-//const staticAssets = new Set(toCache)
 
 worker.addEventListener("install", (event) => {
 	event.waitUntil(
@@ -22,33 +21,3 @@ worker.addEventListener("activate", (event) => {
 		})
 	)
 })
-/*
-async function fetchAndCache(request) {
-	const cache = await caches.open(FILES)
-
-	try {
-		const response = await fetch(request)
-		cache.put(request, response.clone())
-		return response
-	} catch (err) {
-		const response = await cache.match(request)
-		if (response) return response
-		throw err
-	}
-}
-
-worker.addEventListener("fetch", (event) => {
-	if (event.request.method !== "GET" || event.request.headers.has("range")) return
-
-	const url = new URL(event.request.url)
-	const isHttp = url.protocol.startsWith("http")
-	const isDevServerRequest = url.hostname === self.location.hostname && url.port !== self.location.port
-	const isStaticAsset = url.host === self.location.host && staticAssets.has(url.pathname)
-	const skipBecauseUncached = event.request.cache === "only-if-cached" && !isStaticAsset
-	url.search = ""
-	url.fragment = ""
-	const cleanRequest = new Request(url)
-
-	if (isHttp && !isDevServerRequest && !skipBecauseUncached) event.respondWith((isStaticAsset && caches.match(cleanRequest)) || fetchAndCache(cleanRequest))
-})
-*/
