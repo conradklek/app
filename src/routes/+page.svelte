@@ -3,27 +3,18 @@
 </script>
 
 <div class="bg-[hsl(240DEG,6%,6%)]">
-	<!-- Header -->
 	<header class="absolute inset-x-0 top-0 z-50 h-28">
-		<nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+		<nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
 			<div class="flex lg:flex-1">
 				<a href="/" class="-m-1.5 p-1.5">
 					<span class="sr-only">Sentient AI</span>
 					<img class="h-20 w-auto -my-4" src={_logo} alt="Sentient AI" />
 				</a>
 			</div>
-			<div class="flex lg:hidden">
-				<button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5">
-					<span class="sr-only">Open main menu</span>
-					<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-					</svg>
-				</button>
-			</div>
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
 				<a href="/ai" class="ml-auto text-sm leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-2 ring-white ring-inset">
 					Create your Agency
-					<img alt="caret" src={_caret} class="block w-2 h-auto transition-transform duration-200" />
+					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</a>
 			</div>
 		</nav>
@@ -49,7 +40,7 @@
 					<div class="mt-24 sm:mt-32 lg:mt-16">
 						<a href="/ai" class="inline-flex space-x-3">
 							<span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-indigo-500/20">Sentience</span>
-							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,6%,36%)]">
+							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,8%,36%)]">
 								<span>Svelte Hackathon Project</span>
 								<img alt="caret" src={_caret} class="w-4 h-4" />
 							</span>
@@ -58,7 +49,7 @@
 					<h1 class="mt-10 text-5xl font-thin text-white sm:text-7xl select-none" style="font-family: 'PP Editorial Old', serif;">Creating meaningful human computer interaction.</h1>
 					<p class="mt-6 text-lg leading-8">
 						In participation with the 2023 Svelte Hackathon. Built with
-						<a href="https://vercel.com/" class="underline">Vercel</a>, <a href="https://kit.svelte.dev/docs/introduction" class="underline">SvelteKit</a>, <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> &amp; <a href="https://openai.com/" class="underline">OpenAI</a>.
+						<a href="https://vercel.com/" class="underline">Vercel</a>, <a href="https://kit.svelte.dev/docs/introduction" class="underline">SvelteKit</a>, <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> &amp; <a href="https://openai.com/" class="underline">OpenAI</a>
 					</p>
 				</div>
 				<div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-12 lg:max-w-none lg:flex-none xl:ml-32 saturate-0 opacity-80">
@@ -79,7 +70,7 @@
 					<div class="flex flex-col">
 						<dt class="text-base font-medium tracking-wide leading-7 text-white">Open Source</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
-							<p class="flex-auto text-[hsl(240DEG,6%,36%)]">
+							<p class="flex-auto text-[hsl(240DEG,8%,36%)]">
 								Committed to building in public. Check out the <a href="https://github.com/conradklek/app" class="text-[hsl(240DEG,6%,56%)] underline">GitHub Repository</a>. View the source code and contribute to the project.
 							</p>
 						</dd>
@@ -87,7 +78,7 @@
 					<div class="flex flex-col">
 						<dt class="text-base font-medium tracking-wide leading-7 text-white">Free to use</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
-							<p class="flex-auto text-[hsl(240DEG,6%,36%)]">
+							<p class="flex-auto text-[hsl(240DEG,8%,36%)]">
 								Your agents are stored locally on your device. Open the <a href="/ai" class="text-[hsl(240DEG,6%,56%)] underline">Agent Dashboard</a> and start creating unique experiences.
 							</p>
 						</dd>
@@ -95,7 +86,7 @@
 					<div class="flex flex-col">
 						<dt class="text-base font-medium tracking-wide leading-7 text-white">Thoughtfully Designed</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
-							<p class="flex-auto text-[hsl(240DEG,6%,36%)]">We've designed the platform to be as intuitive as possible. Programs designed with people in mind. Don't let bad UI be a barrier to your creativity.</p>
+							<p class="flex-auto text-[hsl(240DEG,8%,36%)]">Programs designed with people in mind. Don't let bad UI be a barrier to your creativity.</p>
 						</dd>
 					</div>
 				</dl>
@@ -106,7 +97,7 @@
 				<div class="mx-auto max-w-2xl sm:text-center">
 					<h2 class="text-base font-medium leading-7 text-[hsl(254DEG,100%,50%)]">Sentient AI Agents</h2>
 					<p class="mt-2 text-5xl font-thin text-white sm:text-7xl" style="font-family: 'PP Editorial Old', serif;">Landing on the devices nearest you.</p>
-					<p class="mt-6 text-lg leading-8 text-[hsl(240DEG,6%,36%)]">Install the PWA to use the app directly from your desktop or mobile home screen. No need to open a browser or install an app from the app store.</p>
+					<p class="mt-6 text-lg leading-8 text-[hsl(240DEG,8%,36%)]">Install the PWA to use the app directly from your desktop or mobile home screen. No need to open a browser or install an app from the app store.</p>
 				</div>
 			</div>
 			<div class="relative overflow-hidden pt-16">
@@ -166,8 +157,8 @@
 					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">SvelteKit</dd>
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
-					<dt class="text-sm leading-6">OpenAI's latest LLM</dt>
-					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">GPT-4</dd>
+					<dt class="text-sm leading-6">GPT-4 Powered AI</dt>
+					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">OpenAI</dd>
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
 					<dt class="text-sm leading-6">The developer</dt>
@@ -192,11 +183,11 @@
 			</div>
 			<div class="mx-auto max-w-2xl text-center">
 				<h2 class="text-5xl font-thin text-white sm:text-7xl" style="font-family: 'PP Editorial Old', serif;">You need to try this.</h2>
-				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world's most advanced AI. It's so easy to use, you'll be amazed.</p>
+				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world’s most advanced AI. It’s so easy to use, you'll be amazed.</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a href="/ai" class="inline-flex space-x-3">
 						<span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-indigo-500/20">Sentience</span>
-						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,6%,36%)]">
+						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,8%,36%)]">
 							<span>Svelte Hackathon Project</span>
 							<img alt="caret" src={_caret} class="w-4 h-4" />
 						</span>
@@ -221,6 +212,6 @@
 				<svg class="w-auto h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-48.9 158.8c.2 2.8.2 5.7.2 8.5 0 86.7-66 186.6-186.6 186.6-37.2 0-71.7-10.8-100.7-29.4 5.3.6 10.4.8 15.8.8 30.7 0 58.9-10.4 81.4-28-28.8-.6-53-19.5-61.3-45.5 10.1 1.5 19.2 1.5 29.6-1.2-30-6.1-52.5-32.5-52.5-64.4v-.8c8.7 4.9 18.9 7.9 29.6 8.3a65.447 65.447 0 0 1-29.2-54.6c0-12.2 3.2-23.4 8.9-33.1 32.3 39.8 80.8 65.8 135.2 68.6-9.3-44.5 24-80.6 64-80.6 18.9 0 35.9 7.9 47.9 20.7 14.8-2.8 29-8.3 41.6-15.8-4.9 15.2-15.2 28-28.8 36.1 13.2-1.4 26-5.1 37.8-10.2-8.9 13.1-20.1 24.7-32.9 34z" /></svg>
 			</a>
 		</div>
-		<p class="mt-10 text-center text-xs leading-5 text-[hsl(240DEG,6%,36%)]"><span class="font-light">&copy;</span> {new Date().getFullYear()} Sentient AI Agency &middot; All rights reserved</p>
+		<p class="mt-10 text-center text-xs leading-5 text-[hsl(240DEG,8%,36%)]"><span class="font-light">&copy;</span> {new Date().getFullYear()} Sentient AI Agency &middot; All rights reserved</p>
 	</footer>
 </div>
