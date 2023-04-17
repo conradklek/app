@@ -39,7 +39,7 @@
 				<div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-2xl lg:pt-8">
 					<div class="mt-24 sm:mt-32 lg:mt-16">
 						<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
-							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
+							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
 							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 								<span>Svelte Hackathon Project</span>
 								<img alt="caret" src={_caret} class="w-4 h-4" />
@@ -61,7 +61,7 @@
 		</div>
 		<div class="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
 			<div class="mx-auto max-w-2xl text-center">
-				<h2 class="text-base leading-7 text-[hsl(254DEG,100%,50%)]">Sentient AI Agents</h2>
+				<h2 class="text-base leading-7 text-[hsl(256DEG,100%,48%)]">Sentient AI Agents</h2>
 				<p class="mt-2 text-5xl font-thin text-white sm:text-7xl" style="font-family: 'PP Editorial Old', serif;">Sentience As A Service</p>
 				<p class="mt-6 text-lg leading-8">A unique platform for creating and deploying your custom own AI agents.</p>
 			</div>
@@ -95,7 +95,7 @@
 		<div class="mt-32 sm:mt-56">
 			<div class="mx-auto max-w-7xl px-6 lg:px-8">
 				<div class="mx-auto max-w-2xl sm:text-center">
-					<h2 class="text-base leading-7 text-[hsl(254DEG,100%,50%)]">Sentient AI Agents</h2>
+					<h2 class="text-base leading-7 text-[hsl(256DEG,100%,48%)]">Sentient AI Agents</h2>
 					<p class="mt-2 text-5xl font-thin text-white sm:text-7xl" style="font-family: 'PP Editorial Old', serif;">Landing on the devices nearest you.</p>
 					<p class="mt-6 text-lg leading-8 text-[hsl(240DEG,12%,32%)]">Install the PWA to use the app directly from your desktop or mobile home screen. No need to open a browser or install an app from the app store.</p>
 				</div>
@@ -112,7 +112,7 @@
 				<dl class="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
 					<div class="relative pl-9">
 						<dt class="inline font-medium text-white">
-							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(254DEG,100%,50%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(256DEG,100%,48%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 								<path d="M4.632 3.533A2 2 0 016.577 2h6.846a2 2 0 011.945 1.533l1.976 8.234A3.489 3.489 0 0016 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234z" />
 								<path fill-rule="evenodd" d="M4 13a2 2 0 100 4h12a2 2 0 100-4H4zm11.24 2a.75.75 0 01.75-.75H16a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75h-.01a.75.75 0 01-.75-.75V15zm-2.25-.75a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75h-.01z" clip-rule="evenodd" />
 							</svg>
@@ -122,7 +122,7 @@
 					</div>
 					<div class="relative pl-9">
 						<dt class="inline font-medium text-white">
-							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(254DEG,100%,50%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(256DEG,100%,48%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 								<path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
 							</svg>
 							Privacy First.
@@ -131,7 +131,7 @@
 					</div>
 					<div class="relative pl-9">
 						<dt class="inline font-medium text-white">
-							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(254DEG,100%,50%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<svg class="absolute left-1 top-1 h-5 w-5 text-[hsl(256DEG,100%,48%)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 								<path fill-rule="evenodd" d="M10 2.5c-1.31 0-2.526.386-3.546 1.051a.75.75 0 01-.82-1.256A8 8 0 0118 9a22.47 22.47 0 01-1.228 7.351.75.75 0 11-1.417-.49A20.97 20.97 0 0016.5 9 6.5 6.5 0 0010 2.5zM4.333 4.416a.75.75 0 01.218 1.038A6.466 6.466 0 003.5 9a7.966 7.966 0 01-1.293 4.362.75.75 0 01-1.257-.819A6.466 6.466 0 002 9c0-1.61.476-3.11 1.295-4.365a.75.75 0 011.038-.219zM10 6.12a3 3 0 00-3.001 3.041 11.455 11.455 0 01-2.697 7.24.75.75 0 01-1.148-.965A9.957 9.957 0 005.5 9c0-.028.002-.055.004-.082a4.5 4.5 0 018.996.084V9.15l-.005.297a.75.75 0 11-1.5-.034c.003-.11.004-.219.005-.328a3 3 0 00-3-2.965zm0 2.13a.75.75 0 01.75.75c0 3.51-1.187 6.745-3.181 9.323a.75.75 0 11-1.186-.918A13.687 13.687 0 009.25 9a.75.75 0 01.75-.75zm3.529 3.698a.75.75 0 01.584.885 18.883 18.883 0 01-2.257 5.84.75.75 0 11-1.29-.764 17.386 17.386 0 002.078-5.377.75.75 0 01.885-.584z" clip-rule="evenodd" />
 							</svg>
 							Unique Experience.
@@ -143,7 +143,7 @@
 		</div>
 		<div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
 			<div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-				<h2 class="text-base tracking-wide leading-8 text-[hsl(254DEG,100%,50%)]">Sentient AI Agents</h2>
+				<h2 class="text-base tracking-wide leading-8 text-[hsl(256DEG,100%,48%)]">Sentient AI Agents</h2>
 				<p class="mt-2 text-4xl font-thin text-white sm:text-6xl" style="font-family: 'PP Editorial Old', serif;">State Of The Art</p>
 				<p class="mt-6 text-lg leading-8">Created using the latest and greatest technologies. Constantly updated to ensure the best possible experience.</p>
 			</div>
@@ -162,7 +162,7 @@
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
 					<dt class="text-sm leading-6">(the developer)</dt>
-					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">Conrad K</dd>
+					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">Conrad</dd>
 				</div>
 			</dl>
 		</div>
@@ -186,7 +186,7 @@
 				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world’s most advanced AI. It’s so easy to use, you'll be amazed.</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
-						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
+						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
 						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 							<span>Svelte Hackathon Project</span>
 							<img alt="caret" src={_caret} class="w-4 h-4" />
