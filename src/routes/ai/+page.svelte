@@ -183,7 +183,7 @@
 							<span class="text-2xl select-none">🦜</span>
 						</div>
 						<a href="/ai/langchain" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">LangChain</a>
-						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 text-xs text-[hsl(254DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)] whitespace-nowrap select-none pointer-events-none">BETA</div>
+						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 text-xs font-medium text-[hsl(254DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 				</ul>
 				<form
