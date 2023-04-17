@@ -21,13 +21,13 @@
 			controls: {
 				id: crypto.randomUUID(),
 				name: name,
-				system: "You are an AI assistant.",
+				system: "You are an AI. Have fun. Use emojis where appropriate.",
 				temperature: 0.7,
 				topP: 1.0,
 				frequencyPenalty: 0.0,
 				presencePenalty: 0.0,
 				maxTokens: 2048,
-				profile: "Robot Pixel Art 96x96"
+				profile: "Small Robot Pixel Art 96x96 gray background"
 			}
 		}
 	}
@@ -337,16 +337,16 @@
 						</div>
 						<label for="profile" class="h-24 flex flex-col items-start justify-end w-full">
 							<span class="sr-only">Profile image</span>
-							<textarea id="profile" name="profile" rows="5" spellcheck="false" class="w-full p-2 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["profile"]} />
+							<textarea id="profile" name="profile" rows="5" spellcheck="false" class="w-full p-2.5 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["profile"]} />
 						</label>
 					</div>
-					<button type="submit" class="w-full h-10 leading-10 ml-auto px-4 rounded-sm focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Generate Image</button>
+					<button type="submit" class="w-full h-11 leading-10 ml-auto px-4 rounded-sm focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Generate Image</button>
 				</form>
 				<div class="flex flex-col p-4 pt-3 pb-5">
 					<div class="flex flex-col mb-5">
 						<label for="system" class="pb-1.5 text-sm text-white focus:text-white mb-0.5 px-1.5">System Message</label>
 						<div class="mb-2 p-2 text-sm text-[hsl(240DEG,8%,32%)] focus:text-white text-blue-600 rounded-sm sr-only">The system message that defines the character.</div>
-						<textarea id="system" rows="7" class="px-2.5 py-1 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["system"]} />
+						<textarea id="system" rows="7" class="p-2.5 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["system"]} />
 					</div>
 					<div class="flex flex-col">
 						<label for="temperature" class="flex flex-row-reverse items-center justify-end gap-2.5 mb-2">
@@ -377,7 +377,7 @@
 						<div class="p-2 text-sm text-[hsl(240DEG,8%,32%)] focus:text-white text-blue-600 rounded-sm sr-only">How much to penalize new tokens based on whether they appear in the text so far. Increases the model's likelihood to talk about new topics.</div>
 					</div>
 					<div class="flex flex-row mt-5 pb-2.5">
-						<button type="button" class="w-full h-10 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" disabled={!agent.messages.length} on:click={() => (agent.messages = [])}>Clear Messages</button>
+						<button type="button" class="w-full h-11 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" disabled={!agent.messages.length} on:click={() => (agent.messages = [])}>Clear Messages</button>
 					</div>
 				</div>
 			</aside>

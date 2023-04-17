@@ -4,8 +4,8 @@ import { HumanChatMessage, SystemChatMessage, AIChatMessage } from "langchain/sc
 import { OPENAI_API_KEY } from "$env/static/private"
 
 export async function POST({ request }) {
-	const { messages, prompt, controls } = await request.json()
-	const system = new SystemChatMessage(controls?.system ?? "You are an AI assistant..")
+	const { messages, controls } = await request.json()
+	const system = new SystemChatMessage(controls?.system ?? "You are an AI. Have fun. Use emojis where appropriate.")
 	const { temperature, topP, frequencyPenalty, presencePenalty, maxTokens } = controls
 	let _messages = [
 		system,
@@ -20,7 +20,6 @@ export async function POST({ request }) {
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
-				let stream = ""
 				const chat = new ChatOpenAI({
 					temperature: temperature || 0.7,
 					topP: topP || 1.0,
@@ -33,9 +32,6 @@ export async function POST({ request }) {
 					callbackManager: CallbackManager.fromHandlers({
 						async handleLLMNewToken(token) {
 							controller.enqueue(token)
-							stream += token
-							console.clear()
-							console.log(stream)
 						}
 					})
 				})
