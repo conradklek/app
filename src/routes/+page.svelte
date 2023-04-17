@@ -47,10 +47,11 @@
 						</a>
 					</div>
 					<h1 class="mt-10 text-5xl font-thin text-white sm:text-7xl select-none" style="font-family: 'PP Editorial Old', serif;">Creating meaningful human computer interaction.</h1>
-					<p class="mt-6 text-lg leading-8">
-						In participation with the 2023 Svelte Hackathon. <br />Built using
+					<div class="mt-6 text-lg leading-8">
+						In participation with the 2023 Svelte Hackathon. <div class="hidden sm:block" />
+						Built using
 						<a href="https://vercel.com/" class="underline">Vercel</a>, <a href="https://kit.svelte.dev/docs/introduction" class="underline">SvelteKit</a>, <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> &amp; <a href="https://openai.com/" class="underline">OpenAI</a>
-					</p>
+					</div>
 				</div>
 				<div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-12 lg:max-w-none lg:flex-none xl:ml-32 saturate-0 opacity-80">
 					<div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-xl rounded-lg overflow-hidden ring-1 ring-[hsl(240DEG,7%,16%)]">
