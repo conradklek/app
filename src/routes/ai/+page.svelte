@@ -2,7 +2,6 @@
 	import { _caret, _chat, _command, _file, _folder, _send } from "$lib/assets/svg"
 	import { onMount } from "svelte"
 	import Markdoc from "@markdoc/markdoc"
-	import { enhance } from "$app/forms"
 	import localforage from "localforage"
 	function mark(doc) {
 		const ast = Markdoc.parse(doc)
@@ -50,9 +49,7 @@
 			agent = agents[0]
 		}
 		mask = (await localforage.getItem("mask")) || mask
-		queueMicrotask(() => {
-			scroll_down()
-		})
+		scroll_down()
 	})
 	async function submit() {
 		const prompt = textarea.value
@@ -129,9 +126,11 @@
 		file_input.click()
 	}
 	function scroll_down() {
-		root.scrollTo({
-			top: root.scrollHeight,
-			behavior: "smooth"
+		queueMicrotask(() => {
+			root.scrollTo({
+				top: root.scrollHeight,
+				behavior: "smooth"
+			})
 		})
 	}
 </script>
@@ -159,17 +158,17 @@
 					<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 						<img alt="caret" src={_caret} class="block w-2 h-auto" />
 					</div>
-					<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
+					<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 whitespace-nowrap">
 						{agent.controls.name || "Agent"}
 					</div>
 				</nav>
 			{/if}
 			<div class="flex items-center gap-x-4 ml-auto">
 				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "left" ? null : "left")}>
-					<img src={_caret} class="block w-2 h-auto -rotate-180" alt="left side menu toggle" />
+					<img src={_caret} class="block w-2 h-auto -rotate-180 transition-transform duration-200" alt="left side menu toggle" class:rotate-0={side === "left"} />
 				</button>
 				<button type="button" class="grid place-items-center xl:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "right" ? null : "right")}>
-					<img src={_caret} class="block w-2 h-auto" alt="right side menu toggle" />
+					<img src={_caret} class="block w-2 h-auto transition-transform duration-200" alt="right side menu toggle" class:-rotate-180={side === "right"} />
 				</button>
 			</div>
 		</div>
@@ -183,7 +182,14 @@
 							<span class="text-2xl select-none">🦜</span>
 						</div>
 						<a href="/ai/langchain" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">LangChain</a>
-						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 text-xs font-medium text-[hsl(254DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)] whitespace-nowrap select-none pointer-events-none">BETA</div>
+						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
+					</li>
+					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
+						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
+							<span class="text-2xl select-none">🖼️</span>
+						</div>
+						<a href="/ai/dall-e" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Dall-E</a>
+						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 				</ul>
 				<form
@@ -222,9 +228,7 @@
 								on:click={async () => {
 									agent = item
 									await localforage.setItem("agent_id", item.controls.id)
-									queueMicrotask(() => {
-										scroll_down()
-									})
+									scroll_down()
 								}}
 							>
 								{item.controls.name}
@@ -279,15 +283,23 @@
 				<form
 					action="/ai/dall-e"
 					method="POST"
-					use:enhance={async () => {
-						return async ({ result, data, cancel }) => {
-							const profile = data.get("profile")
-							if (!profile.length) cancel()
-							if (result["b64_json"]) {
-								agent.mask = result["b64_json"]
-								agent = agent
-							}
-						}
+					on:submit|preventDefault={async (e) => {
+						const prompt = e.target.elements.prompt.value
+						e.target.elements.prompt.focus()
+						const result = await fetch("/ai/dall-e", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify({
+								prompt,
+								size: "256x256",
+								n: 1
+							})
+						})
+						const json = await result.json()
+						agent.mask = json.data[0]["b64_json"]
+						agent = agent
 					}}
 					class="flex flex-col gap-2.5 p-4"
 				>
@@ -318,26 +330,25 @@
 										>
 											Save
 										</button>
-										{#if agents.length > 1}
-											<button
-												type="button"
-												class="w-full h-10 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
-												on:click={async () => {
-													agents.splice(agents.indexOf(agent), 1)
-													await localforage.setItem("agents", agents)
-													agent = agents[0]
-												}}
-											>
-												Delete
-											</button>
-										{/if}
+										<button
+											type="button"
+											class="w-full h-10 leading-10 px-4 rounded-sm focus:outline-none overflow-hidden bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50"
+											on:click={async () => {
+												agents.splice(agents.indexOf(agent), 1)
+												await localforage.setItem("agents", agents)
+												agent = agents[0]
+											}}
+											disabled={agents.length < 2}
+										>
+											Delete
+										</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<label for="profile" class="h-24 flex flex-col items-start justify-end w-full">
+						<label for="prompt" class="h-24 flex flex-col items-start justify-end w-full">
 							<span class="sr-only">Profile image</span>
-							<textarea id="profile" name="profile" rows="5" spellcheck="false" class="w-full p-2.5 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["profile"]} />
+							<textarea id="prompt" name="prompt" rows="5" spellcheck="false" class="w-full p-2.5 rounded-sm focus:outline-none text-sm text-[hsl(240DEG,8%,32%)] focus:text-white bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" bind:value={agent.controls["profile"]} />
 						</label>
 					</div>
 					<button type="submit" class="w-full h-11 leading-10 ml-auto px-4 rounded-sm focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Generate Image</button>

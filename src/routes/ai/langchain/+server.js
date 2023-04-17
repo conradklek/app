@@ -1,4 +1,3 @@
-import { json } from "@sveltejs/kit"
 import { ChatOpenAI } from "langchain/chat_models"
 import { initializeAgentExecutor } from "langchain/agents"
 import { Calculator } from "langchain/tools"
