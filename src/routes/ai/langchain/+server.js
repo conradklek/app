@@ -6,7 +6,6 @@ import { CallbackManager } from "langchain/callbacks"
 
 export const POST = async ({ request }) => {
 	const { prompt } = await request.json()
-	console.log("prompt", prompt)
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
@@ -23,10 +22,7 @@ export const POST = async ({ request }) => {
 				})
 				let tools = [new Calculator()]
 				const executor = await initializeAgentExecutor(tools, model, "chat-zero-shot-react-description")
-				console.log("Loaded agent.")
-				const result = await executor.call({ input: prompt })
-				console.log(`Got output ${result.output}`)
-				console.log(`Got intermediate steps ${JSON.stringify(result.intermediateSteps, null, 2)}`)
+				await executor.call({ input: prompt })
 				controller.close()
 			}
 		}),

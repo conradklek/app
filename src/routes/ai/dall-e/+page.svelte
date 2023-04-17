@@ -105,9 +105,7 @@
 							n: 6
 						})
 					})
-					console.log(result)
 					const json = await result.json()
-					console.log(json)
 					messages.push({
 						role: "assistant",
 						content: json.data,

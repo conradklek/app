@@ -91,13 +91,9 @@
 					messages.push(message)
 					messages = messages
 					try {
-						let stream = ""
 						while (true) {
 							let { done, value } = await reader.read()
 							if (value) {
-								stream += value
-								console.clear()
-								console.log(stream)
 								message.content += value
 								messages = messages
 								scroll_down()
@@ -106,10 +102,7 @@
 								break
 							}
 						}
-						console.log(messages)
-					} catch (error) {
-						console.log(error)
-					}
+					} catch (error) {}
 					form.prompt.focus()
 				}}
 			>

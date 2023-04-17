@@ -1,8 +1,8 @@
 <script>
 	import { _caret, _chat, _command, _file, _folder, _send } from "$lib/assets/svg"
 	import { onMount } from "svelte"
-	import Markdoc from "@markdoc/markdoc"
 	import localforage from "localforage"
+	import Markdoc from "@markdoc/markdoc"
 	function mark(doc) {
 		const ast = Markdoc.parse(doc)
 		const content = Markdoc.transform(ast)
@@ -33,9 +33,7 @@
 	$: agents = [create_agent("Agent")]
 	$: textarea = null
 	onMount(async () => {
-		console.clear()
 		agents = (await localforage.getItem("agents")) || agents
-		console.log(agents)
 		if (!agents.length) {
 			agents.push(create_agent("Agent"))
 			agents = agents
@@ -103,7 +101,6 @@
 			if (file.type.startsWith("image/")) {
 				const reader = new FileReader()
 				reader.onload = function (e) {
-					console.log("Data URL:", e.target.result)
 					localforage.setItem("mask", e.target.result).then(() => {
 						mask = e.target.result
 					})
