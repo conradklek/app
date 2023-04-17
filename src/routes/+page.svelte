@@ -12,7 +12,7 @@
 				</a>
 			</div>
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-				<a href="/ai" class="ml-auto text-sm leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-1 ring-white ring-inset">
+				<a href="/ai" class="ml-auto leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-1 ring-white ring-inset">
 					Create your Agency
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</a>
@@ -39,7 +39,7 @@
 				<div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-2xl lg:pt-8">
 					<div class="mt-24 sm:mt-32 lg:mt-16">
 						<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
-							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
+							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.25)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
 							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 								<span>Svelte Hackathon Project</span>
 								<img alt="caret" src={_caret} class="w-4 h-4" />
@@ -48,7 +48,7 @@
 					</div>
 					<h1 class="mt-10 text-5xl font-thin text-white sm:text-7xl select-none" style="font-family: 'PP Editorial Old', serif;">Creating meaningful human computer interaction.</h1>
 					<p class="mt-6 text-lg leading-8">
-						In participation with the 2023 Svelte Hackathon. Built with
+						In participation with the 2023 Svelte Hackathon. <br />Built using
 						<a href="https://vercel.com/" class="underline">Vercel</a>, <a href="https://kit.svelte.dev/docs/introduction" class="underline">SvelteKit</a>, <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> &amp; <a href="https://openai.com/" class="underline">OpenAI</a>
 					</p>
 				</div>
@@ -71,7 +71,7 @@
 						<dt class="text-base tracking-wide leading-7 text-white">Open Source</dt>
 						<dd class="mt-1 flex flex-auto flex-col text-base leading-7">
 							<p class="flex-auto text-[hsl(240DEG,12%,32%)]">
-								Committed to building in public. Check out the <a href="https://github.com/conradklek/app" class="text-[hsl(240DEG,6%,56%)] underline">GitHub Repository</a>. View the source code and contribute to the project.
+								Committed to building in public. View the source code and contribute to the project via the public <a href="https://github.com/conradklek/app" class="text-[hsl(240DEG,6%,56%)] underline">GitHub Repository</a>
 							</p>
 						</dd>
 					</div>
@@ -157,7 +157,7 @@
 					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">SvelteKit</dd>
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
-					<dt class="text-sm leading-6">GPT-4 Powered AI</dt>
+					<dt class="text-sm leading-6">Powered by GPT-4</dt>
 					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">OpenAI</dd>
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
@@ -186,7 +186,7 @@
 				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world’s most advanced AI. It’s so easy to use, you'll be amazed.</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
-						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
+						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.25)] px-3 py-1 text-sm tracking-wide leading-6 text-[hsl(256DEG,100%,48%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-lg shadow-[hsla(254DEG,100%,50%,.15)]">Sentience</span>
 						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 							<span>Svelte Hackathon Project</span>
 							<img alt="caret" src={_caret} class="w-4 h-4" />
