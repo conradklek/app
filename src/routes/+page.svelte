@@ -12,7 +12,7 @@
 				</a>
 			</div>
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-				<a href="/ai" class="ml-auto text-sm leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-2 ring-white ring-inset">
+				<a href="/ai" class="ml-auto text-sm leading-6 w-auto h-8 px-4 flex items-center justify-center gap-2 rounded-full ring-1 ring-white ring-inset">
 					Create your Agency
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</a>
@@ -39,7 +39,7 @@
 				<div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-2xl lg:pt-8">
 					<div class="mt-24 sm:mt-32 lg:mt-16">
 						<a href="/ai" class="inline-flex space-x-3">
-							<span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-indigo-500/20">Sentience</span>
+							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
 							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,8%,36%)]">
 								<span>Svelte Hackathon Project</span>
 								<img alt="caret" src={_caret} class="w-4 h-4" />
@@ -161,8 +161,8 @@
 					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">OpenAI</dd>
 				</div>
 				<div class="flex flex-col gap-y-3 border-l border-[hsl(240DEG,3%,8%)] pl-6">
-					<dt class="text-sm leading-6">The developer</dt>
-					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">Conrad</dd>
+					<dt class="text-sm leading-6">(the developer)</dt>
+					<dd class="order-first text-4xl sm:text-6xl font-thin" style="font-family: 'PP Editorial Old', serif;">Conrad K</dd>
 				</div>
 			</dl>
 		</div>
@@ -186,7 +186,7 @@
 				<p class="mx-auto mt-6 max-w-xl text-lg leading-8">A new way to interact with the world’s most advanced AI. It’s so easy to use, you'll be amazed.</p>
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a href="/ai" class="inline-flex space-x-3">
-						<span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-indigo-500/20">Sentience</span>
+						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm font-medium leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
 						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,8%,36%)]">
 							<span>Svelte Hackathon Project</span>
 							<img alt="caret" src={_caret} class="w-4 h-4" />
