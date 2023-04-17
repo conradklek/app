@@ -40,7 +40,7 @@
 					<div class="mt-24 sm:mt-32 lg:mt-16">
 						<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
 							<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
-							<span class="inline-flex items-center space-x-2 text-sm tracking-wide leading-6 text-[hsl(240DEG,12%,32%)]">
+							<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 								<span>Svelte Hackathon Project</span>
 								<img alt="caret" src={_caret} class="w-4 h-4" />
 							</span>
@@ -187,7 +187,7 @@
 				<div class="mt-10 flex items-center justify-center gap-x-6">
 					<a href="/ai" class="inline-flex space-x-3 whitespace-nowrap">
 						<span class="rounded-full bg-[hsla(254DEG,100%,50%,.125)] px-3 py-1 text-sm leading-6 text-[hsl(254DEG,100%,50%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)]">Sentience</span>
-						<span class="inline-flex items-center space-x-2 text-sm tracking-wide leading-6 text-[hsl(240DEG,12%,32%)]">
+						<span class="inline-flex items-center space-x-2 text-sm leading-6 text-[hsl(240DEG,12%,32%)]">
 							<span>Svelte Hackathon Project</span>
 							<img alt="caret" src={_caret} class="w-4 h-4" />
 						</span>
