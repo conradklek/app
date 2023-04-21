@@ -17,6 +17,7 @@ export async function POST({ request }) {
 			}
 		})
 	]
+	console.log(_messages)
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
@@ -35,7 +36,8 @@ export async function POST({ request }) {
 						}
 					})
 				})
-				await chat.call(_messages)
+				const response = await chat.call(_messages)
+				console.log(response)
 				controller.close()
 			}
 		}),

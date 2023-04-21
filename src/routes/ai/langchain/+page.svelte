@@ -30,7 +30,7 @@
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</div>
-				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 whitespace-nowrap">LangChain</div>
+				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">LangChain</div>
 			</nav>
 		</div>
 	</header>
