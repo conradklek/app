@@ -183,9 +183,9 @@
 					</li>
 					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
 						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
-							<span class="text-2xl select-none">🦜</span>
+							<span class="text-3xl select-none">📚</span>
 						</div>
-						<a href="/ai/langchain" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">LangChain</a>
+						<a href="/ai/library" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Library</a>
 						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
@@ -212,7 +212,7 @@
 				>
 					<label for="agentName" class="sr-only">Agents</label>
 					<div class="w-full flex flex-row items-center justify-center bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] rounded-sm shadow shadow-black/50">
-						<input id="agentName" name="agentName" type="text" autocomplete="off" placeholder="Agent Name" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)] placeholder:text-[hsl(240DEG,8%,24%)] focus:placeholder:text-transparent placeholder:text-sm" />
+						<input id="agentName" name="agentName" type="text" autocomplete="off" placeholder="Agent Name" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)] placeholder:text-[hsl(240DEG,8%,24%)] focus:placeholder:text-transparent" />
 						<button type="submit" class="flex items-center justify-center h-9 leading-9 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none tracking-wide">create</button>
 					</div>
 				</form>

@@ -228,9 +228,6 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 							if (data.spellbook) {
 								target.spellbook.push(data.spellbook)
 							}
-							if (data.encounter) {
-								rpg.encounter = data.encounter
-							}
 							if (data.level) {
 								target.level += data.level
 							}
@@ -248,6 +245,8 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 									}
 								}
 							}
+						} else if (data.encounter) {
+							rpg.encounter = data.encounter
 						}
 						rpg = rpg
 					}
@@ -275,7 +274,7 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</div>
-				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">RPG</div>
+				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">MUSE</div>
 			</nav>
 			<div class="flex items-center gap-x-4 ml-auto">
 				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (gui.side = gui.side === "left" ? null : "left")}>
