@@ -32,28 +32,32 @@
 				health: 100,
 				mana: 100,
 				level: 1,
-				spellbook: []
+				spellbook: [],
+				inventory: []
 			},
 			{
 				class: "Priest",
 				health: 100,
 				mana: 100,
 				level: 1,
-				spellbook: []
+				spellbook: [],
+				inventory: []
 			},
 			{
 				class: "Rogue",
 				health: 100,
 				mana: 100,
 				level: 1,
-				spellbook: []
+				spellbook: [],
+				inventory: []
 			},
 			{
 				class: "Warrior",
 				health: 100,
 				mana: 100,
 				level: 1,
-				spellbook: []
+				spellbook: [],
+				inventory: []
 			}
 		],
 		messages: [],
@@ -65,12 +69,12 @@
 		tabs: [
 			{ slot: "Encounter", selected: true },
 			{ slot: "Spellbook", selected: false },
-			{ slot: "Campaigns", selected: false }
+			{ slot: "Inventory", selected: false }
 		],
 		area: null
 	}
 	onMount(async () => {
-		const data = await localforage.getItem("RPG")
+		const data = await localforage.getItem("rpg")
 		rpg = data || rpg
 	})
 	async function submit() {
@@ -134,7 +138,11 @@ This will reduce the mana of the Warrior by 10, assuming the Warrior has a spell
 { "target": "Mage", "spellbook": { name: String, mana: Number, damage: Number, description: String } }
 \`\`\`
 
-This will add a new spell to the Mage's spellbook
+This will add a new spell to the Mage's spellbook. Similarly, you can add items to a player's inventory by including a JSON object in your response surrounded by a triple back-ticked Markdown code-block. For example:
+
+\`\`\`
+{ "target": "Mage", "inventory": { name: String, description: String } }
+\`\`\`
 
 Only one JSON object is allowed per code-block. If you want to respond with multiple JSON objects, you must include a triple back-ticked code-block for each one.
 Only modify properties that both exist and whose values have changed due to the current state of the game, otherwise their state will remain unchanged.
@@ -166,9 +174,7 @@ You can increase a player's level like so:
 
 You should increase every characters level at the end of each battle. Players should be rewarded with a new spell when they level up.
 
-${rpg.encounter.length ? `Here is the the JSON representation of the current encounter:\n${JSON.stringify(rpg.encounter, null, 2)}` : "There is no current encounter."}
-
-We will begin when the first player message is received. When that happens, initiate the campaign by granting each character their first spell and jump right into the first battle.`,
+${rpg.encounter.length ? `Here is the the JSON representation of the current encounter:\n${JSON.stringify(rpg.encounter, null, 2)}` : ""}`,
 					temperature: 0,
 					topP: 1.0,
 					frequencyPenalty: 0,
@@ -216,13 +222,17 @@ We will begin when the first player message is received. When that happens, init
 							} else if (rpg.encounter.map((member) => member.name).includes(data.target) && data.index !== undefined) {
 								target = rpg.encounter[data.index]
 							}
+							if (data.inventory) {
+								target.inventory.push(data.inventory)
+							}
 							if (data.spellbook) {
 								target.spellbook.push(data.spellbook)
-								rpg = rpg
+							}
+							if (data.encounter) {
+								rpg.encounter = data.encounter
 							}
 							if (data.level) {
 								target.level += data.level
-								rpg = rpg
 							}
 							if (data.health || data.mana) {
 								if (target) {
@@ -237,14 +247,17 @@ We will begin when the first player message is received. When that happens, init
 										if (target.mana < 0) target.mana = 0
 									}
 								}
-								rpg = rpg
 							}
-						} else if (data.encounter) {
-							rpg.encounter = data.encounter
-							rpg = rpg
 						}
+						rpg = rpg
 					}
 				}
+				await localforage.setItem("rpg", {
+					focus: rpg.focus,
+					party: rpg.party,
+					encounter: rpg.encounter,
+					messages: []
+				})
 				break
 			}
 		}
@@ -262,7 +275,7 @@ We will begin when the first player message is received. When that happens, init
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</div>
-				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">MUSE</div>
+				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">RPG</div>
 			</nav>
 			<div class="flex items-center gap-x-4 ml-auto">
 				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (gui.side = gui.side === "left" ? null : "left")}>
@@ -278,16 +291,16 @@ We will begin when the first player message is received. When that happens, init
 		<aside class="w-60 h-[calc(100vh-4rem)] z-10 fixed lg:sticky top-16 left-0 hidden shrink-0 lg:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-r from-transparent to-[hsl(240DEG,6%,6%)] border-r border-r-[hsl(240DEG,6%,9%)]" class:hidden={gui.side !== "left"}>
 			<nav class="flex flex-col pr-2.5 pt-5">
 				{#each rpg.party as character (character.class)}
-					<div class="flex flex-row -my-3">
-						<button
-							type="button"
-							class="grid place-items-center w-24 aspect-[1/1] rounded-sm overflow-hidden"
-							on:click={() => {
-								rpg.focus = character.class
-							}}
-						>
+					<button
+						type="button"
+						class="flex flex-row items-center justify-start -my-3"
+						on:click={() => {
+							rpg.focus = character.class
+						}}
+					>
+						<div class="grid place-items-center w-24 aspect-[1/1] rounded-sm overflow-hidden">
 							<img src={img[character.class]} alt="mage" class="w-full object-cover" />
-						</button>
+						</div>
 						<div class="flex flex-col items-end justify-center w-full h-24 pb-1.5">
 							<div class="flex flex-row items-end justify-between w-full h-8 px-1 select-none">
 								<div class="text-sm tracking-wide">{character.class}</div>
@@ -300,7 +313,7 @@ We will begin when the first player message is received. When that happens, init
 								<div class="h-full bg-blue-500/50" style:width="{Math.round((character.mana / 100) * 100)}%" />
 							</div>
 						</div>
-					</div>
+					</button>
 				{/each}
 			</nav>
 		</aside>

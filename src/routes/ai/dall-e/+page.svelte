@@ -25,6 +25,7 @@
 			messages = []
 			await localforage.setItem("dall-e", messages)
 		}
+		messages = messages.filter((m) => m.content.length)
 		scroll_down()
 	})
 	$: {
@@ -109,15 +110,12 @@
 										if (selected?.message.id === message.id && selected?.image.id === image.id) {
 											selected = null
 										}
-									} else if (message.content.length < 6) {
-										let temp = messages[message_index].content[image_index]
+									} else {
+										let row_index = messages.findIndex((m) => m.id === message.id)
+										let col_index = messages[row_index].content.findIndex((i) => i.id === image.id)
+										messages[row_index].content.splice(col_index, 0, messages[message_index].content[image_index])
 										messages[message_index].content.splice(image_index, 1)
-										messages[this_message_index].content.splice(this_image_index, 0, temp)
 										messages = messages
-										await localforage.setItem("dall-e", messages)
-										if (selected?.message.id === message.id && selected?.image.id === image.id) {
-											selected = null
-										}
 									}
 								}}
 							>
@@ -130,10 +128,12 @@
 								class="z-10 absolute top-1/2 -translate-y-4 right-2 grid place-items-center w-8 h-8 rounded-full focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50"
 								on:click={async () => {
 									let new_image = { ...selected.image, id: crypto.randomUUID() }
+									let message_index = messages.findIndex((m) => m.id === selected.message.id)
 									selected.message.content.push(new_image)
 									messages.find((m) => m.id === selected.message.id).content = selected.message.content
 									await localforage.setItem("dall-e", messages)
 									messages = await localforage.getItem("dall-e")
+									selected = { message, image: new_image }
 								}}
 							>
 								<img src={_copy} class="w-4 h-auto" alt="copy" />

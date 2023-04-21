@@ -192,7 +192,7 @@
 						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 							<span class="text-2xl select-none">⚔️</span>
 						</div>
-						<a href="/ai/muse" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">MUSE</a>
+						<a href="/ai/rpg" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">RPG</a>
 						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 				</ul>
