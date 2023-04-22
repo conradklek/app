@@ -41,7 +41,7 @@
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-start px-4 sm:px-6 lg:px-8">
 			<a href="/ai" class="grid place-items-center h-8 w-8 rounded-full focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 				<span class="sr-only">AI Home</span>
-				<span class="text-lg select-none translate-y-px">🖼️</span>
+				<span class="text-xl select-none translate-y-px">🖼️</span>
 			</a>
 			<nav class="z-0 grid grid-flow-col items-center gap-1.5 pl-1.5">
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">

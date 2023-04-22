@@ -10,3 +10,31 @@
 		@apply w-screen h-full overflow-x-hidden overscroll-none bg-[hsl(240DEG,6%,6%)] text-white;
 	}
 }
+
+.cm-editor.ͼ1.ͼ2.ͼ4 {
+	@apply w-full ring-1 ring-[hsl(240DEG,6%,9%)];
+}
+.cm-editor.ͼ1.ͼ2.ͼ4.cm-focused {
+	@apply outline-none;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller {
+	font-family: "APK_Archivr21";
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters {
+	@apply min-w-[3.75rem] pl-5 bg-[hsl(240DEG,6%,6%)] border-r border-r-[hsl(240DEG,6%,9%)] shadow shadow-black/50;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters .cm-gutterElement {
+	@apply ml-auto text-right text-[0.625rem] leading-5 text-white tabular-nums;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-gutters .cm-gutterElement.cm-activeLineGutter {
+	@apply bg-transparent;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller > .cm-cursorLayer > .cm-cursor {
+	@apply border-white;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-content > .cm-line {
+	@apply bg-transparent text-[0.625rem] leading-5 text-white;
+}
+.cm-editor.ͼ1.ͼ2.ͼ4 > .cm-scroller .cm-content > .cm-line.cm-activeLine {
+	@apply bg-[hsl(240DEG,6%,9%)];
+}

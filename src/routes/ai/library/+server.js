@@ -1,3 +1,9 @@
+import { json } from "@sveltejs/kit"
+export async function POST({ request }) {
+	const { files } = await request.json()
+	return json({ data: files })
+}
+/*
 import { ChatOpenAI } from "langchain/chat_models"
 import { initializeAgentExecutor } from "langchain/agents"
 import { Calculator } from "langchain/tools"
@@ -33,3 +39,4 @@ export const POST = async ({ request }) => {
 		}
 	)
 }
+*/

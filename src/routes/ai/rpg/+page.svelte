@@ -67,9 +67,9 @@
 		side: null,
 		root: null,
 		tabs: [
-			{ slot: "Encounter", selected: true },
-			{ slot: "Spellbook", selected: false },
-			{ slot: "Inventory", selected: false }
+			{ name: "Encounter", slot: "encounter", selected: true },
+			{ name: "Spellbook", slot: "spellbook", selected: false },
+			{ name: "Inventory", slot: "inventory", selected: false }
 		],
 		area: null
 	}
@@ -268,13 +268,13 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-start px-4 sm:px-6 lg:px-8">
 			<a href="/ai" class="grid place-items-center h-8 w-8 rounded-full focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
 				<span class="sr-only">AI Home</span>
-				<span class="text-lg select-none translate-y-px">⚔️</span>
+				<span class="text-xl select-none translate-y-px">⚔️</span>
 			</a>
 			<nav class="z-0 grid grid-flow-col items-center gap-1.5 pl-1.5">
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</div>
-				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">MUSE</div>
+				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">RPG</div>
 			</nav>
 			<div class="flex items-center gap-x-4 ml-auto">
 				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (gui.side = gui.side === "left" ? null : "left")}>
@@ -400,7 +400,7 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 												}}
 											>
 												{#if tab.selected}
-													{tab.slot}
+													{tab.name}
 												{:else}
 													<div class="absolute top-0 left-0 grid place-items-center text-sm font-medium w-8 h-8">
 														{i + 1}
@@ -415,6 +415,12 @@ ${rpg.encounter.length ? `Here is the the JSON representation of the current enc
 					</div>
 				</form>
 			{/if}
+			<pre class="px-5 text-xs">
+				{#if rpg.focus}
+					{@const tab = gui.tabs.find((i) => i.selected).slot}
+{tab === "encounter" ? JSON.stringify(rpg.encounter, null, 2) : JSON.stringify(rpg.party.find((i) => i.class === rpg.focus)[tab], null, 2)}
+				{/if}
+			</pre>
 		</aside>
 	</div>
 </div>
