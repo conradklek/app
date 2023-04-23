@@ -212,7 +212,7 @@
 				>
 					<label for="agentName" class="sr-only">Agents</label>
 					<div class="w-full flex flex-row items-center justify-center bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] rounded-sm shadow shadow-black/50">
-						<input id="agentName" name="agentName" type="text" autocomplete="off" placeholder="Agent Name" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)] placeholder:text-[hsl(240DEG,8%,24%)] focus:placeholder:text-transparent" />
+						<input id="agentName" name="agentName" type="text" autocomplete="off" placeholder="Agent Name" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)] placeholder:text-[hsl(240DEG,8%,24%)] focus:placeholder:text-transparent placeholder:text-sm" />
 						<button type="submit" class="flex items-center justify-center h-9 leading-9 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none tracking-wide">create</button>
 					</div>
 				</form>

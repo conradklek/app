@@ -24,7 +24,7 @@
 				extensions: [
 					basicSetup,
 					keymap.of([indentWithTab]),
-					type === "md" ? markdown({ codeLanguages: languages }) : type === "js" ? javascript() : type === "html" ? html() : type === "css" ? css() : json(),
+					type === "md" ? markdown({ codeLanguages: languages }) : type === "js" ? javascript() : type === "html" || type === "svelte" ? html() : type === "css" ? css() : json(),
 					EditorView.lineWrapping,
 					EditorView.updateListener.of(async (update) => {
 						if (update.docChanged) {
@@ -42,4 +42,4 @@
 	})
 </script>
 
-<div bind:this={node} />
+<div bind:this={node} class="relative z-10 min-h-[calc(100vh-15rem)]" />

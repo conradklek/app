@@ -8,7 +8,7 @@
 	$: show = null
 </script>
 
-<ul class="bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 rounded-sm overflow-hidden">
+<ul class="bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 rounded-sm [&_ul]:rounded-none overflow-hidden">
 	{#each keys as key (path + "/" + key)}
 		{@const item = data[key]}
 		{@const kind = Object.keys(item).join("")}
@@ -40,13 +40,7 @@
 							if (open(path + "/" + key)) {
 								$library.open = null
 							} else {
-								$library.open = null
-								queueMicrotask(() => {
-									$library.open = {
-										path: path + "/" + key,
-										file: item.file
-									}
-								})
+								$library.open = path + "/" + key
 							}
 						}}
 						class="flex flex-row items-center justify-start gap-1 w-full h-full text-sm whitespace-nowrap select-none focus:outline-none focus:bg-[hsl(240DEG,6%,9%)]"

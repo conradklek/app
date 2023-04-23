@@ -53,6 +53,8 @@ export function flat(tree, path = "", data = []) {
 }
 
 export const library = writable({
+	wc: null,
 	open: null,
-	data: null
+	data: null,
+	host: null
 })
