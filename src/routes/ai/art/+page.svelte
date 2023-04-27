@@ -47,7 +47,7 @@
 				<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 					<img alt="caret" src={_caret} class="block w-2 h-auto" />
 				</div>
-				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">Dall-E</div>
+				<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">ART</div>
 			</nav>
 			<div class="flex items-center gap-x-4 ml-auto">
 				<button type="button" class="grid place-items-center lg:hidden h-8 w-8 rounded-full cursor-pointer bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50" on:click={() => (side = side === "left" ? null : "left")}>
@@ -144,10 +144,10 @@
 			</ul>
 			<form
 				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-44 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] sm:bg-transparent xl:bg-gradient-to-t xl:from-[hsla(240DEG,6%,6%,90%)] xl:via-[hsl(240DEG,6%,6%)] xl:via-40% xl:to-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]"
-				action="/ai/dall-e"
+				action="/ai/art"
 				method="POST"
 				on:submit|preventDefault={async (e) => {
-					const result = await fetch("/ai/dall-e", {
+					const result = await fetch("/ai/art", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
@@ -191,11 +191,11 @@
 		<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-l from-transparent via-transparent via-60% to-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)]" class:hidden={side !== "right"}>
 			{#if selected}
 				<form
-					action="/ai/dall-e"
+					action="/ai/art"
 					method="POST"
 					class="flex flex-col items-start justify-start gap-2.5 p-4"
 					on:submit|preventDefault={async () => {
-						const result = await fetch("/ai/dall-e", {
+						const result = await fetch("/ai/art", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json"

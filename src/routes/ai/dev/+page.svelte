@@ -10,6 +10,7 @@
 		const html = Markdoc.renderers.html(content)
 		return html
 	}
+	$: form = null
 	$: scroller = null
 	$: messages = []
 	function scroll_down() {
@@ -60,7 +61,7 @@
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-start px-4 sm:px-6 lg:px-8">
 			<a href="/ai" class="grid place-items-center h-8 w-8 rounded-full focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 select-none whitespace-nowrap">
 				<span class="sr-only">AI Home</span>
-				<span class="text-2xl select-none">📚</span>
+				<span class="text-xl select-none">🦾</span>
 			</a>
 			<nav class="z-0 grid grid-flow-col items-center gap-1.5 pl-1.5 select-none whitespace-nowrap">
 				{#if $library.open}
@@ -74,7 +75,7 @@
 					<div class="h-8 flex flex-row items-center justify-center pointer-events-none">
 						<img alt="caret" src={_caret} class="block w-2 h-auto" />
 					</div>
-					<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">Library</div>
+					<div class="block h-8 leading-8 px-2 rounded-sm select-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50 tracking-wide whitespace-nowrap">DEV</div>
 				{/if}
 			</nav>
 		</div>
@@ -132,34 +133,22 @@
 			</div>
 		</main>
 		<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:flex flex-col items-start justify-end overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)] xl:border-r xl:border-r-[hsl(240DEG,6%,9%)]" bind:this={scroller}>
-			<ul class="flex flex-col items-start justify-end w-full pb-6 lg:px-3 overflow-x-auto">
+			<ul class="flex flex-col items-start justify-end w-full h-full pb-6 lg:px-3 overflow-auto">
 				{#each messages as message (message.id)}
-					{#if message.role === "assistant"}
-						<li class="flex flex-row items-start justify-start pr-16">
-							<div class="grid place-items-center w-12 h-12 m-4 aspect-[1/1] rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50">
-								<span class="text-xl select-none">📚</span>
-							</div>
-							<div class="text-sm flex flex-col items-start justify-start pt-2.5 pr-4">
-								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-0 [&_article]:p-2 [&_article]:prose [&_article]:prose-invert [&_article]:prose-sm [&_pre]:max-w-sm [&_pre]:overflow-x-auto">{@html mark(message.content)}</div>
-							</div>
-						</li>
-					{:else}
-						<li class="flex flex-row items-start justify-start ml-auto pl-20">
-							<div class="text-sm flex flex-col items-end justify-end pt-2.5 pr-4">
-								<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-0 [&_article]:p-2 [&_article]:prose [&_article]:prose-invert [&_article]:prose-sm [&_pre]:max-w-sm [&_pre]:overflow-x-auto">{@html mark(message.content)}</div>
-							</div>
-						</li>
-					{/if}
+					<li class="flex flex-row items-start justify-start">
+						<div class="text-sm flex flex-col items-end justify-end pt-2.5 pr-4">
+							<div class="rounded-sm ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 mt-2.5 p-0 [&_article]:p-2 [&_article]:prose [&_article]:prose-invert [&_article]:prose-sm [&_pre]:max-w-sm [&_pre]:overflow-x-auto">{@html mark("```\n" + message.content + "\n```")}</div>
+						</div>
+					</li>
 				{/each}
 			</ul>
 			<form
-				action="/ai/library"
+				action="/ai/dev"
 				method="POST"
-				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-56 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)] pointer-events-none"
+				class="z-50 sticky bottom-0 right-0 flex flex-col items-end justify-end w-full max-w-5xl h-56 pl-4 sm:pl-0 bg-[hsl(240DEG,6%,6%)] xl:border-t xl:border-t-[hsl(240DEG,6%,9%)]"
+				bind:this={form}
 				on:submit|preventDefault={async (e) => {
-					return
-					const form = e.target
-					const data = new FormData(form)
+					const data = new FormData(e.target)
 					const prompt = data.get("prompt")
 					const action = form.action
 					const method = form.method
@@ -186,26 +175,48 @@
 					}
 					messages.push(message)
 					messages = messages
-					try {
-						while (true) {
-							let { done, value } = await reader.read()
-							if (value) {
-								message.content += value
-								messages = messages
-								scroll_down()
-							}
-							if (done) {
-								break
-							}
+					let stream = ""
+					while (true) {
+						let { done, value } = await reader.read()
+						if (value) {
+							message.content += value
+							messages = messages
+							scroll_down()
+							stream += value
+							try {
+								let { thoughts, command } = JSON.parse(stream)
+								console.log({ thoughts, command })
+								if (command?.name === "write_file") {
+									const { file_path, text } = command.args
+									await $library.wc.fs.writeFile(file_path, text)
+									$library.wc = $library.wc
+								}
+								stream = ""
+							} catch (error) {}
 						}
-					} catch (error) {}
+						if (done) {
+							break
+						}
+					}
 					form.prompt.focus()
 				}}
 			>
 				<div class="flex flex-col items-center gap-2 w-full h-56 p-4">
 					<label for="prompt" class="w-full h-full flex flex-row items-center justify-center">
 						<span class="sr-only">prompt</span>
-						<textarea id="prompt" type="text" name="prompt" autocomplete="off" class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 rounded-sm" />
+						<textarea
+							id="prompt"
+							type="text"
+							name="prompt"
+							autocomplete="off"
+							class="w-full h-full resize-none px-3 py-2.5 focus:outline-none ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] bg-[hsl(240DEG,6%,6%)] shadow shadow-black/50 rounded-sm"
+							on:keydown={(e) => {
+								if (e.key === "Enter" && !e.shiftKey) {
+									e.preventDefault()
+									form.submit()
+								}
+							}}
+						/>
 					</label>
 					<div class="flex flex-row items-center justify-center w-full whitespace-nowrap">
 						<button type="submit" class="flex items-center justify-center w-full h-10 rounded-sm whitespace-nowrap focus:outline-none bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">

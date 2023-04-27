@@ -174,7 +174,11 @@ You can increase a player's level like so:
 
 You should increase every characters level at the end of each battle. Players should be rewarded with a new spell when they level up.
 
-${rpg.encounter.length ? `Here is the the JSON representation of the current encounter:\n${JSON.stringify(rpg.encounter, null, 2)}` : ""}`,
+${rpg.encounter.length ? `Here is the the JSON representation of the current encounter:\n${JSON.stringify(rpg.encounter, null, 2)}` : ""}
+
+Remember, only one JSON object is allowed per code-block. If you want to respond with multiple JSON objects, you must include a triple back-ticked code-block for each one.
+
+The user has a visual UI of the current game state, you do not have to describe each characters state. Simply continue the story, have fun, and be creative!`,
 					temperature: 0,
 					topP: 1.0,
 					frequencyPenalty: 0,

@@ -176,21 +176,21 @@
 				<ul class="grid grid-cols-1 gap-2.5 px-5 py-4 -ml-1.5">
 					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
 						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
-							<span class="text-2xl select-none">🖼️</span>
+							<span class="text-xl select-none">🖼️</span>
 						</div>
-						<a href="/ai/dall-e" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Dall-E</a>
+						<a href="/ai/art" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">ART</a>
 						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
 						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
-							<span class="text-3xl select-none">📚</span>
+							<span class="text-xl select-none">🦾</span>
 						</div>
-						<a href="/ai/library" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">Library</a>
+						<a href="/ai/dev" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">DEV</a>
 						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
 					</li>
 					<li class="relative flex flex-row items-center justify-start w-full h-10 col-span-1 gap-2">
 						<div class="flex items-center justify-center h-full aspect-[1/1] rounded-sm cursor-grab bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">
-							<span class="text-2xl select-none">⚔️</span>
+							<span class="text-xl select-none">⚔️</span>
 						</div>
 						<a href="/ai/rpg" class="w-full h-full p-0.5 pl-2.5 leading-9 text-left line-clamp-1 focus:outline-none select-none rounded-sm bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] shadow shadow-black/50">RPG</a>
 						<div class="absolute -top-1.5 -right-3 rounded-full bg-[hsla(254DEG,100%,50%,.325)] px-2 py-0.5 tracking-wide text-xs font-medium text-[hsl(252DEG,100%,49%)] ring-1 ring-inset ring-[hsla(254DEG,100%,50%,.5)] shadow-md shadow-[hsla(254DEG,100%,50%,.2)] whitespace-nowrap select-none pointer-events-none">BETA</div>
@@ -212,8 +212,8 @@
 				>
 					<label for="agentName" class="sr-only">Agents</label>
 					<div class="w-full flex flex-row items-center justify-center bg-[hsl(240DEG,6%,6%)] ring-1 ring-inset ring-[hsl(240DEG,6%,9%)] rounded-sm shadow shadow-black/50">
-						<input id="agentName" name="agentName" type="text" autocomplete="off" placeholder="Agent Name" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)] placeholder:text-[hsl(240DEG,8%,24%)] focus:placeholder:text-transparent placeholder:text-sm" />
-						<button type="submit" class="flex items-center justify-center h-9 leading-9 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none tracking-wide">create</button>
+						<input id="agentName" name="agentName" type="text" autocomplete="off" class="w-full h-9 leading-9 px-2.5 rounded-l-sm focus:outline-none bg-transparent border-r border-r-[hsl(240DEG,6%,9%)]" />
+						<button type="submit" class="flex items-center justify-center h-9 leading-9 px-2.5 rounded-r-sm whitespace-nowrap focus:outline-none select-none tracking-wide">New</button>
 					</div>
 				</form>
 				<ul class="grid grid-cols-1 gap-2.5 px-5 pb-5 -ml-1.5">
@@ -285,12 +285,12 @@
 			</main>
 			<aside class="w-screen sm:w-96 h-[calc(100vh-4rem)] z-10 fixed xl:sticky top-16 right-0 hidden shrink-0 xl:block overflow-x-hidden overflow-y-auto bg-[hsl(240DEG,6%,6%)] xl:bg-transparent bg-gradient-to-l from-transparent via-transparent via-60% to-[hsl(240DEG,6%,6%)] border-l border-l-[hsl(240DEG,6%,9%)]" class:hidden={side !== "right"}>
 				<form
-					action="/ai/dall-e"
+					action="/ai/art"
 					method="POST"
 					on:submit|preventDefault={async (e) => {
 						const prompt = e.target.elements.prompt.value
 						e.target.elements.prompt.focus()
-						const result = await fetch("/ai/dall-e", {
+						const result = await fetch("/ai/art", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json"
